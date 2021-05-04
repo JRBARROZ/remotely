@@ -13,7 +13,6 @@ Follow the instructions below to execute our project :D .
 
 ### Clone
 - Clone the repository in your computer : ```git clone https://github.com/JRBARROZ/remotely ```
-- 
 ### Requeriments
 
  > winter is coming...
