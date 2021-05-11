@@ -28,7 +28,9 @@ Follow the instructions below to execute our project :D .
 
 ## Tools
 
-> winter is coming...
+- [Laravel](https://laravel.com/) - PHP Framework
+- [Vue.js](https://vuejs.org/) - Javascript Framework
+- [Tailwind CSS](https://tailwindcss.com/) - CSS Framework
 
 ## Team
 
@@ -37,5 +39,3 @@ Follow the instructions below to execute our project :D .
 | [![Murielson](https://avatars0.githubusercontent.com/u/40250320?s=460&v=4)](https://github.com/JRBARROZ)    | [![ArthurViniciusE](https://avatars.githubusercontent.com/u/43966598?s=400&u=b13fc6fc701d736fca69e7a24d24d6870991a27d&v=4)](https://github.com/ArthurViniciusE) | [![bertonnipaz](https://avatars.githubusercontent.com/u/15380309?s=400&v=4)](https://github.com/bertonnipaz) | [![fabiomrtins](https://avatars.githubusercontent.com/u/72530039?s=300&v=4)](https://github.com/fabiomrtins) |
 | <a href="https://github.com/JRBARROz" target="_blank">`github.com/JRBARROZ`</a> | <a href="https://github.com/ArthurViniciusE" target="_blank">`github.com/ArthurViniciusE`</a> | <a href="https://github.com/bertonnipaz" target="_blank">`github.com/bertonnipaz`</a> | <a href="https://github.com/fabiomrtins" target="_blank">`github.com/fabiomrtins`</a> |
 
-## License
-> winter is coming...
