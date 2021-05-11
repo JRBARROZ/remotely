@@ -7,6 +7,7 @@ Follow the instructions below to execute our project :D .
 > if u wanna select one session.
 
 - [Requeriments](#Requeriments)
+- [Features](#Features)
 - [Execution](#Execution)
 - [Tools](#Tools)
 - [Team](#Team)
