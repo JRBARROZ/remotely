@@ -20,9 +20,9 @@ Follow the instructions below to execute our project :D .
 
 ### Features
 
-> Live chat
-> Task timer
-> To do list
+- Live chat
+- Task timer
+- To do list
 
 ### Execution
 
