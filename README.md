@@ -16,15 +16,17 @@ Follow the instructions below to execute our project :D .
 - Clone the repository in your computer : ```git clone https://github.com/JRBARROZ/remotely.git```
 ### Requeriments
 
- > winter is coming...
+ > ...
 
 ### Features
 
- > winter is coming...
+> Live chat
+> Task timer
+> To do list
 
 ### Execution
 
-> winter is coming...
+> ...
 
 ## Tools
 
