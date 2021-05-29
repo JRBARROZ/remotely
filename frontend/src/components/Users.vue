@@ -4,6 +4,7 @@
     <h1 class="text-3xl text-gray-700 mb-4">Users</h1>
     <div class="flex flex-col w-96 px-6 py-2 bg-gray-300 rounded border border-gray-700 mb-2"
       v-for="(user, index) of allUsers" :key="user.id">
+      <span><b>Id:</b> {{ user.id }}</span>
       <span><b>Name:</b> {{ user.name }}</span>
       <span><b>E-mail:</b> {{ user.email }}</span>
       <button @click="remove(user.id, index)"

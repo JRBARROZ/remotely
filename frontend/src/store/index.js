@@ -11,6 +11,9 @@ export default createStore({
     removeStatus: '',
   },
   mutations: {
+    setUser(state, value) {
+      state.user = {...value};
+    },
     setAllUsers(state, value) {
       state.allUsers = [...value];
     },
@@ -22,10 +25,31 @@ export default createStore({
     },
     setRemoveStatus(state, value) {
       state.removeStatus = value;
+    },
+    setLoginStatus(state, value) {
+      state.loginStatus = value;
     }
   },
   actions: {
-    async addUser({commit, context}, data) {
+    async authenticateUser({commit}, data) {
+      try {
+        commit('setLoginStatus', 'Authenticating...');
+        const response = await axios.post(`${server}/users/auth`, data);
+        if (response.data[0] !== undefined) {
+          commit('setUser', response.data[0])
+          commit('setLoginStatus', 'Successfully authenticated!')
+        } else if(response.data[0] === undefined) {
+          commit('setLoginStatus', 'Invalid credentials!');
+        }
+      } catch(error) {
+        console.log(error.response.data);
+        commit('setLoginStatus', `Error while trying authenticate: Error: ${error.message}`);
+      }
+    },
+    async logout({commit}) {
+      commit('setUser', {});
+    },
+    async addUser({commit}, data) {
       try {
         commit('setAddStatus', 'Please wait...');
         const response = await axios.post(`${server}/users`, data);

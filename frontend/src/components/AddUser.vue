@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col items-center justify-center mt-7">
-    <h1>Add user</h1>
+    <h1 class="text-2xl mb-4 text-gray-700">Add User</h1>
     <form action="#" class="flex flex-col gap-2" autocomplete="off">
       <label for="name">Name: *</label>
       <input type="text" class="focus:outline-none border-b-2 border-black" 
@@ -30,7 +30,7 @@ export default {
         name: '',
         email: '',
         password: '',
-      }
+      },
     }
   },
   name: 'AddUser',
@@ -42,7 +42,7 @@ export default {
       if (this.currentUser.name.trim() === '' || this.currentUser.email.trim() === '' || 
         this.currentUser.password.trim() === '') return alert('all fields must be filled in');
       this.$store.dispatch('addUser', this.currentUser);
-    }
+    },
   },
 }
 </script>
