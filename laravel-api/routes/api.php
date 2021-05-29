@@ -23,3 +23,4 @@ Route::get('users', [UsersController::class, 'index']);
 Route::post('users', [UsersController::class, 'store']);
 Route::patch('users/{id}', [UsersController::class, 'update']);
 Route::delete('users/{id}', [UsersController::class, 'remove']);
+Route::post('users/auth', [UsersController::class, 'authenticate']);
