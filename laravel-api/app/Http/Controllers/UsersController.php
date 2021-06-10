@@ -31,7 +31,10 @@ class UsersController extends Controller
 		$user->save();
 
 	}
-
+	public function getAllUsers(){
+		$users = User::all();
+		return response()->json($users);
+	}
 	public function remove($id)
 	{
 		$user = User::find($id);

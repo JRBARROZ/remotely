@@ -20,6 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('users', [UsersController::class, 'index']);
+Route::get('allUsers', [UsersController::class, 'getAllUsers']);
 Route::post('users', [UsersController::class, 'store']);
 Route::patch('users/{id}', [UsersController::class, 'update']);
 Route::delete('users/{id}', [UsersController::class, 'remove']);
