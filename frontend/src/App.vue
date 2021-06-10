@@ -4,7 +4,12 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/add">Add User</router-link> |
       <router-link to="/users">Users</router-link> |
-      <span v-if="Object.keys(user).length !== 0">Hello, {{ user.name }} - </span>
+      <span v-if="Object.keys(user).length !== 0">
+        Hello,
+        <span class="font-semibold">
+          {{ user.name }}
+        </span> - 
+      </span>
       <button class="focus:outline-none" v-if="Object.keys(user).length !== 0" @click="logout">Logout</button>
       <router-link v-else to="/login">Login</router-link>
     </div>

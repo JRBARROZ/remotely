@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col items-center justify-center mt-7">
-    <h1 class="text-2xl mb-4 text-gray-700">Add User</h1>
+    <h1 class="text-3xl mb-4 text-gray-700">Add User</h1>
     <form action="#" class="flex flex-col gap-2" autocomplete="off">
       <label for="name">Name: *</label>
       <input type="text" class="focus:outline-none border-b-2 border-black" 

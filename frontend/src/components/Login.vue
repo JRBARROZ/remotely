@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col items-center justify-center mt-7">
-    <h1 class="text-2xl text-gray-700 mb-4">Login</h1>
+    <h1 class="text-3xl text-gray-700 mb-4">Login</h1>
     <form action="#" class="flex flex-col gap-2" autocomplete="off">
       <label for="email">E-mail: *</label>
       <input type="text" class="focus:outline-none border-b-2 border-black" 
@@ -27,6 +27,18 @@ export default {
         email: '',
         password: '',
       }
+    }
+  },
+  mounted() {
+    if (Object.keys(this.user).length !== 0) {
+      this.$router.push('/');
+      return
+    }
+  },
+  updated() {
+    if (Object.keys(this.user).length !== 0) {
+      this.$router.push('/');
+      return
     }
   },
   name: 'Login',

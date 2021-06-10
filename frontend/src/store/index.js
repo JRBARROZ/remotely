@@ -1,12 +1,12 @@
-import { createStore } from 'vuex'
+import { createStore } from 'vuex';
+import sha1 from 'js-sha1';
 const server = 'http://localhost:8000/api';
 const axios = require('axios').default;
 
 export default createStore({
-
   state: {
     allUsers: [],
-    user: {},
+    user: JSON.parse(sessionStorage.getItem('loggedUser')) ?? {},
     addStatus: '',
     removeStatus: '',
   },
@@ -36,8 +36,12 @@ export default createStore({
         commit('setLoginStatus', 'Authenticating...');
         const response = await axios.post(`${server}/users/auth`, data);
         if (response.data[0] !== undefined) {
-          commit('setUser', response.data[0])
-          commit('setLoginStatus', 'Successfully authenticated!')
+          const user = response.data[0];
+          const session = sha1(response.data[0].created_at);
+          user['session'] = session;
+          sessionStorage.setItem('loggedUser', JSON.stringify(user));
+          commit('setUser', user);
+          commit('setLoginStatus', 'Successfully authenticated!');
         } else if(response.data[0] === undefined) {
           commit('setLoginStatus', 'Invalid credentials!');
         }
@@ -48,6 +52,7 @@ export default createStore({
     },
     async logout({commit}) {
       commit('setUser', {});
+      sessionStorage.clear();
     },
     async addUser({commit}, data) {
       try {
