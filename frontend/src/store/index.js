@@ -1,95 +1,118 @@
 import { createStore } from 'vuex';
-import sha1 from 'js-sha1';
-const server = 'http://localhost:8000/api';
+// import sha1 from 'js-sha1';
+const server = 'http://localhost:8000/api/auth';
 const axios = require('axios').default;
+// axios.defaults.headers.common = {'Authorization': `bearer ${token}`}
+
+const auth = {
+  namespaced: true,
+  state: {
+    token: localStorage.getItem('user-token') ?? '',
+    loggedUser: {},
+    status: '',
+  },
+  getters: {
+    isAuthenticated: state => state.token,
+    authStatus: state => state.status,
+  },
+  mutations: {
+    request: state => {
+      state.status = 'loading...'
+    },
+    success: (state, token) => {
+      state.status = 'success';
+      state.token = token;
+    },
+    error: (state) => {
+      state.status = 'error';
+    },
+    logout: (state) => {
+      state.status = 'logged out';
+    }
+  },
+  actions: {
+    signIn: ({ commit, dispatch }, data) => {
+      return new Promise((resolve, reject) => {
+        commit('request');
+        axios.post(`${server}/login`, data)
+          .then(response => {
+            const token = response.data.access_token;
+            localStorage.setItem('user-token', token);
+            commit('success', token);
+            dispatch('userRequest')
+            resolve(response);
+          })
+          .catch(error => {
+            commit('error', error);
+            localStorage.removeItem('user-token');
+            reject(error);
+          });
+      });
+    },
+    signUp: ({ commit }, data) => {
+      return new Promise((resolve, reject) => {
+        commit('request');
+        axios.post(`${server}/register`, data)
+          .then(response => {
+            commit('success', 'test');
+            resolve(response);
+          })
+          .catch(error => {
+            commit('error', error);
+            reject(error);
+          });
+      });
+    },
+    userRequest: async ({ commit, state }) => {
+      try {
+        commit('request');
+        const bodyParams = {
+          access_token: "value",
+        }
+        const options = {
+          headers: {
+            Authorization: `Bearer ${state.token}`,
+          }
+        }
+        const response = await axios.get(`${server}/user-profile`, bodyParams, options);
+        console.log(response.data);
+      } catch (error) {
+        commit('error');
+        console.log(error.response)
+      }
+    },
+    logout: ({ commit, state }) => {
+      return new Promise((resolve, reject) => {
+        commit('logout');
+        state.token = '';
+        localStorage.removeItem('user-token');
+        resolve();
+      })
+    },
+  }
+}
 
 export default createStore({
   state: {
     allUsers: [],
-    user: JSON.parse(sessionStorage.getItem('loggedUser')) ?? {},
-    addStatus: '',
-    removeStatus: '',
+    // status: '',
+    // user: JSON.parse(sessionStorage.getItem('loggedUser')) ?? {},
   },
   mutations: {
-    setUser(state, value) {
-      state.user = {...value};
-    },
-    setAllUsers(state, value) {
-      state.allUsers = [...value];
-    },
-    setRemoveUser(state, index) {
-      state.allUsers.splice(index, 1);
-    },
-    setAddStatus(state, value) {
-      state.addStatus = value;
-    },
-    setRemoveStatus(state, value) {
-      state.removeStatus = value;
-    },
-    setLoginStatus(state, value) {
-      state.loginStatus = value;
-    }
   },
   actions: {
-    async authenticateUser({commit}, data) {
-      try {
-        commit('setLoginStatus', 'Authenticating...');
-        const response = await axios.post(`${server}/users/auth`, data);
-        if (response.data[0] !== undefined) {
-          const user = response.data[0];
-          const session = sha1(response.data[0].created_at);
-          user['session'] = session;
-          sessionStorage.setItem('loggedUser', JSON.stringify(user));
-          commit('setUser', user);
-          commit('setLoginStatus', 'Successfully authenticated!');
-        } else if(response.data[0] === undefined) {
-          commit('setLoginStatus', 'Invalid credentials!');
-        }
-      } catch(error) {
-        console.log(error.response.data);
-        commit('setLoginStatus', `Error while trying authenticate: Error: ${error.message}`);
-      }
-    },
-    async logout({commit}) {
-      commit('setUser', {});
-      sessionStorage.clear();
-    },
-    async addUser({commit}, data) {
+    async register({ commit }, data) {
       try {
         commit('setAddStatus', 'Please wait...');
-        const response = await axios.post(`${server}/users`, data);
-        if(response.status === 200) commit('setAddStatus', 'User successfully added!');
-      } catch(error) {
+        const response = await axios.post(`${server}/register`, data);
+        if (response.status === 201) commit('setAddStatus', 'User successfully added!');
+      } catch (error) {
         console.log(error);
         commit('setAddStatus', `Error while trying to add: Error: ${error.message}`);
       }
     },
-    async getUsers({commit}) {
-      try {
-        const response = await axios.get(`${server}/users`);
-        commit('setAllUsers', response.data);
-      } catch(error) {
-        console.log(error);
-      }
-    },
-    async updateUser(data) {
-      await axios.patch(`${server}/users/${data.id}`, data);
-    },
-    async removeUser({commit, context}, data) {
-      try {
-        const id = data[0];
-        const idx = data[1];
-        commit('setRemoveStatus', 'Please wait...');
-        await axios.delete(`${server}/users/${id}`);
-        commit('setRemoveStatus', 'User successfully deleted!');
-        commit('setRemoveUser', idx);
-      } catch(error) {
-        console.log(`%c${error}`, 'color: green');
-        commit('setRemoveStatus', `Error while trying to remove: Error: ${error.message}`);
-      } finally {
-      }
-    }
   },
   modules: {
+    auth: auth,
   }
 })

@@ -1,5 +1,22 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import Home from '../views/Home.vue';
+import store from '../store';
+
+const ifNotAuthenticated = (to, from, next) => {
+  if (!store.getters['auth/isAuthenticated']) {
+    next();
+    return
+  }
+  next('/');
+}
+
+const ifAuthenticated = (to, from, next) => {
+  if (store.getters['auth/isAuthenticated']) {
+    next();
+    return
+  }
+  next('/login');
+}
 
 const routes = [
   {
@@ -8,12 +25,12 @@ const routes = [
     component: Home
   },
   {
-    path: '/add',
-    name: 'Add User',
+    path: '/register',
+    name: 'Register User',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "add" */ '../components/AddUser.vue')
+    component: () => import(/* webpackChunkName: "register" */ '../components/AddUser.vue')
   },
   {
     path: '/login',
@@ -21,15 +38,17 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "login" */ '../components/Login.vue')
+    component: () => import(/* webpackChunkName: "login" */ '../components/Login.vue'),
+    beforeEnter: ifNotAuthenticated
   },
   {
-    path: '/users',
-    name: 'Users',
+    path: '/profile',
+    name: 'Profile',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "users" */ '../components/Users.vue')
+    component: () => import(/* webpackChunkName: "profile" */ '../components/UserProfile.vue'),
+    beforeEnter: ifAuthenticated
   }
 ]
 
