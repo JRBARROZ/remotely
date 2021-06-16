@@ -8,11 +8,11 @@ const auth = {
   namespaced: true,
   state: {
     token: localStorage.getItem('user-token') ?? '',
-    loggedUser: {},
+    loggedUser: JSON.parse(localStorage.getItem('logged-user')) ?? {},
     status: '',
   },
   getters: {
-    isAuthenticated: state => state.token,
+    isAuthenticated: state => !!state.token,
     authStatus: state => state.status,
   },
   mutations: {
@@ -28,6 +28,9 @@ const auth = {
     },
     logout: (state) => {
       state.status = 'logged out';
+    },
+    setLoggedUser: (state, user) => {
+      state.loggedUser = {...user}
     }
   },
   actions: {
@@ -39,11 +42,12 @@ const auth = {
             const token = response.data.access_token;
             localStorage.setItem('user-token', token);
             commit('success', token);
-            dispatch('userRequest')
+            dispatch('userRequest');
             resolve(response);
           })
           .catch(error => {
             commit('error', error);
+            console.log(error.response);
             localStorage.removeItem('user-token');
             reject(error);
           });
@@ -66,19 +70,19 @@ const auth = {
     userRequest: async ({ commit, state }) => {
       try {
         commit('request');
-        const bodyParams = {
-          access_token: "value",
-        }
         const options = {
           headers: {
             Authorization: `Bearer ${state.token}`,
           }
         }
-        const response = await axios.get(`${server}/user-profile`, bodyParams, options);
-        console.log(response.data);
+        const response = await axios.get(`${server}/user-profile`, options);
+        if(response.status === 200) {
+          commit('setLoggedUser',response.data);
+          localStorage.setItem('logged-user', JSON.stringify(response.data));
+        }
       } catch (error) {
         commit('error');
-        console.log(error.response)
+        console.log(error.response);
       }
     },
     logout: ({ commit, state }) => {
@@ -86,6 +90,8 @@ const auth = {
         commit('logout');
         state.token = '';
         localStorage.removeItem('user-token');
+        localStorage.removeItem('logged-user');
+        commit('setLoggedUser', {});
         resolve();
       })
     },
@@ -94,23 +100,10 @@ const auth = {
 
 export default createStore({
   state: {
-    allUsers: [],
-    // status: '',
-    // user: JSON.parse(sessionStorage.getItem('loggedUser')) ?? {},
   },
   mutations: {
   },
   actions: {
-    async register({ commit }, data) {
-      try {
-        commit('setAddStatus', 'Please wait...');
-        const response = await axios.post(`${server}/register`, data);
-        if (response.status === 201) commit('setAddStatus', 'User successfully added!');
-      } catch (error) {
-        console.log(error);
-        commit('setAddStatus', `Error while trying to add: Error: ${error.message}`);
-      }
-    },
   },
   modules: {
     auth: auth,

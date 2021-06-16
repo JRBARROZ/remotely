@@ -14,21 +14,10 @@ import { mapState } from "vuex";
 
 export default {
   name: "Home",
-  async created() {
-    if (this.isLoggedIn) {
-      try {
-        const response = this.$store.dispatch("getLoggedUser");
-        console.log("res", response);
-      } catch (error) {
-        console.log(error.response);
-      }
-    }
-  },
   computed: {
     ...mapState('auth', {loggedUser: state => state.loggedUser}),
   },
   methods: {
-    async getLoggedUser() {},
   },
 };
 </script>

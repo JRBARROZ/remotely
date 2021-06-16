@@ -8,9 +8,6 @@
 import { mapState } from "vuex";
 export default {
   name: "UserProfile",
-  created() {
-    this.$store.dispatch('auth/userRequest');
-  },
   computed: {
     ...mapState("auth", { loggedUser: (state) => state.loggedUser }),
   },
