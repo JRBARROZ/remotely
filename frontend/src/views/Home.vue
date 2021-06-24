@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center justify-center mt-7">
     <h1 class="text-3xl mb-4">Home page</h1>
-    <h2 class="text-xl" v-if="Object.keys(this.loggedUser).length !== 0">
+    <h2 class="text-xl" v-if="Object.keys(this.loggedUser).length !== 0 && loggedUser.name.length !== 0">
       Hello, {{ this.loggedUser.name }}
     </h2>
     <h2 class="text-xl" v-else>There are no user logged in</h2>
