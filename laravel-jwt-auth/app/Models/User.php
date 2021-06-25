@@ -17,6 +17,11 @@ class User extends Authenticatable implements JWTSubject
 		return $this->belongsToMany(Organization::class)->withPivot('role')->withTimestamps();
 	}
 
+	public function projects()
+	{
+		return $this->belongsToMany(Project::class);
+	}
+
 	/**
 	 * The attributes that are mass assignable.
 	 *

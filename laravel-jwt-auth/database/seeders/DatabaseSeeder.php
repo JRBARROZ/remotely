@@ -16,5 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         $organizationSeeder = new OrganizationSeeder();
         $organizationSeeder->run();
+        $projectSeeder = new ProjectSeeder();
+        $projectSeeder->run();
     }
 }
