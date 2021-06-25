@@ -1,11 +1,40 @@
 <template>
   <div>
     <div class="flex justify-center items-center gap-4 my-3">
-      <router-link to="/">Home</router-link>
-      <router-link to="/register" v-if="this.token.length === 0">Add User</router-link>
-      <button class="focus:outline-none" v-if="this.token.length > 0" @click="logout">Logout</button>
-      <router-link to="/profile" v-if="this.token.length > 0">Profile</router-link>
-      <router-link v-else to="/login">Login</router-link>
+      <router-link
+        class="text-xl font-medium text-gray-600 px-3"
+        to="/"
+      >
+        Home
+      </router-link>
+      <router-link
+        class="text-xl font-medium text-gray-600 px-3"
+        to="/register"
+        v-if="Object.keys(loggedUser).length === 0"
+      >
+        Register
+      </router-link>
+      <router-link
+        class="text-xl font-medium text-gray-600 px-3"
+        to="/profile"
+        v-if="Object.keys(loggedUser).length > 0"
+      >
+        Profile
+      </router-link>
+      <button
+        class="focus:outline-none text-xl font-medium text-gray-600 px-3"
+        v-if="Object.keys(loggedUser).length > 0"
+        @click="logout"
+      >
+        Logout
+      </button>
+      <router-link
+        class="text-xl font-medium text-gray-600 px-3"
+        to="/login"
+        v-else
+      >
+        Login
+      </router-link>
     </div>
     <router-view />
   </div>
@@ -16,7 +45,7 @@ import { mapState } from 'vuex';
 
 export default {
   computed: {
-    ...mapState('auth', { token: state => state.token})
+    ...mapState('auth', { token: state => state.token, loggedUser: state => state.loggedUser})
   },
   methods: {
     logout() {

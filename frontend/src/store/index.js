@@ -9,7 +9,7 @@ const auth = {
   state: {
     token: localStorage.getItem('user-token') ?? '',
     loggedUser: JSON.parse(localStorage.getItem('logged-user')) ?? {},
-    status: '',
+    status: [],
   },
   getters: {
     isAuthenticated: state => !!state.token,
@@ -17,20 +17,23 @@ const auth = {
   },
   mutations: {
     request: state => {
-      state.status = 'loading...'
+      state.status = [null, 'loading...']
     },
-    success: (state, token) => {
-      state.status = 'success';
-      state.token = token;
+    success: (state, payload) => {
+      state.status = ['success', payload[1]];
+      state.token = payload[0];
     },
-    error: (state) => {
-      state.status = 'error';
+    error: (state, message) => {
+      state.status = ['error', message];
     },
-    logout: (state) => {
-      state.status = 'logged out';
+    logout: (state, message) => {
+      state.status = ['success', message];
+    },
+    resetStatus: (state) => {
+      state.status = []
     },
     setLoggedUser: (state, user) => {
-      state.loggedUser = {...user}
+      state.loggedUser = { ...user }
     }
   },
   actions: {
@@ -41,13 +44,15 @@ const auth = {
           .then(response => {
             const token = response.data.access_token;
             localStorage.setItem('user-token', token);
-            commit('success', token);
-            dispatch('userRequest');
-            resolve(response);
+            commit('success', [token]);
+            dispatch('userRequest')
+              .then(() => {
+                resolve(response)
+              });
           })
           .catch(error => {
-            commit('error', error);
-            console.log(error.response);
+            if (error.response.status < 500) commit('error', 'Invalid credentials');
+            else commit('error', 'We could not validate your credentials. Try again later');
             localStorage.removeItem('user-token');
             reject(error);
           });
@@ -58,11 +63,25 @@ const auth = {
         commit('request');
         axios.post(`${server}/register`, data)
           .then(response => {
-            commit('success', 'test');
+            commit('success', ['', 'Registered successfully']);
             resolve(response);
           })
           .catch(error => {
-            commit('error', error);
+            const stat = [];
+            if (error.response.status < 500) {
+              const data = JSON.parse(error.response.data);
+              if (data.password) {
+                if (data.password.length > 1) {
+                  stat.push(data.password[0]);
+                  stat.push(data.password[1]);
+                } else {
+                  stat.push(data.password[0]);
+                }
+              }
+              if (data.email) stat.push(data.email[0]);
+              if (data.error) stat.push(data.error[0]);
+            }
+            commit('error', stat);
             reject(error);
           });
       });
@@ -76,18 +95,17 @@ const auth = {
           }
         }
         const response = await axios.get(`${server}/user-profile`, options);
-        if(response.status === 200) {
-          commit('setLoggedUser',response.data);
+        if (response.status === 200) {
+          commit('setLoggedUser', response.data);
           localStorage.setItem('logged-user', JSON.stringify(response.data));
         }
       } catch (error) {
         commit('error');
-        console.log(error.response);
       }
     },
     logout: ({ commit, state }) => {
       return new Promise((resolve, reject) => {
-        commit('logout');
+        commit('logout', 'Logged out successfully');
         state.token = '';
         localStorage.removeItem('user-token');
         localStorage.removeItem('logged-user');
