@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Organization;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class OrganizationFactory extends Factory
@@ -23,6 +24,7 @@ class OrganizationFactory extends Factory
 	{
 		return [
 			'name' => $this->faker->company(),
+			'creator_id' => User::factory()
 		];
 	}
 }
