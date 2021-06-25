@@ -15,11 +15,12 @@ class OrganizationSeeder extends Seeder
 	 */
 	public function run()
 	{
-		Organization::factory()
-		->count(5)
+		Organization::factory(5)
 		->hasAttached(
-			User::factory()->count(4),
-			['role' => 'collaborator']
+			User::inRandomOrder()->limit(4)->get(),
+			['role' => 'collaborator',
+			'created_at' => now(),
+			'updated_at' => now()]
 		)
 		->create();
 	}

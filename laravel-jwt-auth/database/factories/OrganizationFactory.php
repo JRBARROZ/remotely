@@ -24,7 +24,7 @@ class OrganizationFactory extends Factory
 	{
 		return [
 			'name' => $this->faker->company(),
-			'creator_id' => User::factory()
+			'creator_id' => User::inRandomOrder()->first()->id
 		];
 	}
 }

@@ -8,18 +8,17 @@ use App\Models\User;
 
 class ProjectSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
-    {
-        Project::factory()
-		->count(3)
+	/**
+	 * Run the database seeds.
+	 *
+	 * @return void
+	 */
+	public function run()
+	{
+		Project::factory(3)
 		->hasAttached(
-			User::factory()->count(2)
+			User::inRandomOrder()->limit(5)->get(),
 		)
 		->create();
-    }
+	}
 }

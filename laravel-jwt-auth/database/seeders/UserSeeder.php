@@ -15,12 +15,7 @@ class UserSeeder extends Seeder
 	 */
 	public function run()
 	{
-		User::factory()
-		->count(15)
-		->hasAttached(
-				Organization::factory()->count(1),
-				['role' => 'collaborator']
-		)
+		User::factory(20)
 		->create();
 	}
 }
