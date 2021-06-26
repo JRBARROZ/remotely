@@ -22,6 +22,11 @@ class User extends Authenticatable implements JWTSubject
 		return $this->belongsToMany(Project::class);
 	}
 
+	public function tasks()
+	{
+		return $this->belongsToMany(Task::class);
+	}
+
 	/**
 	 * The attributes that are mass assignable.
 	 *
