@@ -11,7 +11,7 @@ const ifNotAuthenticated = (to, from, next) => {
 }
 
 const ifAuthenticated = (to, from, next) => {
-  if (store.getters['auth/isAuthenticated']) {
+  if (store.getters['isAuthenticated']) {
     next();
     return
   }
@@ -49,6 +49,15 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "profile" */ '../components/UserProfile.vue'),
+    beforeEnter: ifAuthenticated
+  },
+  {
+    path: '/organization',
+    name: 'Organization',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "profile" */ '../components/Organizations.vue'),
     beforeEnter: ifAuthenticated
   }
 ]

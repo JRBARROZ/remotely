@@ -74,7 +74,7 @@ export default {
   },
   name: 'AddUser',
   computed: {
-    ...mapState('auth', {status: state => state.status})
+    ...mapState(["status"])
   },
   methods: {
     handleSubmit() {

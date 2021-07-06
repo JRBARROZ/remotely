@@ -41,7 +41,7 @@ import { mapState } from "vuex";
 export default {
   created() {
     setTimeout(() => {
-      this.$store.commit('auth/resetStatus');
+      this.$store.commit('resetStatus');
     }, 2500);
   },
   data(){
@@ -54,14 +54,15 @@ export default {
   },
   name: 'Login',
   computed: {
-    ...mapState('auth', {status: state => state.status})
+    ...mapState(["status"])
   },
   methods: {
     handleLogin() {
       if (this.loginData.email.trim() === '' || this.loginData.password.trim() === '')
         return alert('all fields must be filled in');
       this.$store.dispatch('auth/signIn', this.loginData)
-      .then(() => {
+      .then((a) => {
+        console.log("Then: ", a)
         this.$router.push('/profile');
       });
     }

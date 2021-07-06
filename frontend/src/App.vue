@@ -21,6 +21,13 @@
       >
         Profile
       </router-link>
+      <router-link
+        class="text-xl font-medium text-gray-600 px-3"
+        to="/organization"
+        v-if="Object.keys(loggedUser).length > 0"
+      >
+        Organizations
+      </router-link>
       <button
         class="focus:outline-none text-xl font-medium text-gray-600 px-3"
         v-if="Object.keys(loggedUser).length > 0"
@@ -45,7 +52,7 @@ import { mapState } from 'vuex';
 
 export default {
   computed: {
-    ...mapState('auth', { token: state => state.token, loggedUser: state => state.loggedUser})
+    ...mapState('auth', {loggedUser: state => state.loggedUser})
   },
   methods: {
     logout() {
