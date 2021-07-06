@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-
+use App\http\Controllers\OrganizationController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -29,4 +29,16 @@ Route::group([
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/user-profile', [AuthController::class, 'userProfile']);    
+});
+
+// Route::resource('organization', OrganizationController::class);
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'organization'
+], function($router){
+    Route::post('/add', [OrganizationController::class, 'store']);
+    Route::get('/list', [OrganizationController::class, 'getList']);
+    Route::delete('/{id}', [OrganizationController::class, 'destroy']);
+    Route::put('/update', [OrganizationController::class, 'update']);
 });
