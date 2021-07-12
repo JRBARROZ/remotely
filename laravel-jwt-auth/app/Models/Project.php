@@ -14,4 +14,16 @@ class Project extends Model
 	{
 		return $this->belongsToMany(User::class);
 	}
+
+	/**
+	 * The attributes that are mass assignable.
+	 *
+	 * @var array
+	 */
+	protected $fillable = [
+		'name',
+		'status',
+		'creator_id',
+		'org_id',
+];
 }

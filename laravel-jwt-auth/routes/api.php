@@ -3,7 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\http\Controllers\OrganizationController;
+use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\ProjectController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -41,4 +42,14 @@ Route::group([
     Route::get('/list', [OrganizationController::class, 'getList']);
     Route::delete('/{id}', [OrganizationController::class, 'destroy']);
     Route::put('/update', [OrganizationController::class, 'update']);
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'project'
+], function($router){
+    Route::post('/add', [ProjectController::class, 'store']);
+    Route::get('/list', [ProjectController::class, 'getList']);
+    Route::delete('/{id}', [ProjectController::class, 'destroy']);
+    Route::put('/update', [ProjectController::class, 'update']);
 });
