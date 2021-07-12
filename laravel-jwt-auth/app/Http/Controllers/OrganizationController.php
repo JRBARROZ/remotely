@@ -52,7 +52,6 @@ class OrganizationController extends Controller
     {
         $user_id = auth()->user()->id;
         $orgList = Organization::where('creator_id', '=', $user_id)->get();
-        // echo $user_id;
         return response()->json($orgList);
     }
 
@@ -65,8 +64,6 @@ class OrganizationController extends Controller
      */
     public function update(Request $request)
     {   
-        echo $request->id;
-        echo $request->name;
         $user_id = auth()->user()->id;
         if (Organization::where('creator_id', '=', $user_id)->where('id', '=', $request->id)->count() == 1) {
             Organization::where('creator_id', '=', $user_id)->where('id', '=', $request->id)->update(["name" => $request->name]);
