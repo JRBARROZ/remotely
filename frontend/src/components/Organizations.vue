@@ -46,19 +46,6 @@
         </div>
       </div>
     </div>
-    <!-- <div
-      class="mt-6 rounded border py-3 px-8"
-      :class="
-        status[0] === 'success'
-          ? 'bg-green-300 text-green-700 border-green-700'
-          : status[0] === 'error'
-          ? 'bg-red-300 text-red-700 border-red-700'
-          : status[0] === 'warning'
-          ? 'bg-yellow-300 text-yellow-700 border-yellow-700'
-          : ''
-      "
-      v-if="status.length > 0"
-    >{{ status[1] }}</div> -->
   </div>
 </template>
 
