@@ -1,18 +1,40 @@
 <template>
   <div class="flex flex-col items-center">
     <h1 class="text-2xl">My organizations</h1>
-    <ul class="mb-2 border-b-2 border-black">
-      <li v-for="(org, index) in orgList" :key="index" :ref="org + index">
-        <p>
-          {{ org.name }}
-          <button @click="toggleEditBox(org)" class="mr-2">Edit</button>
-          <button @click="remove(org.id)">X</button>
-        </p>
-      </li>
-    </ul>
-    <h1>Add a new Organization</h1>
-    <input type="text" v-model="orgData.name" class="outline-black" />
-    <input type="submit" @click="handleSubmit" />
+    <table>
+      <thead>
+        <tr class="text-lg text-gray-700 mt-5">
+          <th>Name</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tr v-for="(org, index) in orgList" :key="index" :ref="org + index">
+        <td class="px-3">{{ org.name }}</td>
+        <td class="px-3">{{ org.status }}</td>
+        <td class="px-3">
+          <img
+            src="../assets/edit.svg"
+            class="inline h-6 w-7"
+            @click="toggleEditBox(org)"
+            alt="Edit-Button"
+          />
+
+          <img
+            src="../assets/delete.svg"
+            class="inline h-8 w-9"
+            @click="remove(org.id)"
+            alt="Delete-Button"
+          />
+        </td>
+      </tr>
+    </table>
+    <div class="flex flex-col">
+      <h1 class="text-2xl text-gray-700 mt-5">Create a new organization</h1>
+      <label for="org-name" class="text-sm mt-2 font-medium"> Name: </label>
+      <input type="text" v-model="orgData.name" class="border pl-2 rounded text-gray-600 h-8" id="org-name" placeholder="Organization Name"/>
+      <input type="submit" @click="handleSubmit" class="bg-gray-700 h-8 text-white rounded-md mt-2" value="Send"/>
+    </div>
     <div
       class="
         bg-gray-900 bg-opacity-50
@@ -27,22 +49,35 @@
       v-if="showModal"
       @click="toggleEditBox"
     >
-      <div class="bg-white w-3/4 h-80 z-40 md:w-96" @click.stop="eventPropagation">
-        <h1 class="text-xl text-center">
-          What is the new name of the organization?
-        </h1>
-        <div>
-          <input
-            type="text"
-            class="outline-none border-2 border-black w-3/4 h-10"
-            v-model="this.orgData.name"
-          />
-          <button
-            class="bg-gray-700 w-1/4 h-10 text-white"
-            @click="handleEditSubmit(this.orgData)"
+      <div
+        class="bg-white w-3/4 h-72 z-40 md:w-96"
+        @click.stop="eventPropagation"
+      >
+        <div class="flex flex-col items-center gap-3 m-auto">
+          <h1 class="text-2xl text-center mt-2 text-gray-700">
+            Edit Organization
+          </h1>
+          <form
+            action="#"
+            class="flex flex-col gap-1 mx-auto"
+            autocomplete="off"
           >
-            Send
-          </button>
+            <label for="proj-name" class="text-sm mt-2 font-medium">
+              Name:
+            </label>
+            <input
+              id="proj-name"
+              type="text"
+              class="outline-none w-full h-10 border pl-2 rounded text-gray-600"
+              v-model="this.orgData.name"
+            />
+            <button
+              class="bg-gray-700 h-8 text-white rounded-md mt-2"
+              @click="handleEditSubmit(this.orgData)"
+            >
+              Send
+            </button>
+          </form>
         </div>
       </div>
     </div>
@@ -82,7 +117,7 @@ export default {
     },
     handleEditSubmit(data) {
       this.$store.dispatch("organization/update", data);
-      this.orgData.name = '';
+      this.orgData.name = "";
       this.orgData.id = null;
       this.showModal = false;
     },

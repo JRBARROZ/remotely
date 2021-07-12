@@ -31,29 +31,36 @@
       </tr>
     </table>
 
-
     <div class="flex flex-col">
-    <h1 class="text-2xl text-gray-700 mt-5">Create a new project</h1>
-    <label for="proj-name" class="text-sm mt-2 font-medium">
-      Choose the organization:
-    </label>
+      <h1 class="text-2xl text-gray-700 mt-5">Create a new project</h1>
+      <label for="proj-name" class="text-sm mt-2 font-medium">
+        Choose the organization:
+      </label>
 
-    <select v-model="this.projData.orgId" class="bg-white border pl-2 rounded text-gray-600 h-8 w-64" >
-      <option v-for="(org, index) in orgList" :key="index" :value="org.id">
-        {{ org.name }}
-      </option>
-    </select>
-    <label for="proj-name" class="text-sm mt-2 font-medium">
-      Write the name:
-    </label>
-    <input
-      type="text"
-      v-model="projData.name"
-      placeholder="Project Name"
-      class="border pl-2 rounded text-gray-600 h-8"
-    />
+      <select
+        v-model="this.projData.orgId"
+        class="bg-white border pl-2 rounded text-gray-600 h-8 w-64"
+      >
+        <option v-for="(org, index) in orgList" :key="index" :value="org.id">
+          {{ org.name }}
+        </option>
+      </select>
+      <label for="proj-name" class="text-sm mt-2 font-medium">
+        Write the name:
+      </label>
+      <input
+        type="text"
+        v-model="projData.name"
+        placeholder="Project Name"
+        class="border pl-2 rounded text-gray-600 h-8"
+      />
 
-    <input type="submit" class="bg-gray-700 h-8 text-white rounded-md mt-2" value="Send" @click="handleSubmit" />
+      <input
+        type="submit"
+        class="bg-gray-700 h-8 text-white rounded-md mt-2"
+        value="Send"
+        @click="handleSubmit"
+      />
     </div>
     <div
       class="
