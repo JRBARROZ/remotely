@@ -95,7 +95,8 @@ const auth = {
         rootState.token = "";
         localStorage.removeItem("user-token");
         localStorage.removeItem("logged-user");
-        localStorage.removeItem("orgList")
+        localStorage.removeItem("orgList");
+        localStorage.removeItem("projList");
         commit("setLoggedUser", {});
         resolve();
       });
@@ -120,7 +121,7 @@ const organization = {
         name: rawData,
       };
       axios.post(`${server}/organization/add`, data, {
-          headers: { Authorization: `Bearer ${rootState.token}`}}).then((response) => console.log(response));
+          headers: { Authorization: `Bearer ${rootState.token}`}});
       dispatch("setList");
     },
     setList: async ({state, commit, rootState}) => {
@@ -143,6 +144,49 @@ const organization = {
     },
     remove: ({dispatch, rootState}, index) => {
       axios.delete(`${server}/organization/${index}`, {
+        headers: { Authorization: `Bearer ${rootState.token}`}})
+      dispatch("setList");
+    }
+  },
+};
+
+const project = {
+  namespaced: true,
+  state: {
+    projList: JSON.parse(localStorage.getItem('projList')) ?? []
+  },
+  mutations: {
+    changeProjList: (state, payload) => {
+      state.projList = payload;
+      localStorage.setItem('projList', JSON.stringify(state.projList));
+    }
+  },
+  actions: {
+    add: ({dispatch, rootState}, data) => {     
+      axios.post(`${server}/project/add`, data, {
+          headers: { Authorization: `Bearer ${rootState.token}`}});
+      dispatch("setList");
+    },
+    setList: async ({commit, rootState}) => {
+      const options = {
+        headers: {
+          Authorization: `Bearer ${rootState.token}`,
+        },
+      };
+      const response = await axios.get(`${server}/project/list`, options);
+      commit('changeProjList', response.data)
+    },
+    update: ({dispatch, rootState}, data) => {
+      const options = {
+        headers: {
+          Authorization: `Bearer ${rootState.token}`,
+        },
+      };
+      axios.put(`${server}/project/update`, data, options);
+      dispatch("setList");
+    },
+    remove: ({dispatch, rootState}, index) => {
+      axios.delete(`${server}/project/${index}`, {
         headers: { Authorization: `Bearer ${rootState.token}`}})
       dispatch("setList");
     }
@@ -180,5 +224,6 @@ export default createStore({
   modules: {
     auth: auth,
     organization: organization,
+    project:project,
   },
 });

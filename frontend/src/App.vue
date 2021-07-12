@@ -28,6 +28,15 @@
       >
         Organizations
       </router-link>
+
+      <router-link
+        class="text-xl font-medium text-gray-600 px-3"
+        to="/project"
+        v-if="Object.keys(loggedUser).length > 0"
+      >
+        Projects
+      </router-link>
+
       <button
         class="focus:outline-none text-xl font-medium text-gray-600 px-3"
         v-if="Object.keys(loggedUser).length > 0"
