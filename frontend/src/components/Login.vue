@@ -62,7 +62,6 @@ export default {
         return alert('all fields must be filled in');
       this.$store.dispatch('auth/signIn', this.loginData)
       .then((a) => {
-        console.log("Then: ", a)
         this.$router.push('/profile');
       });
     }
