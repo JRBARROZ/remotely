@@ -1,5 +1,8 @@
 <template>
   <div>
+    <router-view />
+  </div>
+  <!-- <div>
     <div class="flex justify-center items-center gap-4 my-3">
       <router-link
         class="text-xl font-medium text-gray-600 px-3"
@@ -53,7 +56,7 @@
       </router-link>
     </div>
     <router-view />
-  </div>
+  </div> -->
 </template>
 
 <script>
