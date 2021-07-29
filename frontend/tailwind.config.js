@@ -9,6 +9,15 @@ module.exports = {
         'primary': '#8988FD',
         'input-text': '#A8A8D3',
         'title': '#58588B',
+      },
+      animation: {
+        'spin-once': 'spino 0.5s linear forwards',
+      },
+      keyframes: {
+        spino: {
+          from: { transform: 'rotate(0deg)' },
+          to: { transform: 'rotate(360deg)' },
+        }
       }
     },
   },

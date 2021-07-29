@@ -52,8 +52,8 @@ const routes = [
     beforeEnter: ifAuthenticated
   },
   {
-    path: '/organization',
-    name: 'Organization',
+    path: '/organizations',
+    name: 'Organizations',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -61,13 +61,22 @@ const routes = [
     beforeEnter: ifAuthenticated
   },
   {
-    path: '/project',
-    name: 'Project',
+    path: '/projects',
+    name: 'Projects',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "profile" */ '../components/Project.vue'),
     beforeEnter: ifAuthenticated
+  },
+  {
+    path: '/forgot-password',
+    name: 'Forgot Password',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "forgotPassword" */ '../components/ForgotPassword.vue'),
+    beforeEnter: ifNotAuthenticated
   }
 ]
 

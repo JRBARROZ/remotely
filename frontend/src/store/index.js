@@ -1,13 +1,10 @@
 import { createStore } from "vuex";
-// import sha1 from 'js-sha1';
-const server = "http://localhost:8000/api";
+const server = "http://remotely-env-1.eba-pb84dq6t.sa-east-1.elasticbeanstalk.com/api";
 const axios = require("axios").default;
-// axios.defaults.headers.common = {'Authorization': `bearer ${state.token}`};
 
 const auth = {
   namespaced: true,
   state: {
-    // token: localStorage.getItem("user-token") ?? "",
     loggedUser: JSON.parse(localStorage.getItem("logged-user")) ?? {},
   },
   mutations: {
@@ -31,7 +28,7 @@ const auth = {
           })
           .catch((error) => {
             if (error.response.status < 500)
-              commit("error", "Invalid credentials", { root: true });
+              commit("error", "Credenciais inválidas", { root: true });
             else
               commit(
                 "error",
@@ -49,7 +46,7 @@ const auth = {
         axios
           .post(`${server}/auth/register`, data)
           .then((response) => {
-            commit("success", ["", "Registered successfully"], { root: true });
+            commit("success", "Registro efetuado com sucesso", { root: true });
             resolve(response);
           })
           .catch((error) => {
@@ -91,7 +88,6 @@ const auth = {
     },
     logout: ({ commit, rootState }) => {
       return new Promise((resolve, reject) => {
-        commit("logout", "Logged out successfully", { root: true });
         rootState.token = "";
         localStorage.removeItem("user-token");
         localStorage.removeItem("logged-user");
@@ -101,6 +97,22 @@ const auth = {
         resolve();
       });
     },
+    forgotPassword: ({commit, rootState}, email) => {
+      return new Promise((resolve, reject) => {
+
+        axios.post(`${server}/auth/forgot`, email)
+        .then((response) => {
+          let data = response.data;
+          commit("success", response.data.message, { root: true });
+          resolve(response);
+         })
+        .catch((error) => {
+          commit("error", error.response.data.message, { root: true });
+          reject(error);
+        });
+      })
+
+    }
   },
 };
 
@@ -204,10 +216,10 @@ export default createStore({
   },
   mutations: {
     request: (state) => {
-      state.status = [null, "loading..."];
+      state.status = [null, "Loading..."];
     },
     success: (state, payload) => {
-      state.status = ["success", payload[1]];
+      state.status = ["success", payload];
       state.token = payload[0];
     },
     error: (state, message) => {

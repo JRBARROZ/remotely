@@ -17,7 +17,29 @@ class AuthController extends Controller
 	 */
 	public function __construct()
 	{
-		$this->middleware('auth:api', ['except' => ['login', 'register']]);
+		$this->middleware('auth:api', ['except' => ['login', 'register', 'forgotPassword']]);
+	}
+
+	/**
+	 * Get a JWT via given credentials.
+	 *
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function forgotPassword(Request $request)
+	{
+		$validator = Validator::make($request->all(), [
+			'email' => 'required|email',
+		]);
+
+		if ($validator->fails()) {
+			return response()->json($validator->errors(), 422);
+		}
+		$hasUser = User::where('email', '=', $request->email)->count();
+		if ($hasUser > 0) {
+			return response()->json(["message" => "E-mail sended"], 200);
+		} else {
+			return response()->json(["message" => "User not found"], 404);
+		}
 	}
 
 	/**
