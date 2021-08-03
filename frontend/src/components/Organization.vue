@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col items-center">
-    <h1 class="text-2xl">My organizations</h1>
+    <h1 class="text-3xl mb-4 text-gray-700">My organizations</h1>
     <table>
       <thead>
         <tr class="text-lg text-gray-700 mt-5">
@@ -32,8 +32,19 @@
     <div class="flex flex-col">
       <h1 class="text-2xl text-gray-700 mt-5">Create a new organization</h1>
       <label for="org-name" class="text-sm mt-2 font-medium"> Name: </label>
-      <input type="text" v-model="orgData.name" class="border pl-2 rounded text-gray-600 h-8" id="org-name" placeholder="Organization Name"/>
-      <input type="submit" @click="handleSubmit" class="bg-gray-700 h-8 text-white rounded-md mt-2" value="Send"/>
+      <input
+        type="text"
+        v-model="orgData.name"
+        class="border pl-2 rounded text-gray-600 h-8"
+        id="org-name"
+        placeholder="Organization Name"
+      />
+      <input
+        type="submit"
+        @click="handleSubmit"
+        class="bg-gray-700 h-8 text-white rounded-md mt-2"
+        value="Send"
+      />
     </div>
     <div
       class="
@@ -58,21 +69,29 @@
             Edit Organization
           </h1>
           <form
-            action="#"
+            action="#/organization"
             class="flex flex-col gap-1 mx-auto"
             autocomplete="off"
           >
-            <label for="proj-name" class="text-sm mt-2 font-medium">
+            <label class="text-sm mt-2 font-medium">
               Name:
+              <input
+                type="text"
+                class="
+                  outline-none
+                  w-full
+                  h-10
+                  border
+                  pl-2
+                  rounded
+                  text-gray-600
+                "
+                v-model="this.orgData.name"
+              />
             </label>
-            <input
-              id="proj-name"
-              type="text"
-              class="outline-none w-full h-10 border pl-2 rounded text-gray-600"
-              v-model="this.orgData.name"
-            />
             <button
               class="bg-gray-700 h-8 text-white rounded-md mt-2"
+              type="submit"
               @click="handleEditSubmit(this.orgData)"
             >
               Send
@@ -116,10 +135,14 @@ export default {
       this.orgData.id = org.id;
     },
     handleEditSubmit(data) {
-      this.$store.dispatch("organization/update", data);
-      this.orgData.name = "";
-      this.orgData.id = null;
-      this.showModal = false;
+      this.$store
+        .dispatch("organization/update", data)
+        .then(() => {
+          this.orgData.name = "";
+          this.orgData.id = null;
+          this.showModal = false;
+        })
+        .catch(() => console.log("Não foi possível editar a organização"));
     },
   },
 };

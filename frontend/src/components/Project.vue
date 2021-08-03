@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col items-center">
-    <h1 class="text-3xl mb-4 text-gray-700 mt-10">Your projects</h1>
+    <h1 class="text-3xl mb-4 text-gray-700">Your projects</h1>
 
     <table>
       <thead>
@@ -30,7 +30,6 @@
         </td>
       </tr>
     </table>
-
     <div class="flex flex-col">
       <h1 class="text-2xl text-gray-700 mt-5">Create a new project</h1>
       <label for="proj-name" class="text-sm mt-2 font-medium">
@@ -83,30 +82,46 @@
         <div class="flex flex-col items-center gap-3 m-auto">
           <h1 class="text-2xl text-center mt-2 text-gray-700">Edit Project</h1>
           <form
-            action="#"
+            action="#/projects"
             class="flex flex-col gap-1 mx-auto"
             autocomplete="off"
           >
-            <label for="proj-name" class="text-sm mt-2 font-medium">
+            <label class="text-sm mt-2 font-medium">
               Name:
+              <input
+                id="proj-name"
+                type="text"
+                class="
+                  outline-none
+                  w-full
+                  h-10
+                  border
+                  pl-2
+                  rounded
+                  text-gray-600
+                "
+                v-model="this.projData.name"
+              />
             </label>
-            <input
-              id="proj-name"
-              type="text"
-              class="outline-none w-full h-10 border pl-2 rounded text-gray-600"
-              v-model="this.projData.name"
-            />
-            <label for="proj-status" class="text-sm mt-2 font-medium"
-              >Status:</label
-            >
-            <input
-              id="proj-status"
-              type="text"
-              class="outline-none w-full h-10 border pl-2 rounded text-gray-600"
-              v-model="this.projData.status"
-            />
+            <label class="text-sm mt-2 font-medium"
+              >Status:
+              <input
+                type="text"
+                class="
+                  outline-none
+                  w-full
+                  h-10
+                  border
+                  pl-2
+                  rounded
+                  text-gray-600
+                "
+                v-model="this.projData.status"
+              />
+            </label>
             <button
               class="bg-gray-700 h-8 text-white rounded-md mt-2"
+              type="submit"
               @click="handleEditSubmit(this.projData)"
             >
               Send
@@ -149,13 +164,19 @@ export default {
     toggleEditBox(proj) {
       this.showModal = !this.showModal;
       this.projData.name = proj.name;
+      this.projData.status = proj.status ?? "Ongoing";
       this.projData.id = proj.id;
     },
     handleEditSubmit(data) {
-      this.$store.dispatch("project/update", data);
-      this.projData.name = "";
-      this.projData.id = null;
-      this.showModal = false;
+      this.$store
+        .dispatch("project/update", data)
+        .then(() => {
+          this.projData.name = "";
+          this.projData.id = null;
+          this.showModal = false;
+          this.projData.status = "Ongoing"
+        })
+        .catch(() => console.log("Não foi possível editar o projeto"));
     },
   },
 };

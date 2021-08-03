@@ -52,12 +52,12 @@ const routes = [
     beforeEnter: ifAuthenticated
   },
   {
-    path: '/organizations',
-    name: 'Organizations',
+    path: '/organization',
+    name: 'Organization',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "profile" */ '../components/Organizations.vue'),
+    component: () => import(/* webpackChunkName: "profile" */ '../components/Organization.vue'),
     beforeEnter: ifAuthenticated
   },
   {

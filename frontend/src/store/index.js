@@ -10,7 +10,7 @@ const auth = {
   mutations: {
     setLoggedUser: (state, user) => {
       state.loggedUser = { ...user };
-    }
+    },
   },
   actions: {
     signIn: ({ commit, dispatch }, data) => {
@@ -77,7 +77,10 @@ const auth = {
             Authorization: `Bearer ${rootState.token}`,
           },
         };
-        const response = await axios.get(`${server}/auth/user-profile`, options);
+        const response = await axios.get(
+          `${server}/auth/user-profile`,
+          options
+        );
         if (response.status === 200) {
           commit("setLoggedUser", response.data);
           localStorage.setItem("logged-user", JSON.stringify(response.data));
@@ -97,111 +100,159 @@ const auth = {
         resolve();
       });
     },
-    forgotPassword: ({commit, rootState}, email) => {
+    forgotPassword: ({ commit, rootState }, email) => {
       return new Promise((resolve, reject) => {
-
-        axios.post(`${server}/auth/forgot`, email)
-        .then((response) => {
-          let data = response.data;
-          commit("success", response.data.message, { root: true });
-          resolve(response);
-         })
-        .catch((error) => {
-          commit("error", error.response.data.message, { root: true });
-          reject(error);
-        });
-      })
-
-    }
+        axios
+          .post(`${server}/auth/forgot`, email)
+          .then((response) => {
+            let data = response.data;
+            commit("success", response.data.message, { root: true });
+            resolve(response);
+          })
+          .catch((error) => {
+            commit("error", error.response.data.message, { root: true });
+            reject(error);
+          });
+      });
+    },
   },
 };
 
 const organization = {
   namespaced: true,
   state: {
-    orgList: JSON.parse(localStorage.getItem('orgList')) ?? []
+    orgList: JSON.parse(localStorage.getItem("orgList")) ?? [],
   },
   mutations: {
     changeOrgList: (state, payload) => {
       state.orgList = payload;
-      localStorage.setItem('orgList', JSON.stringify(state.orgList));
-    }
+      localStorage.setItem("orgList", JSON.stringify(state.orgList));
+    },
   },
   actions: {
-    add: ({dispatch, rootState}, rawData) => {     
+    add: ({ dispatch, rootState }, rawData) => {
       const data = {
         name: rawData,
       };
       axios.post(`${server}/organization/add`, data, {
-          headers: { Authorization: `Bearer ${rootState.token}`}});
+        headers: { Authorization: `Bearer ${rootState.token}` },
+      });
       dispatch("setList");
     },
-    setList: async ({state, commit, rootState}) => {
+    setList: async ({ state, commit, rootState }) => {
       const options = {
         headers: {
           Authorization: `Bearer ${rootState.token}`,
         },
       };
       const response = await axios.get(`${server}/organization/list`, options);
-      commit('changeOrgList', response.data)
+      commit("changeOrgList", response.data);
     },
-    update: ({dispatch, rootState}, data) => {
+    update: async ({ state, commit, rootState }, data) => {
       const options = {
         headers: {
           Authorization: `Bearer ${rootState.token}`,
         },
       };
-      axios.put(`${server}/organization/update`, data, options);
-      dispatch("setList");
+      const response = await axios.put(
+        `${server}/organization/update`,
+        data,
+        options
+      );
+      if (response.status === 200) {
+        for (const key in state.orgList) {
+          if (state.orgList[key].id === data.id) {
+            const org = state.orgList[key];
+            org.name = data.name;
+            state.orgList.splice(key, 1, org);
+            commit("changeOrgList", state.orgList);
+            break;
+          }
+        }
+      }
     },
-    remove: ({dispatch, rootState}, index) => {
-      axios.delete(`${server}/organization/${index}`, {
-        headers: { Authorization: `Bearer ${rootState.token}`}})
-      dispatch("setList");
-    }
+    remove: async ({ commit, state, rootState }, index) => {
+      const response = await axios.delete(`${server}/organization/${index}`, {
+        headers: { Authorization: `Bearer ${rootState.token}` },
+      });
+      if (response.status === 200) {
+        for (const key in state.orgList) {
+          if (state.orgList[key].id === index) {
+            state.orgList.splice(key, 1);
+            commit("changeOrgList", state.orgList);
+            break;
+          }
+        }
+      }
+    },
   },
 };
 
 const project = {
   namespaced: true,
   state: {
-    projList: JSON.parse(localStorage.getItem('projList')) ?? []
+    projList: JSON.parse(localStorage.getItem("projList")) ?? [],
   },
   mutations: {
     changeProjList: (state, payload) => {
       state.projList = payload;
-      localStorage.setItem('projList', JSON.stringify(state.projList));
-    }
+      localStorage.setItem("projList", JSON.stringify(state.projList));
+    },
   },
   actions: {
-    add: ({dispatch, rootState}, data) => {     
+    add: ({ dispatch, rootState }, data) => {
       axios.post(`${server}/project/add`, data, {
-          headers: { Authorization: `Bearer ${rootState.token}`}});
+        headers: { Authorization: `Bearer ${rootState.token}` },
+      });
       dispatch("setList");
     },
-    setList: async ({commit, rootState}) => {
+    setList: async ({ commit, rootState }) => {
       const options = {
         headers: {
           Authorization: `Bearer ${rootState.token}`,
         },
       };
       const response = await axios.get(`${server}/project/list`, options);
-      commit('changeProjList', response.data)
+      commit("changeProjList", response.data);
     },
-    update: ({dispatch, rootState}, data) => {
+    update: async ({ state, commit, rootState }, data) => {
       const options = {
         headers: {
           Authorization: `Bearer ${rootState.token}`,
         },
       };
-      axios.put(`${server}/project/update`, data, options);
-      dispatch("setList");
+      const response = await axios.put(
+        `${server}/project/update`,
+        data,
+        options
+      );
+      if (response.status === 200) {
+        for (const key in state.projList) {
+          if (state.projList[key].id === data.id) {
+            const proj = state.projList[key];
+            proj.name = data.name;
+            proj.status = data.status;
+            state.projList.splice(key, 1, proj);
+            commit("changeProjList", state.projList);
+            break;
+          }
+        }
+      }
     },
-    remove: ({dispatch, rootState}, index) => {
-      axios.delete(`${server}/project/${index}`, {
-        headers: { Authorization: `Bearer ${rootState.token}`}})
-      dispatch("setList");
-    }
+    remove: async ({ commit, state, rootState }, index) => {
+      const response = await axios.delete(`${server}/project/${index}`, {
+        headers: { Authorization: `Bearer ${rootState.token}` },
+      });
+      if (response.status === 200) {
+        for (const key in state.projList) {
+          if (state.projList[key].id === index) {
+            state.projList.splice(key, 1);
+            commit("changeProjList", state.projList);
+            break;
+          }
+        }
+      }
+    },
   },
 };
 
@@ -231,11 +282,11 @@ export default createStore({
     resetStatus: (state) => {
       state.status = [];
     },
-  }, 
+  },
   actions: {},
   modules: {
     auth: auth,
     organization: organization,
-    project:project,
+    project: project,
   },
 });
