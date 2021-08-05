@@ -4,6 +4,13 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      backgroundImage: theme => ({
+        'remotely-pattern': "url('./assets/img/Texture.png')",
+      }),
+      fontFamily: {
+        'comfoorta': 'Comfortaa, cursive',
+        'lexend': 'Lexend Deca, sans-serif',
+      },
       colors: {
         'input': '#E2E2FF',
         'primary': '#8988FD',

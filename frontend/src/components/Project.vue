@@ -1,5 +1,8 @@
 <template>
+
   <div class="flex flex-col items-center">
+    <NavBar />
+    <PageWrapper title="Meus Projetos">
     <h1 class="text-3xl mb-4 text-gray-700">Your projects</h1>
 
     <table>
@@ -130,13 +133,16 @@
         </div>
       </div>
     </div>
+    </PageWrapper>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
-
+import NavBar from './NavBar'
+import PageWrapper from './PageWrapper'
 export default {
+  components: { NavBar, PageWrapper },
   data() {
     return {
       showModal: false,
