@@ -5,7 +5,7 @@ import store from '../store';
 const ifNotAuthenticated = (to, from, next) => {
   if (!store.getters['auth/isAuthenticated']) {
     next();
-    return
+    return;
   }
   next('/');
 }
@@ -13,9 +13,17 @@ const ifNotAuthenticated = (to, from, next) => {
 const ifAuthenticated = (to, from, next) => {
   if (store.getters['isAuthenticated']) {
     next();
-    return
+    return;
   }
   next('/login');
+}
+
+const ifHasEmailVerified = (to, from , next) => {
+  if (store.getters.hasEmailVerified) {
+    next();
+    return;
+  }
+  next('/verify');
 }
 
 const routes = [
@@ -52,12 +60,12 @@ const routes = [
     beforeEnter: ifAuthenticated
   },
   {
-    path: '/organization',
+    path: '/organizations',
     name: 'Organization',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "profile" */ '../components/Organization.vue'),
+    component: () => import(/* webpackChunkName: "organizations" */ '../components/Organization.vue'),
     beforeEnter: ifAuthenticated
   },
   {
@@ -66,7 +74,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "profile" */ '../components/Project.vue'),
+    component: () => import(/* webpackChunkName: "projects" */ '../components/Project.vue'),
     beforeEnter: ifAuthenticated
   },
   {
@@ -77,6 +85,23 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "forgotPassword" */ '../components/ForgotPassword.vue'),
     beforeEnter: ifNotAuthenticated
+  },
+  {
+    path: '/verify',
+    name: 'Verify',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "verify" */ '../components/VerifyEmail.vue'),
+    beforeEnter: ifHasEmailVerified
+  },
+  {
+    path: '/email/verify/success',
+    name: 'Verify successfull',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "verify-successfull" */ '../components/EmailVerified.vue'),
   }
 ]
 

@@ -2,7 +2,7 @@
     <div class="wrapper">
         <div class=" text-center mt-4 font-lexend text-2xl text-title">
             <h1>{{title}}</h1>
-            <!-- <slot /> -->
+            <slot />
         </div>
     </div>
 </template>

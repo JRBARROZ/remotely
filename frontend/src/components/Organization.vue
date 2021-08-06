@@ -110,7 +110,7 @@
 <script>
 import { mapState } from "vuex";
 import NavBar from './NavBar';
-import PageWrapper from './PageWrapper'
+import PageWrapper from './PageWrapper';
 export default {
   components: { NavBar, PageWrapper },
   data() {

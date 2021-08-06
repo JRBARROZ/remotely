@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-const server = "http://remotely-env-1.eba-pb84dq6t.sa-east-1.elasticbeanstalk.com/api";
+const server = "http://localhost:8000/api";
 const axios = require("axios").default;
 
 const auth = {
@@ -40,7 +40,7 @@ const auth = {
           });
       });
     },
-    signUp: ({ commit }, data) => {
+    signUp: ({ commit, dispatch }, data) => {
       return new Promise((resolve, reject) => {
         commit("request", null, { root: true });
         axios
@@ -82,7 +82,10 @@ const auth = {
           options
         );
         if (response.status === 200) {
+          console.log('entrou');
           commit("setLoggedUser", response.data);
+          const emailVerified = response.data.email_verified_at !== null;
+          commit("hasValidatedEmail", emailVerified, { root: true });
           localStorage.setItem("logged-user", JSON.stringify(response.data));
         }
       } catch (error) {
@@ -115,6 +118,22 @@ const auth = {
           });
       });
     },
+    resendVerificationEmail: ({ commit, rootState }) => {
+      const options = {
+        headers: {
+          Authorization: `Bearer ${rootState.token}`,
+        },
+      };
+      axios.get(`${server}/auth/email/verify/resend`, options)
+        .then((response) => {
+          commit("success", "Email enviado", { root: true });
+          console.log('response',response.data);
+        })
+        .catch((error) => {
+          commit("error", error.response.data.message, { root: true });
+          console.log(error.response.data);
+        });
+    }
   },
 };
 
@@ -259,13 +278,18 @@ const project = {
 export default createStore({
   state: {
     token: localStorage.getItem("user-token") ?? "",
+    emailValidated: false,
     status: [],
   },
   getters: {
+    hasEmailVerified: (state) => state.emailValidated,
     isAuthenticated: (state) => state.token,
     authStatus: (state) => state.status,
   },
   mutations: {
+    hasValidatedEmail: (state, value) => {
+      state.emailValidated = value;
+    },
     request: (state) => {
       state.status = [null, "Loading..."];
     },

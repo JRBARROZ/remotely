@@ -1,10 +1,10 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Events\Registered;
 use App\Models\User;
 use Validator;
 
@@ -17,7 +17,12 @@ class AuthController extends Controller
 	 */
 	public function __construct()
 	{
-		$this->middleware('auth:api', ['except' => ['login', 'register', 'forgotPassword']]);
+		$this->middleware('auth:api', ['except' => ['login', 'register', 'forgotPassword', 'home']]);
+	}
+
+	public function home(Request $request) {
+
+		return response()->json($request->id, 201);
 	}
 
 	/**
@@ -61,7 +66,6 @@ class AuthController extends Controller
 		if (!$token = auth('api')->attempt($validator->validated())) {
 			return response()->json(['error' => 'Unauthorized'], 401);
 		}
-
 		return $this->createNewToken($token);
 	}
 
@@ -86,13 +90,18 @@ class AuthController extends Controller
 			$validator->validated(),
 			['password' => bcrypt($request->password)]
 		));
+		
+		event(new Registered($user));
 
 		return response()->json([
 			'message' => 'User successfully registered',
 			'user' => $user
 		], 201);
 	}
-
+	
+	public function sendMail() {
+		return response()->json("Please, verify your mail's inbox", 200);
+	}
 
 	/**
 	 * Log the user out (Invalidate the token).
@@ -135,6 +144,7 @@ class AuthController extends Controller
 	 */
 	protected function createNewToken($token)
 	{
+		$user = auth()->user();
 		return response()->json([
 			'access_token' => $token,
 			'token_type' => 'bearer',

@@ -5,6 +5,7 @@
       Hello, {{ this.loggedUser.name }}
     </h2>
     <h2 class="text-xl" v-else>There are no user logged in</h2>
+    Email validated: {{emailValidated}}
   </div>
 </template>
 
@@ -16,6 +17,7 @@ export default {
   name: "Home",
   computed: {
     ...mapState('auth', {loggedUser: state => state.loggedUser}),
+    ...mapState(['emailValidated']),
   },
   methods: {
   },
