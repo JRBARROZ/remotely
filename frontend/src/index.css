@@ -4,6 +4,9 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400&family=Lexend+Deca&display=swap');
 @layer base{
+    body {
+        @apply font-comfoorta;
+    }
     .wrapper {
         width: calc(100vw);
         height: calc(100vh - (68px + 64px));
