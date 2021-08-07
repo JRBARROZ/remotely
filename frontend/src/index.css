@@ -9,4 +9,11 @@
         height: calc(100vh - (68px + 64px));
         @apply bg-remotely-pattern bg-repeat -mt-3;
     }
+    .active > svg > path {
+        transition:0.3s;
+        fill-opacity: 1;
+    }
+    .active-exact > svg > path {
+        fill-opacity: 1;
+    }
 }

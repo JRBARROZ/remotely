@@ -3,7 +3,7 @@ import Home from '../views/Home.vue';
 import store from '../store';
 
 const ifNotAuthenticated = (to, from, next) => {
-  if (!store.getters['auth/isAuthenticated']) {
+  if (!store.getters['isAuthenticated']) {
     next();
     return;
   }
@@ -19,7 +19,7 @@ const ifAuthenticated = (to, from, next) => {
 }
 
 const ifHasEmailVerified = (to, from , next) => {
-  if (store.getters.hasEmailVerified) {
+  if (store.getters['hasEmailVerified']) {
     next();
     return;
   }
@@ -107,7 +107,9 @@ const routes = [
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes
+  routes,
+  linkActiveClass: "active",
+  linkExactActiveClass: "active-exact"
 })
 
 export default router;
