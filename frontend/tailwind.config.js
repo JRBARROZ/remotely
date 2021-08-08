@@ -16,6 +16,7 @@ module.exports = {
         'primary': '#8988FD',
         'input-text': '#A8A8D3',
         'title': '#58588B',
+        'light-purple': '#E7E7FF',
       },
       animation: {
         'spin-once': 'spino 0.5s linear forwards',

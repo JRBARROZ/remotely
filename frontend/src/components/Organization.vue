@@ -3,7 +3,8 @@
   <div class="flex flex-col items-center">
   <NavBar />
   <PageWrapper title="Minhas Organizações">
-    <h1 class="text-3xl mb-4 text-gray-700">My organizations</h1>
+    <Box title="Organization 1" subtitle="organization" />
+    <!-- <h1 class="text-3xl mb-4 text-gray-700">My organizations</h1>
     <table>
       <thead>
         <tr class="text-lg text-gray-700 mt-5">
@@ -102,17 +103,19 @@
           </form>
         </div>
       </div>
-    </div>
+    </div> -->
   </PageWrapper>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import Box from './Box';
 import NavBar from './NavBar';
 import PageWrapper from './PageWrapper';
+
 export default {
-  components: { NavBar, PageWrapper },
+  components: { NavBar, PageWrapper, Box },
   data() {
     return {
       showModal: false,

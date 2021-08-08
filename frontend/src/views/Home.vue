@@ -189,6 +189,7 @@
             border-none
           "
           type="submit"
+          v-if="Object.keys(loggedUser).length === 0"
           @click.prevent="sendToRegister()"
         >
           Começar
