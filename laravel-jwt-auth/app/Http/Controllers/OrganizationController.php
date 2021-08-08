@@ -27,7 +27,12 @@ class OrganizationController extends Controller
     public function store(Request $request)
     {
         $user_id = auth()->user()->id;
-        Organization::create(["name" => $request->name, "creator_id" => $user_id]);
+        $org = Organization::create(["name" => $request->name, "creator_id" => $user_id]);
+        Organization::find($org->id)->users()->attach($user_id, [
+            'role' => 'creator',
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
         return response("Success", 200);
     }
 
@@ -51,7 +56,9 @@ class OrganizationController extends Controller
     public function getList()
     {
         $user_id = auth()->user()->id;
-        $orgList = Organization::where('creator_id', '=', $user_id)->get();
+        $orgList = Organization::whereHas('users', function ($query) use ($user_id) {
+            $query->where('user_id', $user_id);
+        })->select('created_at', 'id', 'name', 'updated_at')->get();
         return response()->json($orgList);
     }
 
@@ -63,7 +70,7 @@ class OrganizationController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
-    {   
+    {
         $user_id = auth()->user()->id;
         if (Organization::where('creator_id', '=', $user_id)->where('id', '=', $request->id)->count() == 1) {
             Organization::where('creator_id', '=', $user_id)->where('id', '=', $request->id)->update(["name" => $request->name]);

@@ -36,14 +36,12 @@ class ProjectController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
+    {
         $user_id = auth()->user()->id;
-        // $a = Organization::where('creator_id', '=', $user_id)->where('id', '=', $request->id)->count() == 1;
-        // echo $a;
         if (Organization::where('creator_id', '=', $user_id)->where('id', '=', $request->orgId)->count() == 1) {
-            Project::create(["name" => $request->name, "status" => $request->status, "creator_id" => $user_id, "org_id" => $request->orgId]);
-             return response("Success", 200);
-
+            $proj = Project::create(["name" => $request->name, "status" => $request->status, "creator_id" => $user_id, "org_id" => $request->orgId]);
+            Project::find($proj->id)->users()->attach($user_id);
+            return response("Success", 200);
         } else {
             return response("Forbidden", 403);
         }
@@ -68,7 +66,9 @@ class ProjectController extends Controller
     public function getList()
     {
         $user_id = auth()->user()->id;
-        $projList = Project::where('creator_id', '=', $user_id)->get();
+        $projList = Project::whereHas('users', function ($query) use ($user_id) {
+            $query->where('user_id', $user_id);
+        })->select('created_at', 'id', 'name', 'org_id', 'status', 'updated_at')->get();
         return response()->json($projList);
     }
 
@@ -90,10 +90,10 @@ class ProjectController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
-    {   
+    {
         $user_id = auth()->user()->id;
         if (Project::where('creator_id', '=', $user_id)->where('id', '=', $request->id)->count() == 1) {
-            Project::where('creator_id', '=', $user_id)->where('id', '=', $request->id)->update(["name" => $request->name,"status" => $request->status]);
+            Project::where('creator_id', '=', $user_id)->where('id', '=', $request->id)->update(["name" => $request->name, "status" => $request->status]);
             return response("Updated", 200);
         } else {
             return response("Forbidden", 403);
