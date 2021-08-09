@@ -18,8 +18,8 @@ class CreateProjectsTable extends Migration
             $table->string('name');
             $table->timestamps();
             $table->string('status');
-            $table->foreignId('creator_id')->constrained('users');
-            $table->foreignId('org_id')->constrained('organizations');
+            $table->foreignId('creator_id')->constrained('users')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('org_id')->constrained('organizations')->references('id')->on('organizations')->onDelete('cascade');
         });
     }
 

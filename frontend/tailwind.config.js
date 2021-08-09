@@ -11,12 +11,17 @@ module.exports = {
         'comfoorta': 'Comfortaa, cursive',
         'lexend': 'Lexend Deca, sans-serif',
       },
+      fontSize: {
+        'xsm': '.5625rem',
+      },
       colors: {
         'input': '#E2E2FF',
         'primary': '#8988FD',
         'input-text': '#A8A8D3',
         'title': '#58588B',
         'light-purple': '#E7E7FF',
+        'medium-purple': '#AEAEFF',
+        'medium-dark-purple': '#8C8BFF'
       },
       animation: {
         'spin-once': 'spino 0.5s linear forwards',
