@@ -1,9 +1,10 @@
 <template>
-  <div class="flex flex-col h-72 mx-4 blue bg-light-purple rounded-t-md">
+  <div class="flex flex-col h-72 mx-4 mt-5 blue bg-light-purple rounded-t-md">
     <div class="flex items-center justify-between w-full h-14 bg-primary rounded-t-md">
       <h1 class="font-comfoorta ml-4 text-white">{{ title }}</h1>
-      <div class="flex gap-1 mr-4">
-        <p class="font-comfoorta text-white text-xs w-24">Create a new {{ subtitle }}</p>
+      <slot name="header"></slot>
+      <!-- <div class="flex gap-1 mr-4 cursor-pointer" @click="handleClick">
+        <p class="font-comfoorta text-white text-xs w-24">Criar {{ subtitle }}</p>
         <svg
           width="27"
           height="27"
@@ -15,8 +16,9 @@
             fill="white"
           />
         </svg>
-      </div>
+      </div> -->
     </div>
+    <slot />
   </div>
 </template>
 <script>
@@ -24,6 +26,12 @@ export default {
   props: {
     title: String,
     subtitle: String,
+    link: String,
   },
+  methods:{
+    handleClick(){
+      this.$router.push(this.link)
+    }
+  }
 };
 </script>

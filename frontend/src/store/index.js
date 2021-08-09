@@ -280,6 +280,8 @@ export default createStore({
     token: localStorage.getItem("user-token") ?? "",
     emailValidated: false,
     status: [],
+    addItem: true,
+    loading: false,
   },
   getters: {
     hasEmailVerified: (state) => state.emailValidated,
@@ -289,6 +291,12 @@ export default createStore({
   mutations: {
     hasValidatedEmail: (state, value) => {
       state.emailValidated = value;
+    },
+    setLoading: (state, payload) =>{
+      state.loading = payload;
+    },
+    setAddItem: (state, payload) =>{
+      state.addItem = payload;
     },
     request: (state) => {
       state.status = [null, "Loading..."];
