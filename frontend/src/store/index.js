@@ -82,7 +82,7 @@ const auth = {
           options
         );
         if (response.status === 200) {
-          console.log('entrou');
+          console.log("entrou");
           commit("setLoggedUser", response.data);
           const emailVerified = response.data.email_verified_at !== null;
           commit("hasValidatedEmail", emailVerified, { root: true });
@@ -124,16 +124,17 @@ const auth = {
           Authorization: `Bearer ${rootState.token}`,
         },
       };
-      axios.get(`${server}/auth/email/verify/resend`, options)
+      axios
+        .get(`${server}/auth/email/verify/resend`, options)
         .then((response) => {
           commit("success", "Email enviado", { root: true });
-          console.log('response',response.data);
+          console.log("response", response.data);
         })
         .catch((error) => {
           commit("error", error.response.data.message, { root: true });
           console.log(error.response.data);
         });
-    }
+    },
   },
 };
 
@@ -144,7 +145,17 @@ const organization = {
   },
   mutations: {
     changeOrgList: (state, payload) => {
-      state.orgList = payload;
+      if(payload != null){
+        state.orgList = payload;
+      }
+      for (const org of state.orgList) {
+        org["projects"] = [];
+        for (const proj of JSON.parse(localStorage.getItem("projList")) ?? []) {
+          if (org.id == proj.org_id) {
+            org.projects.push(proj);
+          }
+        }
+      }
       localStorage.setItem("orgList", JSON.stringify(state.orgList));
     },
   },
@@ -190,11 +201,12 @@ const organization = {
         }
       }
     },
-    remove: async ({ commit, state, rootState }, index) => {
+    remove: async ({ commit, dispatch, state, rootState }, index) => {
       const response = await axios.delete(`${server}/organization/${index}`, {
         headers: { Authorization: `Bearer ${rootState.token}` },
       });
       if (response.status === 200) {
+        dispatch("project/setList", null, {root: true})
         for (const key in state.orgList) {
           if (state.orgList[key].id === index) {
             state.orgList.splice(key, 1);
@@ -225,7 +237,7 @@ const project = {
       });
       dispatch("setList");
     },
-    setList: async ({ commit, rootState }) => {
+    setList: async ({ commit, dispatch, rootState }) => {
       const options = {
         headers: {
           Authorization: `Bearer ${rootState.token}`,
@@ -233,6 +245,7 @@ const project = {
       };
       const response = await axios.get(`${server}/project/list`, options);
       commit("changeProjList", response.data);
+      commit("organization/changeOrgList", null, { root: true });
     },
     update: async ({ state, commit, rootState }, data) => {
       const options = {
@@ -253,6 +266,7 @@ const project = {
             proj.status = data.status;
             state.projList.splice(key, 1, proj);
             commit("changeProjList", state.projList);
+            commit("organization/changeOrgList", null, { root: true });
             break;
           }
         }
@@ -267,6 +281,7 @@ const project = {
           if (state.projList[key].id === index) {
             state.projList.splice(key, 1);
             commit("changeProjList", state.projList);
+            commit("organization/changeOrgList", null, { root: true });
             break;
           }
         }
@@ -292,10 +307,10 @@ export default createStore({
     hasValidatedEmail: (state, value) => {
       state.emailValidated = value;
     },
-    setLoading: (state, payload) =>{
+    setLoading: (state, payload) => {
       state.loading = payload;
     },
-    setAddItem: (state, payload) =>{
+    setAddItem: (state, payload) => {
       state.addItem = payload;
     },
     request: (state) => {

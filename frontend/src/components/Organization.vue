@@ -4,7 +4,7 @@
   <NavBar />
   <PageWrapper :title="addItem ? 'Minhas Organizações' : 'Adicionar Organização' ">
       <div v-if="addItem">
-        <Box v-for="(org, index) in orgList" :key="index" :ref="org + index" :title="org.name" subtitle="Novo Projeto" link="projects">
+        <Box v-for="(org, index) in orgList" :key="index" :ref="org + index" :title="org.name" subtitle="Novo Projeto">
         <template v-slot:header>
           <div class="flex items-center gap-2 mr-2">
               <img
@@ -17,27 +17,12 @@
               <img
                 src="../assets/delete.svg"
                 class="inline h-8 w-9 hover:cursor-pointer"
-                @click="remove(org.name,org.id)"
+                @click="remove(org.name, org.id)"
                 alt="Delete-Button"
               />
           </div>
         </template>
-        <!-- <table>
-          <thead>
-            <tr class="text-lg text-gray-700 mt-5">
-              <th>Name</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tr v-for="(org, index) in orgList" :key="index" :ref="org + index">
-            <td class="px-3">{{ org.name }}</td>
-            <td class="px-3">{{ org.status }}</td>
-            <td class="px-3">
-
-            </td>
-          </tr>
-        </table> -->
+        <BoxItem v-for="(proj, index) in org.projects" :key="index" :title="proj.name" :status="proj.status"/>
       </Box>
     </div>
     <div v-else>
@@ -110,7 +95,7 @@
             Editar Organização
           </h1>
           <form
-            action="#/organization"
+            action="#/organizations"
             class="flex flex-col gap-1 mx-auto"
             autocomplete="off"
           >
@@ -149,11 +134,12 @@
 <script>
 import { mapState } from "vuex";
 import Box from './Box';
+import BoxItem from './BoxItem';
 import NavBar from './NavBar';
 import PageWrapper from './PageWrapper';
 import MainButton from './MainButton'
 export default {
-  components: { NavBar, PageWrapper, Box, MainButton },
+  components: { NavBar, PageWrapper, Box, BoxItem, MainButton },
   data() {
     return {
       showModal: false,
@@ -168,6 +154,8 @@ export default {
       addItem: state => state.addItem
     }),
     ...mapState("organization", { orgList: (state) => state.orgList }),
+    ...mapState("project", { projList: (state) => state.projList }),
+
   },
   methods: {
     handleCancel(e){

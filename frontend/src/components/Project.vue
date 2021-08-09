@@ -1,148 +1,229 @@
 <template>
-
   <div class="flex flex-col items-center">
     <NavBar />
-    <PageWrapper title="Meus Projetos">
-    <h1 class="text-3xl mb-4 text-gray-700">Your projects</h1>
+    <PageWrapper :title="addItem ? 'Meus Projetos' : 'Adicionar projeto'">
+      <div v-if="addItem">
+        <Box
+          v-for="(proj, index) in projList"
+          :key="index"
+          :ref="proj + index"
+          :title="proj.name"
+          subtitle="Novo Projeto"
+          link="projects"
+        >
+          <template v-slot:header>
+            <div class="flex items-center gap-2 mr-2">
+              <img
+                src="../assets/edit.svg"
+                class="inline h-6 w-7 hover:cursor-pointer"
+                @click="toggleEditBox(proj)"
+                alt="Edit-Button"
+              />
 
-    <table>
-      <thead>
-        <tr class="text-lg text-gray-700 mt-5">
-          <th>Name</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tr v-for="(proj, index) in projList" :key="index" :ref="proj + index">
-        <td class="px-3">{{ proj.name }}</td>
-        <td class="px-3">{{ proj.status }}</td>
-        <td class="px-3">
-          <img
-            src="../assets/edit.svg"
-            class="inline h-6 w-7"
-            @click="toggleEditBox(proj)"
-            alt="Edit-Button"
-          />
-
-          <img
-            src="../assets/delete.svg"
-            class="inline h-8 w-9"
-            @click="remove(proj.id)"
-            alt="Delete-Button"
-          />
-        </td>
-      </tr>
-    </table>
-    <div class="flex flex-col">
-      <h1 class="text-2xl text-gray-700 mt-5">Create a new project</h1>
-      <label for="proj-name" class="text-sm mt-2 font-medium">
-        Choose the organization:
-      </label>
-
-      <select
-        v-model="this.projData.orgId"
-        class="bg-white border pl-2 rounded text-gray-600 h-8 w-64"
-      >
-        <option v-for="(org, index) in orgList" :key="index" :value="org.id">
-          {{ org.name }}
-        </option>
-      </select>
-      <label for="proj-name" class="text-sm mt-2 font-medium">
-        Write the name:
-      </label>
-      <input
-        type="text"
-        v-model="projData.name"
-        placeholder="Project Name"
-        class="border pl-2 rounded text-gray-600 h-8"
-      />
-
-      <input
-        type="submit"
-        class="bg-gray-700 h-8 text-white rounded-md mt-2"
-        value="Send"
-        @click="handleSubmit"
-      />
-    </div>
-    <div
-      class="
-        bg-gray-900 bg-opacity-50
-        min-h-screen min-w-full
-        z-30
-        fixed
-        top-0
-        flex flex-col
-        justify-center
-        items-center
-      "
-      v-if="showModal"
-      @click="toggleEditBox"
-    >
-      <div
-        class="bg-white w-3/4 h-72 z-40 md:w-96"
-        @click.stop="eventPropagation"
-      >
-        <div class="flex flex-col items-center gap-3 m-auto">
-          <h1 class="text-2xl text-center mt-2 text-gray-700">Edit Project</h1>
+              <img
+                src="../assets/delete.svg"
+                class="inline h-8 w-9 hover:cursor-pointer"
+                @click="remove(proj.name, proj.id)"
+                alt="Delete-Button"
+              />
+            </div>
+          </template>
+        </Box>
+      </div>
+      <div v-else>
+        <div>
           <form
-            action="#/projects"
-            class="flex flex-col gap-1 mx-auto"
+            class="flex flex-col gap-96 px-6"
             autocomplete="off"
+            @submit="handleSubmit"
           >
-            <label class="text-sm mt-2 font-medium">
-              Name:
+            <div class="relative mt-5">
               <input
+                type="text"
+                v-model="projData.name"
+                class="
+                  text-gray-600
+                  peer
+                  h-10
+                  w-full
+                  border
+                  rounded
+                  pl-2
+                  bg-input
+                  placeholder-transparent
+                  focus:outline-none
+                "
                 id="proj-name"
-                type="text"
-                class="
-                  outline-none
-                  w-full
-                  h-10
-                  border
-                  pl-2
-                  rounded
-                  text-gray-600
-                "
-                v-model="this.projData.name"
+                placeholder="Nome da organização"
               />
-            </label>
-            <label class="text-sm mt-2 font-medium"
-              >Status:
-              <input
-                type="text"
+              <label
+                for="proj-name"
                 class="
-                  outline-none
-                  w-full
-                  h-10
-                  border
-                  pl-2
-                  rounded
-                  text-gray-600
+                  absolute
+                  left-2
+                  -top-5
+                  text-input-text text-sm
+                  transition-all
+                  peer-placeholder-shown:text-base
+                  peer-placeholder-shown:text-gray-400
+                  peer-placeholder-shown:top-2
+                  peer-focus:-top-5
+                  peer-focus:left-0
+                  peer-focus:text-title
+                  peer-focus:text-sm
                 "
-                v-model="this.projData.status"
-              />
-            </label>
-            <button
-              class="bg-gray-700 h-8 text-white rounded-md mt-2"
-              type="submit"
-              @click="handleEditSubmit(this.projData)"
-            >
-              Send
-            </button>
+                >Nome</label
+              >
+              <select
+                v-model="projData.orgId"
+                class="
+                  text-gray-600
+                  peer
+                  h-10
+                  w-full
+                  border
+                  rounded
+                  mt-5
+                  pl-2
+                  bg-input
+                  placeholder-transparent
+                  focus:outline-none
+                "
+                id="proj-organization"
+                placeholder="Nome da organização"
+              >
+                <option
+                  v-for="(org, index) in orgList"
+                  :key="index"
+                  :value="org.id"
+                >
+                  {{ org.name }}
+                </option>
+              </select>
+              <label
+                for="proj-organization"
+                class="
+                  absolute
+                  left-2
+                  -top-5
+                  mt-16
+                  text-input-text text-sm
+                  transition-all
+                  peer-placeholder-shown:text-base
+                  peer-placeholder-shown:text-gray-400
+                  peer-placeholder-shown:top-2
+                  peer-focus:-top-5
+                  peer-focus:left-0
+                  peer-focus:text-title
+                  peer-focus:text-sm
+                "
+                >Organização</label
+              >
+              <div class="flex gap-2">
+                <button
+                  class="bg-red-200 rounded-md p-2 mt-2 hover:bg-red-300"
+                  type="button"
+                  @click="handleCancel"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  class="bg-green-200 rounded-md p-2 mt-2 hover:bg-green-300"
+                >
+                  Confirmar
+                </button>
+              </div>
+            </div>
           </form>
         </div>
       </div>
-    </div>
+
+      <div
+        class="
+          bg-gray-900 bg-opacity-50
+          min-h-screen min-w-full
+          z-30
+          fixed
+          top-0
+          flex flex-col
+          justify-center
+          items-center
+        "
+        v-if="showModal"
+        @click="toggleEditBox"
+      >
+        <div
+          class="bg-white w-3/4 h-72 z-40 md:w-96 p-5"
+          @click.stop="eventPropagation"
+        >
+          <div class="flex flex-col items-center gap-3 m-auto">
+            <h1 class="text-2xl text-center mt-2 text-gray-700">
+              Editar Projeto
+            </h1>
+            <form
+              action="#/projects"
+              class="flex flex-col gap-1 mx-auto"
+              autocomplete="off"
+            >
+              <label class="text-sm text-left mt-2 flex flex-col font-medium">
+                Name:
+                <input
+                  id="proj-name"
+                  type="text"
+                  class="
+                    outline-none
+                    w-full
+                    h-10
+                    border
+                    pl-2
+                    rounded
+                    text-gray-600
+                  "
+                  v-model="this.projData.name"
+                />
+              </label>
+              <label class="text-sm mt-2 font-medium"
+                >Status:
+                <input
+                  type="text"
+                  class="
+                    outline-none
+                    w-full
+                    h-10
+                    border
+                    pl-2
+                    rounded
+                    text-gray-600
+                  "
+                  v-model="this.projData.status"
+                />
+              </label>
+              <button
+                class="bg-primary h-8 text-white rounded-md mt-2"
+                type="submit"
+                @click="handleEditSubmit(this.projData)"
+              >
+                Send
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <MainButton />
     </PageWrapper>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import NavBar from './NavBar'
-import PageWrapper from './PageWrapper'
+import NavBar from "./NavBar";
+import Box from "./Box";
+import MainButton from "./MainButton.vue";
+import PageWrapper from "./PageWrapper";
+
 export default {
-  components: { NavBar, PageWrapper },
+  components: { NavBar, PageWrapper, Box, MainButton },
   data() {
     return {
       showModal: false,
@@ -154,18 +235,25 @@ export default {
     };
   },
   computed: {
+    ...mapState({ addItem: (state) => state.addItem }),
     ...mapState("organization", { orgList: (state) => state.orgList }),
     ...mapState("project", { projList: (state) => state.projList }),
   },
   methods: {
+    handleCancel(e){
+      e.preventDefault;
+      if(confirm("Você realmente deseja cancelar a criação ? ")) this.$store.commit('setAddItem', true);
+    },
     handleSubmit() {
       if (this.projData.name.trim() === "" || this.projData.orgId === null)
         return alert("all fields must be filled in");
       this.$store.dispatch("project/add", this.projData);
+      this.$store.commit("setAddItem", true);
       this.projData.name = "";
     },
-    remove(index) {
-      this.$store.dispatch("project/remove", index);
+    remove(name, index) {
+      if (confirm(`Deseja Realmente Deletar o Projeto: " ${name} " ?`))
+        this.$store.dispatch("project/remove", index);
     },
     toggleEditBox(proj) {
       this.showModal = !this.showModal;
@@ -180,7 +268,8 @@ export default {
           this.projData.name = "";
           this.projData.id = null;
           this.showModal = false;
-          this.projData.status = "Ongoing"
+          this.projData.status = "Ongoing";
+          this.$router.push("projects");
         })
         .catch(() => console.log("Não foi possível editar o projeto"));
     },
