@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\VerifyEmailController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TaskController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -66,4 +67,14 @@ Route::group([
 	Route::get('/list', [ProjectController::class, 'getList']);
 	Route::delete('/{id}', [ProjectController::class, 'destroy']);
 	Route::put('/update', [ProjectController::class, 'update']);
+});
+
+Route::group([
+	'middleware' => 'api',
+	'prefix' => 'task'
+], function($router){
+	Route::post('/add', [TaskController::class, 'store']);
+	Route::get('/list', [TaskController::class, 'getList']);
+	Route::delete('/{id}', [TaskController::class, 'destroy']);
+	Route::put('/update', [TaskController::class, 'update']);
 });
