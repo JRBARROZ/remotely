@@ -20,6 +20,9 @@ export default {
   updated() {
     console.log('url',this.$router.currentRoute._rawValue.path);
   },
+  mounted() {
+    this.$store.dispatch('auth/userRequest');
+  },
   methods: {
     logout() {
       this.$store.dispatch('auth/logout')

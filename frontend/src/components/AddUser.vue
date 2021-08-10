@@ -155,7 +155,7 @@
 import { mapState } from "vuex";
 
 export default {
-  created() {
+  updated() {
     setTimeout(() => {
       this.$store.commit("resetStatus");
     }, 2500);
@@ -181,7 +181,7 @@ export default {
         this.currentUser.email.trim() === "" ||
         this.currentUser.password.trim() === ""
       )
-        return alert("all fields must be filled in");
+        return alert("Todos os campos devem ser preenchidos");
       this.$store.dispatch("auth/signUp", this.currentUser).then((res) => {
         if (res.status === 201) this.$router.push("/login");
       });

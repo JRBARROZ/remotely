@@ -2,30 +2,6 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 import Home from '../views/Home.vue';
 import store from '../store';
 
-const ifNotAuthenticated = (to, from, next) => {
-  if (!store.getters['isAuthenticated']) {
-    next();
-    return;
-  }
-  next('/');
-}
-
-const ifAuthenticated = (to, from, next) => {
-  if (store.getters['isAuthenticated']) {
-    next();
-    return;
-  }
-  next('/login');
-}
-
-const ifHasEmailVerified = (to, from , next) => {
-  if (store.getters['hasEmailVerified']) {
-    next();
-    return;
-  }
-  next('/verify');
-}
-
 const routes = [
   {
     path: '/',
@@ -39,7 +15,9 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "register" */ '../components/AddUser.vue'),
-    beforeEnter: ifNotAuthenticated
+    meta: {
+      isNotLogged: true,
+    }
   },
   {
     path: '/login',
@@ -48,7 +26,9 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "login" */ '../components/Login.vue'),
-    beforeEnter: ifNotAuthenticated
+    meta: {
+      isNotLogged: true,
+    }
   },
   {
     path: '/profile',
@@ -57,7 +37,10 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "profile" */ '../components/UserProfile.vue'),
-    beforeEnter: ifAuthenticated
+    meta: {
+      isLogged: true,
+      emailVerified: true
+    }
   },
   {
     path: '/organizations',
@@ -66,7 +49,10 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "organizations" */ '../components/Organization.vue'),
-    beforeEnter: ifAuthenticated
+    meta: {
+      isLogged: true,
+      emailVerified: true
+    }
   },
   {
     path: '/projects',
@@ -75,7 +61,10 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "projects" */ '../components/Project.vue'),
-    beforeEnter: ifAuthenticated
+    meta: {
+      isLogged: true,
+      emailVerified: true
+    }
   },
   {
     path: '/forgot-password',
@@ -84,7 +73,9 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "forgotPassword" */ '../components/ForgotPassword.vue'),
-    beforeEnter: ifNotAuthenticated
+    meta: {
+      isNotLogged: true,
+    }
   },
   {
     path: '/verify',
@@ -93,6 +84,10 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "verify" */ '../components/VerifyEmail.vue'),
+    meta: {
+      isLogged: true,
+      emailUnverified: true
+    }
   },
   {
     path: '/email/verify/success',
@@ -101,7 +96,10 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "verify-successfull" */ '../components/EmailVerified.vue'),
-    beforeEnter: ifHasEmailVerified
+    meta: {
+      isLogged: true,
+      emailVerified: true
+    }
   }
 ]
 
@@ -112,4 +110,33 @@ const router = createRouter({
   linkExactActiveClass: "active-exact"
 })
 
+router.beforeEach((to, from, next) => {
+  if (to.matched.length == 0) {
+    next('/');
+    return;
+  }
+  const record = to.matched[0];
+
+  if (record.meta.isLogged && !store.getters['isAuthenticated']) {
+    next('/login');
+    return;
+  }
+
+  if (record.meta.isNotLogged && store.getters['isAuthenticated']) {
+    next('/');
+    return;
+  }
+
+  if (record.meta.emailVerified && !store.getters['hasEmailVerified']) {
+    next('/verify');
+    return;
+  }
+
+  if (record.meta.emailUnverified && store.getters['hasEmailVerified']) {
+    next('/');
+    return;
+  }
+
+  next();
+})
 export default router;

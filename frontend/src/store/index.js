@@ -72,6 +72,10 @@ const auth = {
     userRequest: async ({ commit, rootState }) => {
       try {
         commit("request", null, { root: true });
+        if (!rootState.token) {
+          commit("resetStatus", null, { root: true });
+          return;
+        }
         const options = {
           headers: {
             Authorization: `Bearer ${rootState.token}`,
@@ -82,7 +86,6 @@ const auth = {
           options
         );
         if (response.status === 200) {
-          console.log("entrou");
           commit("setLoggedUser", response.data);
           const emailVerified = response.data.email_verified_at !== null;
           commit("hasValidatedEmail", emailVerified, { root: true });
