@@ -1,8 +1,8 @@
 <template>
   <div class="flex flex-col items-center">
     <NavBar />
-    <PageWrapper :title="addItem ? 'Meus Projetos' : 'Adicionar projeto'">
-      <div v-if="addItem">
+    <PageWrapper :title="addProject === false ? 'Meus Projetos' : 'Adicionar projeto'">
+      <div v-if="addProject === false && addTask === false">
         <Box
           v-for="(proj, index) in projList"
           :key="index"
@@ -14,12 +14,17 @@
           <template v-slot:header>
             <div class="flex items-center gap-2 mr-2">
               <img
+                src="../assets/add_task.svg"
+                class="inline h-6 w-7 hover:cursor-pointer"
+                @click="createTask(proj)"
+                alt="Add-Task-Button"
+              />
+              <img
                 src="../assets/edit.svg"
                 class="inline h-6 w-7 hover:cursor-pointer"
                 @click="toggleEditBox(proj)"
                 alt="Edit-Button"
               />
-
               <img
                 src="../assets/delete.svg"
                 class="inline h-8 w-9 hover:cursor-pointer"
@@ -28,115 +33,251 @@
               />
             </div>
           </template>
+          <BoxItem
+            v-for="(task, index) in proj.tasks"
+            :key="index"
+            :title="task.title"
+            :status="task.status"
+            @click="editTask(task)"
+          />
         </Box>
       </div>
-      <div v-else>
-        <div>
-          <form
-            class="flex flex-col gap-96 px-6"
-            autocomplete="off"
-            @submit="handleSubmit"
-          >
-            <div class="relative mt-5">
-              <input
-                type="text"
-                v-model="projData.name"
-                class="
-                  text-gray-600
-                  peer
-                  h-10
-                  w-full
-                  border
-                  rounded
-                  pl-2
-                  bg-input
-                  placeholder-transparent
-                  focus:outline-none
-                "
-                id="proj-name"
-                placeholder="Nome da organização"
-              />
-              <label
-                for="proj-name"
-                class="
-                  absolute
-                  left-2
-                  -top-5
-                  text-input-text text-sm
-                  transition-all
-                  peer-placeholder-shown:text-base
-                  peer-placeholder-shown:text-gray-400
-                  peer-placeholder-shown:top-2
-                  peer-focus:-top-5
-                  peer-focus:left-0
-                  peer-focus:text-title
-                  peer-focus:text-sm
-                "
-                >Nome</label
+
+      <div v-else-if="addProject && addTask === false">
+        <form
+          class="flex flex-col gap-1 px-6"
+          autocomplete="off"
+          @submit.prevent="handleSubmit"
+        >
+          <Input id="nome" labelText="Nome"  @getValue="(e) => this.projData.name = e"/>
+          <div class="relative mt-5">
+            <select
+              v-model="projData.orgId"
+              class="text-gray-600 peer
+              h-10 w-full border rounded
+              pl-2 bg-input placeholder-transparent
+              focus:outline-none"
+              id="proj-organization"
+            >
+              <option
+                v-for="(org, index) in orgList"
+                :key="index"
+                :value="org.id"
               >
-              <select
-                v-model="projData.orgId"
-                class="
-                  text-gray-600
-                  peer
-                  h-10
-                  w-full
-                  border
-                  rounded
-                  mt-5
-                  pl-2
-                  bg-input
-                  placeholder-transparent
-                  focus:outline-none
-                "
-                id="proj-organization"
-                placeholder="Nome da organização"
+                {{ org.name }}
+              </option>
+            </select>
+            <label
+              for="proj-organization"
+              class="absolute left-2 -top-5
+                text-input-text text-sm transition-all
+                peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400
+                peer-placeholder-shown:top-2 peer-focus:-top-5
+                peer-focus:left-0 peer-focus:text-title
+                peer-focus:text-sm"
+              >Organizações
+            </label>
+          </div>
+          <div class="flex gap-2">
+            <button
+              class="bg-red-200 rounded-md p-2 mt-2 hover:bg-red-300"
+              type="button"
+              @click="handleCancel"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              class="bg-green-200 rounded-md p-2 mt-2 hover:bg-green-300"
+            >
+              Confirmar
+            </button>
+          </div>
+        </form>
+      </div>
+      
+      <div v-else-if="addProject === false && addTask === true">
+        <form
+          class="flex flex-col gap-1 px-6"
+          autocomplete="off"
+          @submit.prevent="handleTaskSubmit"
+        >
+          <div class="relative mt-5">
+            <input
+              type="text"
+              v-model="taskData.title"
+              class="
+                text-gray-600
+                peer
+                h-10
+                w-full
+                border
+                rounded
+                pl-2
+                bg-input
+                placeholder-transparent
+                focus:outline-none
+              "
+              id="task-title"
+              placeholder="Nome da organização"
+            />
+            <label
+              for="task-title"
+              class="
+                absolute
+                left-2
+                -top-5
+                text-input-text text-sm
+                transition-all
+                peer-placeholder-shown:text-base
+                peer-placeholder-shown:text-gray-400
+                peer-placeholder-shown:top-2
+                peer-focus:-top-5
+                peer-focus:left-0
+                peer-focus:text-title
+                peer-focus:text-sm
+              "
+              >Título</label
+            >
+            <select
+              v-model="taskData.projId"
+              class="
+                text-gray-600
+                peer
+                h-10
+                w-full
+                border
+                rounded
+                mt-6
+                pl-2
+                bg-input
+                placeholder-transparent
+                focus:outline-none
+              "
+              id="task-project"
+            >
+              <option
+                v-for="(proj, index) in projList"
+                :key="index"
+                :value="proj.id"
               >
-                <option
-                  v-for="(org, index) in orgList"
-                  :key="index"
-                  :value="org.id"
-                >
-                  {{ org.name }}
-                </option>
-              </select>
-              <label
-                for="proj-organization"
-                class="
-                  absolute
-                  left-2
-                  -top-5
-                  mt-16
-                  text-input-text text-sm
-                  transition-all
-                  peer-placeholder-shown:text-base
-                  peer-placeholder-shown:text-gray-400
-                  peer-placeholder-shown:top-2
-                  peer-focus:-top-5
-                  peer-focus:left-0
-                  peer-focus:text-title
-                  peer-focus:text-sm
-                "
-                >Organização</label
+                {{ proj.name }}
+              </option>
+            </select>
+            <label
+              for="task-project"
+              class="
+                absolute
+                left-2
+                -top-5
+                mt-16
+                text-input-text text-sm
+                transition-all
+                peer-placeholder-shown:text-base
+                peer-placeholder-shown:text-gray-400
+                peer-placeholder-shown:top-2
+                peer-focus:-top-5
+                peer-focus:left-0
+                peer-focus:text-title
+                peer-focus:text-sm
+              "
+              >Projetos</label
+            >
+            <input
+              type="text"
+              v-model="taskData.deadline"
+              class="
+                text-gray-600
+                peer
+                h-10
+                w-full
+                border
+                rounded
+                mt-6
+                pl-2
+                bg-input
+                placeholder-transparent
+                focus:outline-none
+              "
+              @input="format('xx/xx/xxxx', this.taskData.deadline)"
+              id="task-deadline"
+              placeholder="Nome da organização"
+            />
+            <label
+              for="task-deadline"
+              class="
+                absolute
+                left-2
+                -top-5
+                mt-32
+                text-input-text text-sm
+                transition-all
+                peer-placeholder-shown:text-base
+                peer-placeholder-shown:text-gray-400
+                peer-placeholder-shown:top-2
+                peer-focus:-top-5
+                peer-focus:left-0
+                peer-focus:text-title
+                peer-focus:text-sm
+              "
+              >Data de entrega</label
+            >
+            <textarea
+              type="text"
+              v-model="this.taskData.description"
+              class="
+                text-gray-600
+                peer
+                h-10
+                w-full
+                border
+                rounded
+                mt-6
+                h-32
+                pl-2
+                bg-input
+                placeholder-transparent
+                focus:outline-none
+              "
+              id="task-description"
+              placeholder="Nome da organização"
+            />
+            <label
+              for="task-description"
+              class="
+                absolute
+                left-2
+                -top-5
+                mt-48
+                text-input-text text-sm
+                transition-all
+                peer-placeholder-shown:text-base
+                peer-placeholder-shown:text-gray-400
+                peer-placeholder-shown:top-2
+                peer-focus:-top-5
+                peer-focus:left-0
+                peer-focus:text-title
+                peer-focus:text-sm
+              "
+              >Descrição</label
+            >
+            <div class="flex gap-2">
+              <button
+                class="bg-red-200 rounded-md p-2 mt-2 hover:bg-red-300"
+                type="button"
+                @click="handleTaskCancel"
               >
-              <div class="flex gap-2">
-                <button
-                  class="bg-red-200 rounded-md p-2 mt-2 hover:bg-red-300"
-                  type="button"
-                  @click="handleCancel"
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  class="bg-green-200 rounded-md p-2 mt-2 hover:bg-green-300"
-                >
-                  Confirmar
-                </button>
-              </div>
+                Cancelar
+              </button>
+              <button
+                type="submit"
+                class="bg-green-200 rounded-md p-2 mt-2 hover:bg-green-300"
+              >
+                Confirmar
+              </button>
             </div>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
 
       <div
@@ -210,7 +351,7 @@
           </div>
         </div>
       </div>
-      <MainButton />
+      <MainButton storeRoute="project/setAddProject" />
     </PageWrapper>
   </div>
 </template>
@@ -219,37 +360,55 @@
 import { mapState } from "vuex";
 import NavBar from "./NavBar";
 import Box from "./Box";
+import BoxItem from "./BoxItem";
 import MainButton from "./MainButton.vue";
 import PageWrapper from "./PageWrapper";
+import Input from "./Input";
 
 export default {
-  components: { NavBar, PageWrapper, Box, MainButton },
+  components: { NavBar, PageWrapper, Box, BoxItem, MainButton, Input },
   data() {
     return {
       showModal: false,
+      showTaskModal: false,
       projData: {
         name: null,
         status: "Ongoing",
         orgId: null,
       },
+      taskData: {
+        title: "",
+        description: "",
+        projId: null,
+        deadline: null,
+      },
     };
   },
   computed: {
+    ...mapState("task", {
+      taskList: (state) => state.taskList,
+      addTask: (state) => state.addTask,
+    }),
     ...mapState({ addItem: (state) => state.addItem }),
     ...mapState("organization", { orgList: (state) => state.orgList }),
-    ...mapState("project", { projList: (state) => state.projList }),
+    ...mapState("project", {
+      projList: (state) => state.projList,
+      addProject: (state) => state.addProject,
+    }),
   },
   methods: {
-    handleCancel(e){
+    handleCancel(e) {
       e.preventDefault;
-      if(confirm("Você realmente deseja cancelar a criação ? ")) this.$store.commit('setAddItem', true);
+      if (confirm("Você realmente deseja cancelar a criação ? "))
+        this.$store.commit("project/setAddProject", false);
     },
     handleSubmit() {
       if (this.projData.name.trim() === "" || this.projData.orgId === null)
         return alert("all fields must be filled in");
       this.$store.dispatch("project/add", this.projData);
-      this.$store.commit("setAddItem", true);
       this.projData.name = "";
+      this.projData.orgId = null;
+      this.$store.commit("project/setAddProject", false);
     },
     remove(name, index) {
       if (confirm(`Deseja Realmente Deletar o Projeto: " ${name} " ?`))
@@ -272,6 +431,49 @@ export default {
           this.$router.push("projects");
         })
         .catch(() => console.log("Não foi possível editar o projeto"));
+    },
+    createTask(proj) {
+      this.$store.commit("task/setAddTask", true);
+    },
+    // toggleEditBox(task) {
+    //   this.showModal = !this.showModal;
+    //   this.taskData.name = task.name;
+    //   this.taskData.status = task.status ?? "Ongoing";
+    //   this.taskData.id = task.id;
+    // },
+    handleTaskSubmit() {
+      if (
+        this.taskData.title.trim() === "" ||
+        this.taskData.projId === null ||
+        this.taskData.description.trim() === "" ||
+        this.deadline === null
+      )
+        return alert("all fields must be filled in");
+      this.$store.dispatch("task/add", this.taskData);
+      this.taskData.title = "";
+      this.taskData.description = "";
+      this.taskData.projId = null;
+      this.taskData.deadline = null;
+      this.$store.commit("task/setAddTask", false);
+    },
+    format(mask, number) {
+      var stringNumber = "" + number.replaceAll("/", "");
+      var result = "";
+      // im = index mask
+      // is = index string (number)
+      for (
+        var im = 0, is = 0;
+        im < mask.length && is < stringNumber.length;
+        im++
+      ) {
+        result +=
+          mask.charAt(im) == "x" ? stringNumber.charAt(is++) : mask.charAt(im);
+      }
+      this.taskData.deadline = result;
+    },
+    handleTaskCancel() {
+      if (confirm("Você realmente deseja cancelar a criação ? "))
+        this.$store.commit("task/setAddTask", false);
     },
   },
 };

@@ -20,6 +20,7 @@ export default {
   created() {
     this.$store.dispatch("organization/setList");
     this.$store.dispatch("project/setList");
+    this.$store.dispatch("task/setList");
   },
   methods: {},
 };

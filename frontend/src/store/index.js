@@ -144,6 +144,7 @@ const auth = {
 const organization = {
   namespaced: true,
   state: {
+    addOrganization: false,
     orgList: JSON.parse(localStorage.getItem("orgList")) ?? [],
   },
   mutations: {
@@ -161,6 +162,9 @@ const organization = {
       }
       localStorage.setItem("orgList", JSON.stringify(state.orgList));
     },
+    setAddOrganization: (state, payload) => {
+      state.addOrganization = payload;
+    }
   },
   actions: {
     add: ({ dispatch, rootState }, rawData) => {
@@ -225,20 +229,36 @@ const organization = {
 const project = {
   namespaced: true,
   state: {
+    addProject: false,
     projList: JSON.parse(localStorage.getItem("projList")) ?? [],
   },
   mutations: {
     changeProjList: (state, payload) => {
-      state.projList = payload;
+      if(payload != null){
+        state.projList = payload;
+      }
+      for (const proj of state.projList) {
+        proj["tasks"] = [];
+        for (const task of JSON.parse(localStorage.getItem("taskList")) ?? []) {
+          if (proj.id == task.project_id) {
+            proj.tasks.push(task);
+          }
+        }
+      }
       localStorage.setItem("projList", JSON.stringify(state.projList));
     },
+    setAddProject: (state, payload) => {
+      state.addProject = payload;
+    }
   },
   actions: {
-    add: ({ dispatch, rootState }, data) => {
-      axios.post(`${server}/project/add`, data, {
+    add: async ({ dispatch, rootState }, data) => {
+      const response = await axios.post(`${server}/project/add`, data, {
         headers: { Authorization: `Bearer ${rootState.token}` },
       });
-      dispatch("setList");
+      if(response.status == 200){
+        dispatch("setList");
+      }
     },
     setList: async ({ commit, dispatch, rootState }) => {
       const options = {
@@ -293,12 +313,60 @@ const project = {
   },
 };
 
+const task = {
+  namespaced: true,
+  state: {
+    addTask: false,
+    taskList: JSON.parse(localStorage.getItem("taskList")) ?? [],
+  },
+  mutations: {
+    changeTaskList: (state, payload) => {
+      state.taskList = payload;
+      localStorage.setItem("taskList", JSON.stringify(state.taskList));
+    },
+    setAddTask: (state, payload) => {
+      state.addTask  = payload;
+    }
+  },
+  actions: {
+    add: async ({ dispatch, rootState }, rawData) => {
+      let date = rawData.deadline.split('/');
+      for (let i = 0; i < date.length; i++) {
+        const element = date[i];
+        date[i] = parseInt(element);
+      }
+      const data = {
+        title: rawData.title,
+        deadline: new Date(date[2], date[1]-1, date[0]).toISOString().slice(0, 19).replace('T', ' '),
+        status: "Ongoing",
+        description: rawData.description,
+        project_id: rawData.projId,
+      }
+      const response = await axios.post(`${server}/task/add`, data, {
+        headers: { Authorization: `Bearer ${rootState.token}` },
+      });
+      if(response.status === 200){
+        dispatch("setList", data);
+      }
+    },
+    setList: async ({commit, rootState }) => {
+      const options = {
+        headers: {
+          Authorization: `Bearer ${rootState.token}`,
+        },
+      };
+      const response = await axios.get(`${server}/task/list`, options);
+      commit("changeTaskList", response.data);
+      commit("project/changeProjList", null, {root: true})
+    },
+  }
+};
+
 export default createStore({
   state: {
     token: localStorage.getItem("user-token") ?? "",
     emailValidated: false,
     status: [],
-    addItem: true,
     loading: false,
   },
   getters: {
@@ -315,6 +383,7 @@ export default createStore({
     },
     setAddItem: (state, payload) => {
       state.addItem = payload;
+      console.log(state.addItem);
     },
     request: (state) => {
       state.status = [null, "Loading..."];
@@ -338,5 +407,6 @@ export default createStore({
     auth: auth,
     organization: organization,
     project: project,
+    task: task
   },
 });

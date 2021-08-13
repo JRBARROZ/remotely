@@ -21,81 +21,9 @@
         class="flex flex-col gap-1 w-11/12 sm:w-8/12 lg:w-6/12 px-6 sm:px-16"
         autocomplete="off"
       >
-        <div class="relative">
-          <input
-            type="text"
-            class="
-              text-gray-600
-              peer
-              h-10
-              w-full
-              border
-              rounded
-              pl-2
-              bg-input
-              placeholder-transparent
-              focus:outline-none
-            "
-            id="emailLogin"
-            placeholder="E-mail"
-            v-model="loginData.email"
-          />
-          <label
-            for="emailLogin"
-            class="
-              absolute
-              left-2
-              -top-5
-              text-input-text text-sm
-              transition-all
-              peer-placeholder-shown:text-base
-              peer-placeholder-shown:text-gray-400
-              peer-placeholder-shown:top-2
-              peer-focus:-top-5
-              peer-focus:left-0
-              peer-focus:text-title
-              peer-focus:text-sm
-            "
-            >E-mail</label
-          >
-        </div>
+        <Input id="emaiLogin" labelText="E-mail" @getValue="(e) => this.loginData.email = e" />
+        <Input id="passwordLogin" type="password" labelText="Senha" @getValue="(e) => this.loginData.password = e" />
         <div class="relative mt-6">
-          <input
-            type="password"
-            class="
-              text-gray-600
-              peer
-              h-10
-              w-full
-              border
-              rounded
-              pl-2
-              bg-input
-              placeholder-transparent
-              focus:outline-none
-            "
-            placeholder="Password"
-            id="passwordLogin"
-            v-model="loginData.password"
-          />
-          <label
-            for="passwordLogin"
-            class="
-              absolute
-              left-2
-              -top-5
-              text-input-text text-sm
-              transition-all
-              peer-placeholder-shown:text-base
-              peer-placeholder-shown:text-gray-400
-              peer-placeholder-shown:top-2
-              peer-focus:-top-5
-              peer-focus:left-0
-              peer-focus:text-title
-              peer-focus:text-sm
-            "
-            >Password</label
-          >
           <p class="text-title text-center text-sm mt-4">
             Esqueceu a senha?
             <a
@@ -185,7 +113,9 @@
 
 <script>
 import { mapState } from "vuex";
+import Input from './Input';
 export default {
+  components: { Input },
   created() {
     setTimeout(() => {
       this.$store.commit("resetStatus");

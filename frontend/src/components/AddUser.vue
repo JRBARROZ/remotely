@@ -15,87 +15,13 @@
       </svg>
       <h1 class="text-2xl text-title">Remotely</h1>
     </div>
-    <h1 class="text-3xl text-title mt-24 mb-10">Cadastro</h1>
+    <h1 class="text-3xl text-title mt-24 mb-4">Cadastro</h1>
     <div class="w-11/12 sm:w-8/12 lg:w-6/12 px-6 sm:px-16">
       <form action="#" class="flex flex-col gap-1" autocomplete="off">
-        <div class="relative">
-          <input
-            type="text"
-            class="
-              text-gray-600 peer h-10 w-full border rounded pl-2 bg-input
-              placeholder-transparent focus:outline-none"
-            id="nameRegister"
-            placeholder="Nome"
-            v-model="currentUser.name"
-          />
-          <label
-            for="nameRegister"
-            class="
-              absolute left-2 -top-5 text-input-text text-sm transition-all
-              peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400
-              peer-placeholder-shown:top-2 peer-focus:-top-5 peer-focus:left-0
-              peer-focus:text-title peer-focus:text-sm"
-            >Nome</label
-          >
-        </div>
-        <div class="relative mt-6">
-          <input
-            type="text"
-            class="
-              text-gray-600 peer h-10 w-full border rounded pl-2 bg-input
-              placeholder-transparent focus:outline-none"
-            id="emailRegister"
-            placeholder="E-mail"
-            v-model="currentUser.email"
-          />
-          <label
-            for="emailRegister"
-            class="
-              absolute left-2 -top-5 text-input-text text-sm transition-all
-              peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400
-              peer-placeholder-shown:top-2 peer-focus:-top-5 peer-focus:left-0
-              peer-focus:text-title peer-focus:text-sm"
-            >E-mail</label
-          >
-        </div>
-        <div class="relative mt-6">
-          <input
-            type="password"
-            class="
-              text-gray-600 peer h-10 w-full border rounded pl-2 bg-input
-              placeholder-transparent focus:outline-none"
-            placeholder="Senha"
-            id="passwordRegister"
-            v-model="currentUser.password"
-          />
-          <label
-            for="passwordRegister"
-            class="
-              absolute left-2 -top-5 text-input-text text-sm transition-all
-              peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400
-              peer-placeholder-shown:top-2 peer-focus:-top-5 peer-focus:left-0
-              peer-focus:text-title peer-focus:text-sm"
-            >Senha</label>
-        </div>
-        <div class="relative mt-6">
-          <input
-            type="password"
-            class="
-              text-gray-600 peer h-10 w-full border rounded pl-2 bg-input
-              placeholder-transparent focus:outline-none"
-            placeholder="Confirmar Senha"
-            id="confirmPasswordRegister"
-            v-model="currentUser.password_confirmation"
-          />
-          <label
-            for="confirmPasswordRegister"
-            class="
-              absolute left-2 -top-5 text-input-text text-sm transition-all
-              peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400
-              peer-placeholder-shown:top-2 peer-focus:-top-5 peer-focus:left-0
-              peer-focus:text-title peer-focus:text-sm"
-            >Confirmar Senha</label>
-        </div>
+        <Input id="nameRegister" labelText="Nome" @getValue="(e) => this.currentUser.name = e" />
+        <Input id="emailRegister" labelText="E-Mail" @getValue="(e) => this.currentUser.email = e" />
+        <Input id="passwordRegister" type="password" labelText="Senha" @getValue="(e) => this.currentUser.password = e" />
+        <Input id="confirmPasswordRegister" type="password" labelText="Confirmar Senha" @getValue="(e) => this.currentUser.password_confirmation = e" />
         <div class="flex items-center justify-center mt-3">
           <button
             class="
@@ -153,8 +79,10 @@
 
 <script>
 import { mapState } from "vuex";
+import Input from "./Input";
 
 export default {
+  components: { Input },
   updated() {
     setTimeout(() => {
       this.$store.commit("resetStatus");

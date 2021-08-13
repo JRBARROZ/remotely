@@ -8,9 +8,12 @@
 
 <script>
 export default {
+  props:{
+    storeRoute: String,
+  },
   methods:{
     showComponentList(){
-      this.$store.commit('setAddItem', false);
+      this.$store.commit(this.storeRoute, true);
     }
   }
 }
