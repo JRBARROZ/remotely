@@ -52,7 +52,7 @@ Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke
 Route::group([
 	'middleware' => 'api',
 	'prefix' => 'organization'
-], function($router){
+], function(){
 	Route::post('/add', [OrganizationController::class, 'store']);
 	Route::get('/list', [OrganizationController::class, 'getList']);
 	Route::delete('/{id}', [OrganizationController::class, 'destroy']);
@@ -62,7 +62,7 @@ Route::group([
 Route::group([
 	'middleware' => 'api',
 	'prefix' => 'project'
-], function($router){
+], function(){
 	Route::post('/add', [ProjectController::class, 'store']);
 	Route::get('/list', [ProjectController::class, 'getList']);
 	Route::delete('/{id}', [ProjectController::class, 'destroy']);
@@ -72,7 +72,7 @@ Route::group([
 Route::group([
 	'middleware' => 'api',
 	'prefix' => 'task'
-], function($router){
+], function(){
 	Route::post('/add', [TaskController::class, 'store']);
 	Route::get('/list', [TaskController::class, 'getList']);
 	Route::delete('/{id}', [TaskController::class, 'destroy']);
