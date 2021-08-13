@@ -21,6 +21,9 @@ export default {
     console.log('url',this.$router.currentRoute._rawValue.path);
   },
   mounted() {
+    if (Object.keys(this.loggedUser).length === 0) {
+      return;
+    }
     this.$store.dispatch('auth/userRequest');
   },
   methods: {
@@ -32,7 +35,6 @@ export default {
     },
     getCurrentURL() {
       const currentUrl = window.location.pathname;
-      console.log('current url',currentUrl);
     }
   }
 }

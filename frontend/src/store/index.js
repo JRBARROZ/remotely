@@ -21,7 +21,7 @@ const auth = {
           .then((response) => {
             const token = response.data.access_token;
             localStorage.setItem("user-token", token);
-            commit("success", [token], { root: true });
+            commit("setToken", token, { root: true });
             dispatch("userRequest").then(() => {
               resolve(response);
             });
@@ -29,13 +29,14 @@ const auth = {
           .catch((error) => {
             if (error.response.status < 500)
               commit("error", "Credenciais inválidas", { root: true });
-            else
+            else {
               commit(
                 "error",
                 "We could not validate your credentials. Try again later",
                 { root: true }
               );
-            localStorage.removeItem("user-token");
+              localStorage.removeItem("user-token");
+            }
             reject(error);
           });
       });
@@ -97,7 +98,7 @@ const auth = {
     },
     logout: ({ commit, rootState }) => {
       return new Promise((resolve, reject) => {
-        rootState.token = "";
+        commit('setToken', "", { root: true });
         localStorage.removeItem("user-token");
         localStorage.removeItem("logged-user");
         localStorage.removeItem("orgList");
@@ -107,11 +108,12 @@ const auth = {
       });
     },
     forgotPassword: ({ commit, rootState }, email) => {
+      const data = { email: email };
       return new Promise((resolve, reject) => {
         axios
-          .post(`${server}/auth/forgot`, email)
+          .post(`${server}/forgot-password`, data)
           .then((response) => {
-            let data = response.data;
+            console.log('forgot',response.data);
             commit("success", response.data.message, { root: true });
             resolve(response);
           })
@@ -121,22 +123,28 @@ const auth = {
           });
       });
     },
-    resendVerificationEmail: ({ commit, rootState }) => {
-      const options = {
-        headers: {
-          Authorization: `Bearer ${rootState.token}`,
-        },
-      };
-      axios
-        .get(`${server}/auth/email/verify/resend`, options)
-        .then((response) => {
-          commit("success", "Email enviado", { root: true });
-          console.log("response", response.data);
-        })
-        .catch((error) => {
-          commit("error", error.response.data.message, { root: true });
-          console.log(error.response.data);
-        });
+    resetPassword: ({ commit, rootState}, data) => {
+      console.log('data',data);
+      axios.post(`${server}/reset-password`, data)
+        .then((response) => console.log('res',response))
+        .catch((error) => console.log('err',error));
+    },
+    resendVerificationEmail: async ({ commit, rootState }) => {
+      if (!rootState.token) {
+        commit("resetStatus", null, { root: true });
+        return;
+      }
+      try {
+        const options = {
+          headers: {
+            "Authorization": `Bearer ${rootState.token}`,
+          },
+        };
+        const response = await axios.post(`${server}/auth/email/verify/resend`, null, options);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };
@@ -149,7 +157,7 @@ const organization = {
   },
   mutations: {
     changeOrgList: (state, payload) => {
-      if(payload != null){
+      if (payload != null) {
         state.orgList = payload;
       }
       for (const org of state.orgList) {
@@ -213,7 +221,7 @@ const organization = {
         headers: { Authorization: `Bearer ${rootState.token}` },
       });
       if (response.status === 200) {
-        dispatch("project/setList", null, {root: true})
+        dispatch("project/setList", null, { root: true })
         for (const key in state.orgList) {
           if (state.orgList[key].id === index) {
             state.orgList.splice(key, 1);
@@ -390,13 +398,15 @@ export default createStore({
     },
     success: (state, payload) => {
       state.status = ["success", payload];
-      state.token = payload[0];
     },
     error: (state, message) => {
       state.status = ["error", message];
     },
     logout: (state, message) => {
       state.status = ["success", message];
+    },
+    setToken: (state, token) => {
+      state.token = token;
     },
     resetStatus: (state) => {
       state.status = [];

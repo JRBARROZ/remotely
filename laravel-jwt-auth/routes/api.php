@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\VerifyEmailController;
 use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
 /*
@@ -28,7 +29,7 @@ Route::group([
 
 ], function ($router) {
 	Route::get('/', [AuthController::class, 'home']);
-	Route::post('/login', [AuthController::class, 'login']);
+	Route::post('/login', [AuthController::class, 'login'])->name('login');
 	Route::post('/register', [AuthController::class, 'register']);
 	Route::post('/logout', [AuthController::class, 'logout']);
 	Route::post('/forgot', [AuthController::class, 'forgotPassword']);
@@ -36,13 +37,19 @@ Route::group([
 	Route::get('/user-profile', [AuthController::class, 'userProfile']);
 	//TODO log in user when registered and show verify email view
 	Route::get('/email/verify', [AuthController::class, 'verifyEmail'])->name('verification.notice');
-	Route::post('/email/verify/resend', function (Request $request) {
-		$request->user()->sendEmailVerificationNotification();
-		return back()->with('message', 'Verification link sent!');
-	})->middleware(['throttle:6,1'])->name('verification.send');
+	Route::post('/email/verify/resend', [AuthController::class, 'resendEmail'])
+		->middleware(['throttle:6,1'])
+		->name('verification.send');
 });
 
-// Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])->middleware(['signed'])->name('verification.verify');
+Route::post('/forgot-password', [ResetPasswordController::class, 'sendPasswordResetLink'])
+	->middleware('guest')
+	->name('password.email');
+
+Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword'])
+	->middleware('guest')
+	->name('password.update');
+
 Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
 	->middleware(['signed', 'throttle:6,1'])
 	->name('verification.verify');

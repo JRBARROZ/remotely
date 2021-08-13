@@ -8,7 +8,7 @@
         </p>
         <p class="text-base mt-7">
           Não recebeu o e-mail de validação?
-          <a href="#" @click.prevent="sendMailVerification" class="text-blue-400 font-semibold">
+          <a href="#" @click.prevent="sendMailVerification()" class="text-blue-400 font-semibold">
             Clique aqui</a> para enviarmos novamente
         </p>
       </div>
@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     sendMailVerification() {
-      this.$store.dispatch("auth/sendVerificationMail");
+      this.$store.dispatch("auth/resendVerificationEmail");
     },
   },
 };

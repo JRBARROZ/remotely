@@ -1,9 +1,9 @@
 <template>
 <div>
-  <div class="absolute mt-20 z-0">
-      <svg width="348" height="468" viewBox="0 0 348 468" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M323.737 283.112C69.3155 376.761 154.706 468 54.2903 468C-46.1254 468 24.6094 187.87 24.6094 112.715C41.7687 -23.7028 356.488 -23.824 346.461 46.2548C269.59 118.259 397.012 200.662 323.737 283.112Z" fill="#E7E7FF" fill-opacity="0.3"/>
-      </svg>
+  <div class="absolute left-7 mt-20 z-0">
+    <svg width="348" height="468" viewBox="0 0 348 468" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M323.737 283.112C69.3155 376.761 154.706 468 54.2903 468C-46.1254 468 24.6094 187.87 24.6094 112.715C41.7687 -23.7028 356.488 -23.824 346.461 46.2548C269.59 118.259 397.012 200.662 323.737 283.112Z" fill="#E7E7FF" fill-opacity="0.3"/>
+    </svg>
   </div>
   <div class="flex flex-col items-center h-screen relative">
     <div class="flex items-center gap-2 absolute top-4 left-auto hover:cursor-pointer" @click="sendToHome">
@@ -24,17 +24,8 @@
         <Input id="confirmPasswordRegister" type="password" labelText="Confirmar Senha" @getValue="(e) => this.currentUser.password_confirmation = e" />
         <div class="flex items-center justify-center mt-3">
           <button
-            class="
-              mt-3
-              py-2
-              bg-primary
-              text-white
-              focus:outline-none
-              rounded
-              hover:opacity-70
-              w-7/12
-              border-none
-            "
+            class="mt-3 py-2 bg-primary text-white focus:outline-none rounded
+              hover:opacity-70 w-7/12 border-none"
             type="submit"
             @click.prevent="handleSubmit()"
           >
@@ -111,7 +102,7 @@ export default {
       )
         return alert("Todos os campos devem ser preenchidos");
       this.$store.dispatch("auth/signUp", this.currentUser).then((res) => {
-        if (res.status === 201) this.$router.push("/login");
+        if (res.status === 201) this.sendToLogin();
       });
     },
     sendToLogin() {

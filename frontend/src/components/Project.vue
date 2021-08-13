@@ -42,7 +42,6 @@
           />
         </Box>
       </div>
-
       <div v-else-if="addProject && addTask === false">
         <form
           class="flex flex-col gap-1 px-6"

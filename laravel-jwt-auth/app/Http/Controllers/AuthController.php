@@ -25,6 +25,12 @@ class AuthController extends Controller
 		return response()->json($request->id, 201);
 	}
 
+	public function resendEmail(Request $request) {
+		dd($request);
+		$request->user()->sendEmailVerificationNotification();
+		return response()->json(['message', 'E-mail de verificação enviado!'], 200);
+	}
+
 	/**
 	 * Get a JWT via given credentials.
 	 *
@@ -145,10 +151,12 @@ class AuthController extends Controller
 	protected function createNewToken($token)
 	{
 		$user = auth()->user();
+		$hasEmailVerified = $user->email_verified_at == NULL ? false : true;
 		return response()->json([
 			'access_token' => $token,
 			'token_type' => 'bearer',
 			'expires_in' => auth()->factory()->getTTL() * 60,
+			'has_email_verified' => $hasEmailVerified,
 			'user' => auth()->user()
 		]);
 	}

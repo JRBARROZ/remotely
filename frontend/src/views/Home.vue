@@ -177,20 +177,11 @@
           </defs>
         </svg>
         <button
-          class="
-            mt-3
-            py-2
-            bg-primary
-            text-white
-            focus:outline-none
-            rounded
-            hover:opacity-70
-            w-7/12
-            border-none
-          "
+          class="mt-3 py-2 bg-primary text-white focus:outline-none rounded hover:opacity-70
+            w-7/12 border-none"
           type="submit"
           v-if="Object.keys(loggedUser).length === 0"
-          @click.prevent="sendToRegister()"
+          @click.prevent="sendToLogin"
         >
           Começar
         </button>
@@ -212,8 +203,8 @@ export default {
     ...mapState(["emailValidated"]),
   },
   methods: {
-    sendToRegister() {
-      this.$router.push('/register');
+    sendToLogin() {
+      this.$router.push('/login');
     }
   },
 };
