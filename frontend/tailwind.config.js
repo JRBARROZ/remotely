@@ -26,6 +26,7 @@ module.exports = {
       animation: {
         'spin-once': 'spino 0.5s linear forwards',
         'shake': 'shake 1s linear forwards',
+        'fill': 'fill 1s ease forwards'
       },
       keyframes: {
         spino: {
@@ -44,6 +45,10 @@ module.exports = {
           "80%": { transform: "translate(-1px, -1px) rotate(1deg)" },
           "90%": { transform: "translate(1px, 2px) rotate(0deg)" },
           "100%": { transform: "translate(1px, -2px) rotate(-1deg)" },
+        },
+        fill:{
+          "from": {fill:"transparent"},
+          "to": {fill:"#6C63FF"}
         }
       }
     },
