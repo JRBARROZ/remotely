@@ -2,7 +2,7 @@
   <div class="flex flex-col items-center">
     <NavBar />
     <PageWrapper
-      :title="addOrganization ? 'Minhas Organizações' : 'Adicionar Organização'"
+      :title="addOrganization ? 'Adicionar Organização' : 'Minhas Organizações'"
     >
       <div v-if="addOrganization === false">
         <Box

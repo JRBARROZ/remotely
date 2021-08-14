@@ -6,11 +6,11 @@
 @layer base{
     body {
         @apply font-comfoorta;
+        @apply bg-remotely-pattern bg-repeat -mt-3;
     }
     .wrapper {
         width: calc(100vw);
         height: calc(100vh - (68px + 64px));
-        @apply bg-remotely-pattern bg-repeat -mt-3;
     }
     .active > svg > path {
         transition:0.3s;

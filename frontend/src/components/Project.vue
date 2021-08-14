@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center">
     <NavBar />
-    <PageWrapper :title="addProject === false ? 'Meus Projetos' : 'Adicionar projeto'">
+    <PageWrapper :title="!addProject ? 'Meus Projetos' : 'Adicionar Projeto'">
       <div v-if="addProject === false && addTask === false">
         <Box
           v-for="(proj, index) in projList"

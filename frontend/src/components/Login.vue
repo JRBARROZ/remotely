@@ -36,17 +36,8 @@
         </div>
         <div class="flex items-center justify-center mt-3">
           <button
-            class="
-              mt-3
-              py-2
-              bg-primary
-              text-white
-              focus:outline-none
-              rounded
-              hover:opacity-70
-              w-7/12
-              border-none
-            "
+            class="mt-3 py-2 bg-primary text-white focus:outline-none
+              rounded hover:opacity-70 w-7/12 border-none"
             type="submit"
             @click.prevent="handleLogin()"
           >
@@ -56,18 +47,8 @@
         
       </form>
       <div
-        class="
-          mt-6
-          rounded
-          border
-          h-16
-          py-3
-          px-8
-          relative
-          flex
-          items-center
-          justify-center
-        "
+        class="mt-6 rounded border h-16 py-3 px-8 relative flex
+          items-center justify-center"
         :class="
           status[0] === 'success'
             ? 'bg-green-300 text-green-700 border-green-700'
