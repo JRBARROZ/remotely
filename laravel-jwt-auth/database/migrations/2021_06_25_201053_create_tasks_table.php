@@ -19,7 +19,7 @@ class CreateTasksTable extends Migration
             $table->string('description');
             $table->string('status');
             $table->foreignId('creator_id')->constrained('users')->references('id')->on('users')->onDelete('cascade'); 
-            $table->foreignId('project_id')->constrained()->references('id')->on('proj')->onDelete('cascade');
+            $table->foreignId('project_id')->constrained()->references('id')->on('projects')->onDelete('cascade');
             $table->date('deadline');
             $table->timestamps();
         });
