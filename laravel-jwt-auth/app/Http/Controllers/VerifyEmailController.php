@@ -28,6 +28,25 @@ class VerifyEmailController extends Controller
 			event(new Verified($user));
 		}
 
-		return redirect('http://localhost:8080/#/email/verify/success');
+		return redirect('http://localhost:8080/#/email/verify/middleware?token=' . $request->route('hash'));
+	}
+
+	public function hasEmailVerified(Request $request) {
+		$users = User::all();
+		$verifiedAt = null;
+
+		foreach ($users as $user) {
+			if (sha1($user->email) == $request->query('email')) {
+				$verifiedAt = $user->email_verified_at;
+				break;
+			}
+		}
+
+		if($verifiedAt != null) {
+			return $user->email_verified_at != null 
+			?	response()->json(['hasEmailVerified' => true], 200)
+			: response()->json(['hasEmailVerified' => false], 400);
+		}
+		return response()->json(['message' => 'user not found'], 404);
 	}
 }

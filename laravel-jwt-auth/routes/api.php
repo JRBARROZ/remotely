@@ -42,6 +42,8 @@ Route::group([
 		->name('verification.send');
 });
 
+Route::get('/has-email-verified', [VerifyEmailController::class, 'hasEmailVerified'])->middleware('guest');
+
 Route::post('/forgot-password', [ResetPasswordController::class, 'sendPasswordResetLink'])
 	->middleware('guest')
 	->name('password.email');

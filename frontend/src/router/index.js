@@ -39,7 +39,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "profile" */ '../components/UserProfile.vue'),
     meta: {
       isLogged: true,
-      emailVerified: true
+      hasEmailVerified: true
     }
   },
   {
@@ -51,7 +51,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "organizations" */ '../components/Organization.vue'),
     meta: {
       isLogged: true,
-      emailVerified: true
+      hasEmailVerified: true
     }
   },
   {
@@ -63,7 +63,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "projects" */ '../components/Project.vue'),
     meta: {
       isLogged: true,
-      emailVerified: true
+      hasEmailVerified: true
     }
   },
   {
@@ -86,7 +86,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "verify" */ '../components/VerifyEmail.vue'),
     meta: {
       isLogged: true,
-      emailUnverified: true
+      hasEmailUnverified: true
     }
   },
   {
@@ -97,8 +97,18 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "verify-successfull" */ '../components/EmailVerified.vue'),
     meta: {
-      isLogged: true,
-      emailVerified: true
+      hasEmailVerified: true
+    }
+  },
+  {
+    path: '/email/verify/middleware',
+    name: 'middle route',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "middleware" */ '../components/EmailVerifiedMiddleware.vue'),
+    meta: {
+      hasEmailUnerified: true
     }
   },
   {
@@ -135,15 +145,20 @@ router.beforeEach((to, from, next) => {
     return;
   }
 
-  if (record.meta.emailVerified && !store.getters['hasEmailVerified']) {
+  if (record.meta.hasEmailVerified && !store.getters['hasEmailVerified']) {
     next('/verify');
     return;
   }
 
-  if (record.meta.emailUnverified && store.getters['hasEmailVerified']) {
+  if (record.meta.hasEmailUnverified && store.getters['hasEmailVerified']) {
     next('/');
     return;
   }
+
+  // if (record.meta.hasEmailVerified && store.getters['hasEmailVerified']) {
+  //   next('/email/verify/success');
+  //   return;
+  // }
 
   next();
 })

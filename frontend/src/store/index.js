@@ -1,6 +1,7 @@
 import { createStore } from "vuex";
 const server = "http://localhost:8000/api";
 const axios = require("axios").default;
+import router from '../router';
 
 const auth = {
   namespaced: true,
@@ -106,6 +107,24 @@ const auth = {
         commit("setLoggedUser", {});
         resolve();
       });
+    },
+    verifyIfHasEmailValidated: ({ commit, rootState }, email) => {    
+      axios.get(`${server}/has-email-verified`, {
+          params: {
+            email
+          }
+        })
+        .then((response) => {
+          if (response.data.hasEmailVerified) {
+            commit("hasValidatedEmail", response.data.hasEmailVerified, { root: true });
+            router.push('/email/verify/success');
+          } else {
+            router.push('/verify');
+          }
+        })
+        .catch((error) => {
+          console.log('err action', error);
+        })
     },
     forgotPassword: ({ commit, rootState }, email) => {
       const data = { email: email };

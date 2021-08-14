@@ -4,6 +4,7 @@
     <PageWrapper title="E-mail Verificado">
       <div class="px-8">
         E-mail verificado com sucesso!
+        <p>Clique <a class="font-medium text-primary text-lg" href="" @click.prevent="sendToLogin">aqui</a> para fazer o login.</p>
       </div>
     </PageWrapper>
   </div>
@@ -22,6 +23,9 @@ export default {
     sendMailVerification() {
       this.$store.dispatch("auth/sendVerificationMail");
     },
+    sendToLogin() {
+      this.$router.push('/login');
+    }
   },
 };
 </script>

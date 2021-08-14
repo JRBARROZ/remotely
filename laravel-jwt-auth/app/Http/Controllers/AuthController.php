@@ -26,7 +26,6 @@ class AuthController extends Controller
 	}
 
 	public function resendEmail(Request $request) {
-		dd($request);
 		$request->user()->sendEmailVerificationNotification();
 		return response()->json(['message', 'E-mail de verificação enviado!'], 200);
 	}
