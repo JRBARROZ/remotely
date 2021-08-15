@@ -155,11 +155,6 @@ router.beforeEach((to, from, next) => {
     return;
   }
 
-  // if (record.meta.hasEmailVerified && store.getters['hasEmailVerified']) {
-  //   next('/email/verify/success');
-  //   return;
-  // }
-
   next();
 })
 export default router;
