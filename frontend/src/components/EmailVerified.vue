@@ -23,7 +23,7 @@
           </clipPath>
           </defs>
         </svg>
-        <p>Clique <a class="font-medium text-primary text-lg" href="" @click.prevent="sendToLogin">aqui</a> para fazer o login.</p>
+        <p v-if="Object.keys(loggedUser).length === 0">Clique <a class="font-medium text-primary text-lg" href="" @click.prevent="sendToLogin">aqui</a> para fazer o login.</p>
       </div>
     </PageWrapper>
   </div>
@@ -37,6 +37,7 @@ export default {
   name: "EmailVerified",
   computed: {
     ...mapState(["status"]),
+    ...mapState("auth", { loggedUser: (state) => state.loggedUser }),
   },
   methods: {
     sendMailVerification() {
