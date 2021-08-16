@@ -17,9 +17,6 @@ export default {
   computed: {
     ...mapState('auth', {loggedUser: state => state.loggedUser})
   },
-  updated() {
-    console.log('url',this.$router.currentRoute._rawValue.path);
-  },
   mounted() {
     if (Object.keys(this.loggedUser).length === 0) {
       return;

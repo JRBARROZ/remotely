@@ -108,7 +108,7 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "middleware" */ '../components/EmailVerifiedMiddleware.vue'),
     meta: {
-      hasEmailUnerified: true
+      hasEmailUnverified: true
     }
   },
   {

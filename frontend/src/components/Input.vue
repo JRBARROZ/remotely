@@ -28,7 +28,7 @@
 export default {
   data() {
     return {
-      input: "",
+      input: this.initialText ?? "",
     };
   },
   props: {
@@ -38,6 +38,7 @@ export default {
       default: "text"
     },
     labelText: String,
+    initialText: String
   },
 };
 </script>

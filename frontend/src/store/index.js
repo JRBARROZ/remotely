@@ -143,7 +143,6 @@ const auth = {
       });
     },
     resetPassword: ({ commit, rootState}, data) => {
-      console.log('data',data);
       axios.post(`${server}/reset-password`, data)
         .then((response) => console.log('res',response))
         .catch((error) => console.log('err',error));
@@ -160,7 +159,6 @@ const auth = {
           },
         };
         const response = await axios.post(`${server}/auth/email/verify/resend`, null, options);
-        console.log(response);
       } catch (error) {
         console.log(error);
       }
@@ -240,9 +238,18 @@ const organization = {
         headers: { Authorization: `Bearer ${rootState.token}` },
       });
       if (response.status === 200) {
-        dispatch("project/setList", null, { root: true })
         for (const key in state.orgList) {
           if (state.orgList[key].id === index) {
+            if(state.orgList[key].projects.length > 0){
+              dispatch("project/setList", null, { root: true });
+              for (let i = 0; i < state.orgList[key].projects.length; i++) {
+                const element = state.orgList[key].projects[i];
+                if(element.tasks.length > 0){
+                  dispatch("task/setList", null, { root: true });
+                  break;
+                }
+              }
+            }
             state.orgList.splice(key, 1);
             commit("changeOrgList", state.orgList);
             break;
@@ -322,13 +329,16 @@ const project = {
         }
       }
     },
-    remove: async ({ commit, state, rootState }, index) => {
+    remove: async ({ commit, dispatch, state, rootState }, index) => {
       const response = await axios.delete(`${server}/project/${index}`, {
         headers: { Authorization: `Bearer ${rootState.token}` },
       });
       if (response.status === 200) {
         for (const key in state.projList) {
           if (state.projList[key].id === index) {
+            if(state.projList[key].tasks.length > 0){
+              dispatch("task/setList", null, { root: true });
+            }
             state.projList.splice(key, 1);
             commit("changeProjList", state.projList);
             commit("organization/changeOrgList", null, { root: true });
@@ -357,14 +367,10 @@ const task = {
   },
   actions: {
     add: async ({ dispatch, rootState }, rawData) => {
-      let date = rawData.deadline.split('/');
-      for (let i = 0; i < date.length; i++) {
-        const element = date[i];
-        date[i] = parseInt(element);
-      }
+      let date = rawData.deadline.split('-');
       const data = {
         title: rawData.title,
-        deadline: new Date(date[2], date[1]-1, date[0]).toISOString().slice(0, 19).replace('T', ' '),
+        deadline: new Date(date[0], date[1]-1, date[2]).toISOString().slice(0, 19).replace('T', ' '),
         status: "Ongoing",
         description: rawData.description,
         project_id: rawData.projId,
@@ -384,7 +390,51 @@ const task = {
       };
       const response = await axios.get(`${server}/task/list`, options);
       commit("changeTaskList", response.data);
-      commit("project/changeProjList", null, {root: true})
+      commit("project/changeProjList", null, {root: true});
+      commit("organization/changeOrgList", null, { root: true });
+    },
+    update: async ({ state, commit, rootState }, data) => {
+      const options = {
+        headers: {
+          Authorization: `Bearer ${rootState.token}`,
+        },
+      };
+      const response = await axios.put(
+        `${server}/task/update`,
+        data,
+        options
+      );
+      if (response.status === 200) {
+        for (const key in state.taskList) {
+          if (state.taskList[key].id === data.id) {
+            const task = state.taskList[key];
+            task.title = data.title;
+            task.description = data.description;
+            task.status = data.status;
+            state.taskList.splice(key, 1, task);
+            commit("changeTaskList", state.taskList);
+            commit("project/changeProjList", null, {root: true});
+            commit("organization/changeOrgList", null, {root: true});
+            break;
+          }
+        }
+      }
+    },
+    remove: async ({ commit, state, rootState }, index) => {
+      const response = await axios.delete(`${server}/task/${index}`, {
+        headers: { Authorization: `Bearer ${rootState.token}` },
+      });
+      if (response.status === 200) {
+        for (const key in state.taskList) {
+          if (state.taskList[key].id === index) {
+            state.taskList.splice(key, 1);
+            commit("changeTaskList", state.taskList);
+            commit("project/changeProjList", null, { root: true });
+            commit("organization/changeOrgList", null, { root: true });
+            break;
+          }
+        }
+      }
     },
   }
 };
@@ -407,10 +457,6 @@ export default createStore({
     },
     setLoading: (state, payload) => {
       state.loading = payload;
-    },
-    setAddItem: (state, payload) => {
-      state.addItem = payload;
-      console.log(state.addItem);
     },
     request: (state) => {
       state.status = [null, "Loading..."];

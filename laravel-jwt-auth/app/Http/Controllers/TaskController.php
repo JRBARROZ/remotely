@@ -39,7 +39,6 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $user_id = auth()->user()->id;
-
         if (Project::where('creator_id', '=', $user_id)->where('id', '=', $request->project_id)->count() == 1) {
             $task = Task::create([
                 "title" => $request->title, "description" => $request->description, "status" => $request->status, "creator_id" => $user_id,
@@ -100,7 +99,6 @@ class TaskController extends Controller
     public function update(Request $request)
     {
         $user_id = auth()->user()->id;
-        return "Abacaxi";
         if (Task::where('creator_id', '=', $user_id)->where('id', '=', $request->id)->count() == 1) {
             Task::where('creator_id', '=', $user_id)->where('id', '=', $request->id)->update(
                 [

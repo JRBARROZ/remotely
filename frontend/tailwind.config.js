@@ -14,6 +14,12 @@ module.exports = {
       fontSize: {
         'xsm': '.5625rem',
       },
+      minHeight: {
+        '14': '3.5rem'
+      },
+      height: {
+        '104': '26rem'
+      },
       colors: {
         'input': '#E2E2FF',
         'primary': '#8988FD',

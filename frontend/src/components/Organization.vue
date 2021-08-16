@@ -4,6 +4,9 @@
     <PageWrapper
       :title="addOrganization ? 'Adicionar Organização' : 'Minhas Organizações'"
     >
+      <div class="mt-6" v-if="orgList.length === 0 && addOrganization === false">
+        <h1 class="font-lexend mx-4">Você não tem nenhuma organização, crie uma agora.</h1>
+      </div>
       <div v-if="addOrganization === false">
         <Box
           v-for="(org, index) in orgList"
