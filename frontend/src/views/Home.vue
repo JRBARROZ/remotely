@@ -11,7 +11,7 @@
       <h3 class="text-lg">Gerencie seu tempo e suas tarefas, em qualquer lugar, a qualquer hora</h3>
         <svg
           width="350"
-          height="400"
+          height="300"
           viewBox="0 0 849 470"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -185,6 +185,7 @@
         >
           Começar
         </button>
+        <p v-else>Olá, <span class="font-medium text-lg text-primary">{{ loggedUser.name }}</span></p>
       </div>
     </PageWrapper>
   </div>

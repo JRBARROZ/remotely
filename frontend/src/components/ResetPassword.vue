@@ -63,9 +63,7 @@ export default {
       if (this.resetPasswordData.password !== this.resetPasswordData.password_confirmation) {
         return alert("As senhas informadas são diferentes");
       }
-      this.$store.dispatch("auth/resetPassword", this.resetPasswordData).then((a) => {
-        this.$router.push("/profile");
-      });
+      this.$store.dispatch("auth/resetPassword", this.resetPasswordData);
     },
   }
 }

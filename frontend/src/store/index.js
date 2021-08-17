@@ -443,7 +443,7 @@ const task = {
 export default createStore({
   state: {
     token: localStorage.getItem("user-token") ?? "",
-    emailValidated: JSON.parse(localStorage.getItem("logged-user")).email_verified_at ?? false,
+    emailValidated: JSON.parse(localStorage.getItem("logged-user")) ? JSON.parse(localStorage.getItem("logged-user")).email_verified_at : false,
     status: [],
     loading: false,
   },

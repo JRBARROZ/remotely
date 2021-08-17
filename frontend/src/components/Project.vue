@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center mb-20">
+  <div class="flex flex-col items-center">
     <NavBar />
     <PageWrapper :title="addProject ? 'Adicionar Projeto' : 'Meus Projetos'" v-if="addTask === false">
       <div class="mt-6" v-if="projList.length === 0 && addProject === false">
@@ -118,21 +118,13 @@
       </div>
       
       <div
-        class="
-          bg-gray-900 bg-opacity-50
-          min-h-screen min-w-full
-          z-30
-          fixed
-          top-0
-          flex flex-col
-          justify-center
-          items-center
-        "
+        class="bg-gray-900 bg-opacity-50 min-h-screen min-w-full z-30
+          fixed top-0 flex flex-col justify-center items-center px-6"
         v-if="showModal"
         @click="toggleEditBox"
       >
         <div
-          class="bg-white w-3/4 h-72 z-40 md:w-96 p-5"
+          class="bg-white w-full h-full z-40 md:w-96 p-5 rounded"
           @click.stop="eventPropagation"
         >
           <div class="flex flex-col items-center gap-3 m-auto">
@@ -141,48 +133,17 @@
             </h1>
             <form
               action="#/projects"
-              class="flex flex-col gap-1 mx-auto"
+              class="flex flex-col gap-1 px-4 w-full"
               autocomplete="off"
             >
-              <label class="text-sm text-left mt-2 flex flex-col font-medium">
-                Name:
-                <input
-                  id="proj-name"
-                  type="text"
-                  class="
-                    outline-none
-                    w-full
-                    h-10
-                    border
-                    pl-2
-                    rounded
-                    text-gray-600
-                  "
-                  v-model="this.projData.name"
-                />
-              </label>
-              <label class="text-sm mt-2 font-medium"
-                >Status:
-                <input
-                  type="text"
-                  class="
-                    outline-none
-                    w-full
-                    h-10
-                    border
-                    pl-2
-                    rounded
-                    text-gray-600
-                  "
-                  v-model="this.projData.status"
-                />
-              </label>
+              <Input id="nome-edit" labelText="Nome" :initialText="this.projData.name"  @getValue="(e) => this.projData.name = e"/>
+              <Input id="status-edit" labelText="Status" :initialText="this.projData.status"  @getValue="(e) => this.projData.status = e"/>
               <button
-                class="bg-primary h-8 text-white rounded-md mt-2"
+                class="bg-primary h-10 text-white rounded mt-2 py-2"
                 type="submit"
-                @click="handleEditSubmit(this.projData)"
+                @click.prevent="handleEditSubmit(this.projData)"
               >
-                Send
+                Salvar
               </button>
             </form>
           </div>
@@ -190,35 +151,30 @@
       </div>
 
       <div
-        class="bg-gray-900 bg-opacity-50
-          min-h-screen min-w-full
-          z-30 fixed top-0
-          flex flex-col
-          justify-center
-          items-center
-        "
+        class="bg-gray-900 bg-opacity-50 min-h-screen min-w-full z-30
+          fixed top-0 flex flex-col justify-center items-center px-6"
         v-if="showTaskModal"
         @click="toggleTaskEditBox"
       >
         <div
-          class="bg-white w-80 h-104 z-40 md:w-96 p-5 rounded-md"
+          class="bg-white w-full h-full z-40 md:w-96 p-5 rounded"
           @click.stop="eventPropagation"
         >
           <div class="flex flex-col items-center gap-3 m-auto">
-            <div class="flex items-center justify-center">
+            <div class="flex items-center justify-center relative w-full">
               <h1 class="text-2xl text-center text-gray-700">
-                Ver/Editar Tarefa
+                Editar Tarefa
               </h1>
               <img
                 src="../assets/trash_can.svg"
-                class="inline hover:cursor-pointer ml-2"
+                class="inline hover:cursor-pointer right-2 top-1 absolute"
                 @click="removeTask(this.taskData.title, this.taskData.id)"
                 alt="Add-Task-Button"
               />
             </div>
             <form
               action="#/projects"
-              class="flex flex-col gap-1 mx-auto"
+              class="flex flex-col gap-1 px-4 w-full"
               autocomplete="off"
               @submit.prevent
             >
@@ -248,11 +204,11 @@
             >
             </div>
               <button
-                class="bg-primary h-8 text-white rounded-md mt-2"
+                class="bg-primary h-10 text-white rounded-md mt-2 py-2"
                 type="submit"
-                @click="handleTaskEditSubmit(this.taskData)"
+                @click.prevent="handleTaskEditSubmit(this.taskData)"
               >
-                Send
+                Salvar
               </button>
             </form>
           </div>

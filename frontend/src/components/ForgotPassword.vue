@@ -92,7 +92,7 @@ export default {
       if (this.loginData.email.trim() === "")
         return alert("all fields must be filled in");
       this.$store.dispatch("auth/forgotPassword", this.loginData.email).then((a) => {
-        console.log('res = ',a.data.user);
+        this.loginData.email = '';
       });
     },
     sendToLogin() {

@@ -68,21 +68,13 @@
       </div>
 
       <div
-        class="
-          bg-gray-900 bg-opacity-50
-          min-h-screen min-w-full
-          z-30
-          fixed
-          top-0
-          flex flex-col
-          justify-center
-          items-center
-        "
+        class="bg-gray-900 bg-opacity-50 min-h-screen min-w-full z-30
+          fixed top-0 flex flex-col justify-center items-center px-6"
         v-if="showModal"
         @click="toggleEditBox"
       >
         <div
-          class="bg-white w-3/4 h-72 z-40 md:w-96 p-5"
+          class="bg-white w-full h-full z-40 md:w-96 p-5 rounded"
           @click.stop="eventPropagation"
         >
           <div class="flex flex-col items-center gap-3 m-auto">
@@ -91,31 +83,16 @@
             </h1>
             <form
               action="#/organizations"
-              class="flex flex-col gap-1 mx-auto"
+              class="flex flex-col gap-1 px-4 w-full"
               autocomplete="off"
             >
-              <label class="text-sm text-left mt-2 flex flex-col font-medium">
-                Name:
-                <input
-                  type="text"
-                  class="
-                    outline-none
-                    w-full
-                    h-10
-                    border
-                    pl-2
-                    rounded
-                    text-gray-600
-                  "
-                  v-model="this.orgData.name"
-                />
-              </label>
+              <Input id="org-name-edit" labelText="Nome" :initialText="this.orgData.name" @getValue="(e) => this.orgData.name = e" />
               <button
-                class="bg-primary h-8 text-white rounded-md mt-2"
+                class="bg-primary h-10 text-white rounded mt-2 py-2"
                 type="submit"
                 @click="handleEditSubmit(this.orgData)"
               >
-                Editar
+                Salvar
               </button>
             </form>
           </div>
