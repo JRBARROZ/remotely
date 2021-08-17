@@ -30,10 +30,11 @@ class AuthServiceProvider extends ServiceProvider
 
         VerifyEmail::toMailUsing(function ($notifiable, $url) {
             return (new MailMessage)
+                ->greeting('Olá!')
                 ->subject('[Remotely] Verificação de e-mail')
                 ->line('Clique no botão abaixo para verificar seu e-mail.')
                 ->action('Verificar e-mail', $url)
-                ->line('Não se registrou no Remotely? Ignore esta mensagem.');
+                ->line('Não se registrou no Remotely? Favor ignorar este e-mail.');
         });
 
         ResetPassword::createUrlUsing(function ($user, string $token) {

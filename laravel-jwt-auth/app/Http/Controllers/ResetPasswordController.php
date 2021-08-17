@@ -43,6 +43,6 @@ class ResetPasswordController extends Controller
 	
 		return $status === Password::RESET_LINK_SENT
 			? response()->json(['message' => 'E-mail de recuperação de senha enviado!', 'user' => $request->email], 202)
-			: response()->json(['message' => 'Erro ao tentar enviar e-mail'], 400);
+			: response()->json(['message' => 'Usuário não encontrado'], 400);
 	}
 }

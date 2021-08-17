@@ -42,6 +42,8 @@ Route::group([
 		->name('verification.send');
 });
 
+Route::get('/email', [VerifyEmailController::class, 'sendMailTest'])->middleware('guest');
+
 Route::get('/has-email-verified', [VerifyEmailController::class, 'hasEmailVerified'])->middleware('guest');
 
 Route::post('/forgot-password', [ResetPasswordController::class, 'sendPasswordResetLink'])
@@ -59,7 +61,7 @@ Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke
 // Route::resource('organization', OrganizationController::class);
 
 Route::group([
-	'middleware' => 'api',
+	'middleware' => 'verified:api',
 	'prefix' => 'organization'
 ], function(){
 	Route::post('/add', [OrganizationController::class, 'store']);
@@ -69,7 +71,7 @@ Route::group([
 });
 
 Route::group([
-	'middleware' => 'api',
+	'middleware' => 'verified:api',
 	'prefix' => 'project'
 ], function(){
 	Route::post('/add', [ProjectController::class, 'store']);
@@ -79,7 +81,7 @@ Route::group([
 });
 
 Route::group([
-	'middleware' => 'api',
+	'middleware' => 'verified:api',
 	'prefix' => 'task'
 ], function(){
 	Route::post('/add', [TaskController::class, 'store']);

@@ -8,6 +8,15 @@ use Tymon\JWTAuth\JWTAuth;
 
 class OrganizationController extends Controller
 {
+    // /**
+	//  * Create a new OrganizationController instance.
+	//  *
+	//  * @return void
+	//  */
+	// public function __construct()
+	// {
+	// 	$this->middleware('verified');
+	// }
     /**
      * Display a listing of the resource.
      *

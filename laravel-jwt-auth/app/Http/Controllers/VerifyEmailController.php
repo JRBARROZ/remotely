@@ -21,7 +21,7 @@ class VerifyEmailController extends Controller
 		$user = User::find($request->route('id'));
 
 		if ($user->hasVerifiedEmail()) {
-			return response()->json(['message' => 'email already verified'], 200);
+			return response()->json(['message' => 'O e-mail já foi verificado'], 200);
 		}
 
 		if ($user->markEmailAsVerified()) {
@@ -31,7 +31,8 @@ class VerifyEmailController extends Controller
 		return redirect('http://localhost:8080/#/email/verify/middleware?token=' . $request->route('hash'));
 	}
 
-	public function hasEmailVerified(Request $request) {
+	public function hasEmailVerified(Request $request)
+	{
 		$users = User::all();
 		$verifiedAt = null;
 
@@ -47,6 +48,11 @@ class VerifyEmailController extends Controller
 			?	response()->json(['hasEmailVerified' => true], 200)
 			: response()->json(['hasEmailVerified' => false], 400);
 		}
-		return response()->json(['message' => 'user not found'], 404);
+		return response()->json(['message' => 'Usuário não encontrado'], 404);
 	}
+
+	// public function sendMailTest()
+	// {
+	// 	return
+	// }
 }

@@ -10,6 +10,15 @@ use App\Models\Project;
 
 class TaskController extends Controller
 {
+    // /**
+	//  * Create a new TaskController instance.
+	//  *
+	//  * @return void
+	//  */
+	// public function __construct()
+	// {
+	// 	$this->middleware('verified');
+	// }
     /**
      * Display a listing of the resource.
      *

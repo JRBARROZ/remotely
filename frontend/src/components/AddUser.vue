@@ -19,7 +19,7 @@
     <div class="w-11/12 sm:w-8/12 lg:w-6/12 px-6 sm:px-16">
       <form action="#" class="flex flex-col gap-1" autocomplete="off">
         <Input id="nameRegister" labelText="Nome" @getValue="(e) => this.currentUser.name = e" />
-        <Input id="emailRegister" labelText="E-Mail" @getValue="(e) => this.currentUser.email = e" />
+        <Input id="emailRegister" labelText="E-mail" @getValue="(e) => this.currentUser.email = e" />
         <Input id="passwordRegister" type="password" labelText="Senha" @getValue="(e) => this.currentUser.password = e" />
         <Input id="confirmPasswordRegister" type="password" labelText="Confirmar Senha" @getValue="(e) => this.currentUser.password_confirmation = e" />
         <div class="flex items-center justify-center mt-3">

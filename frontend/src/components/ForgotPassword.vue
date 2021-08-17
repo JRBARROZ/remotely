@@ -47,7 +47,7 @@
         </div>
       </form>
       <div
-        class="mt-6 rounded border py-3 px-8"
+        class="mt-6 rounded border py-3 mx-8 px-4 text-center"
         :class="
           status[0] === 'success'
             ? 'bg-green-300 text-green-700 border-green-700'

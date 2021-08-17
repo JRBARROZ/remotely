@@ -108,7 +108,7 @@ const auth = {
         resolve();
       });
     },
-    verifyIfHasEmailValidated: ({ commit, rootState }, email) => {    
+    verifyIfHasEmailValidated: ({ commit, dispatch, rootState }, email) => {    
       axios.get(`${server}/has-email-verified`, {
           params: {
             email
@@ -117,6 +117,7 @@ const auth = {
         .then((response) => {
           if (response.data.hasEmailVerified) {
             commit("hasValidatedEmail", response.data.hasEmailVerified, { root: true });
+            dispatch('userRequest');
             router.push('/email/verify/success');
           } else {
             router.push('/verify');
@@ -442,7 +443,7 @@ const task = {
 export default createStore({
   state: {
     token: localStorage.getItem("user-token") ?? "",
-    emailValidated: false,
+    emailValidated: JSON.parse(localStorage.getItem("logged-user")).email_verified_at ?? false,
     status: [],
     loading: false,
   },
@@ -459,7 +460,7 @@ export default createStore({
       state.loading = payload;
     },
     request: (state) => {
-      state.status = [null, "Loading..."];
+      state.status = [null, "Carregando..."];
     },
     success: (state, payload) => {
       state.status = ["success", payload];

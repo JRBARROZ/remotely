@@ -9,6 +9,15 @@ use App\Models\Organization;
 
 class ProjectController extends Controller
 {
+    // /**
+	//  * Create a new ProjectController instance.
+	//  *
+	//  * @return void
+	//  */
+	// public function __construct()
+	// {
+	// 	$this->middleware('verified');
+	// }
     /**
      * Display a listing of the resource.
      *

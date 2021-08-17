@@ -15,13 +15,18 @@ export default {
     Menu
   },
   computed: {
-    ...mapState('auth', {loggedUser: state => state.loggedUser})
+    ...mapState('auth', {loggedUser: state => state.loggedUser}),
+    ...mapState(['emailValidated'])
   },
   mounted() {
     if (Object.keys(this.loggedUser).length === 0) {
       return;
     }
     this.$store.dispatch('auth/userRequest');
+  },
+  updated() {
+    console.log('validated', this.emailValidated);
+    console.log('getters', !this.$store.getters['hasEmailVerified']);
   },
   methods: {
     logout() {
@@ -30,9 +35,6 @@ export default {
         this.$router.push('/login');
       });
     },
-    getCurrentURL() {
-      const currentUrl = window.location.pathname;
-    }
   }
 }
 </script>
