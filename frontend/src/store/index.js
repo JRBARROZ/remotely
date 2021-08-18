@@ -44,11 +44,10 @@ const auth = {
     },
     signUp: ({ commit, dispatch }, data) => {
       return new Promise((resolve, reject) => {
-        commit("request", null, { root: true });
         axios
           .post(`${server}/auth/register`, data)
           .then((response) => {
-            commit("success", "Registro efetuado com sucesso", { root: true });
+            commit("success", response.data.message, { root: true });
             resolve(response);
           })
           .catch((error) => {
@@ -99,6 +98,7 @@ const auth = {
     },
     logout: ({ commit, rootState }) => {
       return new Promise((resolve, reject) => {
+        commit("resetStatus", null, { root: true })
         commit('setToken', "", { root: true });
         localStorage.removeItem("user-token");
         localStorage.removeItem("logged-user");
@@ -133,7 +133,6 @@ const auth = {
         axios
           .post(`${server}/forgot-password`, data)
           .then((response) => {
-            console.log('forgot',response.data);
             commit("success", response.data.message, { root: true });
             resolve(response);
           })
@@ -144,9 +143,26 @@ const auth = {
       });
     },
     resetPassword: ({ commit, rootState}, data) => {
-      axios.post(`${server}/reset-password`, data)
-        .then((response) => console.log('res',response))
-        .catch((error) => console.log('err',error));
+      return new Promise((resolve, reject) => {
+        axios.post(`${server}/reset-password`, data)
+        .then((response) => {
+          commit("success", "Senha alterada com sucesso", { root: true })
+          resolve(response);
+        })
+        .catch((error) => {
+          if (error.response.status < 500) {
+            const data = JSON.parse(error.response.data);
+            let err = '';
+            if (data.password) {
+              err = data.password[0];
+            }
+            if (data.email) err = data.email[0];
+            if (data.error) err = data.error[0];
+            commit("error", err, { root: true });
+          }
+          reject(error);
+        });
+      })
     },
     resendVerificationEmail: async ({ commit, rootState }) => {
       if (!rootState.token) {
@@ -460,7 +476,7 @@ export default createStore({
       state.loading = payload;
     },
     request: (state) => {
-      state.status = [null, "Carregando..."];
+      state.status = [null, "loading"];
     },
     success: (state, payload) => {
       state.status = ["success", payload];

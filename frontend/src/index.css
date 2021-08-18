@@ -8,6 +8,10 @@
         @apply font-comfoorta;
         @apply bg-remotely-pattern bg-repeat -mt-3;
     }
+    .input {
+        @apply text-gray-600 h-10 w-full border rounded
+        pl-2 bg-input placeholder-transparent focus:outline-none;
+    }
     .wrapper {
         width: calc(100vw);
         height: calc(100vh - (68px + 64px));

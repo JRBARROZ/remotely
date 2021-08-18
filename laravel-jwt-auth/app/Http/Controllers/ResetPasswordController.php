@@ -6,16 +6,27 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Str;
+use Validator;
 
 class ResetPasswordController extends Controller
 {
 	function resetPassword (Request $request) {
-		$request->validate([
+		// $request->validate([
+		// 	'token' => 'required',
+		// 	'email' => 'required|email',
+		// 	'password' => 'required|min:6|confirmed',
+		// ]);
+
+		$validator = Validator::make($request->all(), [
 			'token' => 'required',
-			'email' => 'required|email',
-			'password' => 'required|min:6|confirmed',
+			'email' => 'required|string|email',
+			'password' => 'required|confirmed|min:6',
 		]);
-		echo "request " . ($request->token);
+
+		if ($validator->fails()) {
+			return response()->json($validator->errors()->toJson(), 400);
+		}
+		
 		$status = Password::reset(
 			$request->only('email', 'password', 'password_confirmation', 'token'),
 			function ($user, $password) {

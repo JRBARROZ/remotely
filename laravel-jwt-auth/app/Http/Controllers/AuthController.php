@@ -99,7 +99,7 @@ class AuthController extends Controller
 		event(new Registered($user));
 
 		return response()->json([
-			'message' => 'User successfully registered',
+			'message' => 'Usuário registrado com sucesso',
 			'user' => $user
 		], 201);
 	}

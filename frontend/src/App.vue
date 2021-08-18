@@ -24,10 +24,6 @@ export default {
     }
     this.$store.dispatch('auth/userRequest');
   },
-  updated() {
-    console.log('validated', this.emailValidated);
-    console.log('getters', !this.$store.getters['hasEmailVerified']);
-  },
   methods: {
     logout() {
       this.$store.dispatch('auth/logout')

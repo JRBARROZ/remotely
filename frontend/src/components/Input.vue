@@ -2,10 +2,7 @@
   <div class="relative mt-6">
     <input
       :type="type"
-      class="text-gray-600 peer
-        h-10 w-full border rounded
-        pl-2 bg-input placeholder-transparent
-        focus:outline-none"
+      class="peer input"
       :id="id"
       placeholder="{{labelText}}"
       v-model="input"
