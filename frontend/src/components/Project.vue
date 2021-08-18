@@ -57,18 +57,7 @@
             <select
               v-model="projData.orgId"
               required
-              class="
-                text-gray-600
-                peer
-                h-10
-                w-full
-                border
-                rounded
-                pl-2
-                bg-input
-                placeholder-transparent
-                focus:outline-none
-              "
+              class="peer select"
               id="proj-organization"
             >
               <option
@@ -81,20 +70,7 @@
             </select>
             <label
               for="proj-organization"
-              class="
-                absolute
-                left-2
-                -top-5
-                text-input-text text-sm
-                transition-all
-                peer-invalid:text-base
-                peer-invalid:text-gray-400
-                peer-invalid:top-2
-                peer-focus:-top-5
-                peer-focus:left-0
-                peer-focus:text-title
-                peer-focus:text-sm
-              "
+              class="select-label"
               >Organizações</label
             >
           </div>
@@ -184,22 +160,13 @@
             <textarea
               type="text"
               v-model="this.taskData.description"
-              class="text-gray-600 peer
-                h-10 w-full border
-                rounded h-32 pl-2
-                bg-input placeholder-transparent
-                focus:outline-none"
+              class="peer textarea"
               id="task-edit-description"
               placeholder="Nome da organização"
             />
             <label
               for="task-edit-description"
-              class="absolute left-2
-                -top-5 text-input-text text-sm
-                transition-all peer-placeholder-shown:text-base
-                peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2
-                peer-focus:-top-5 peer-focus:left-0
-                peer-focus:text-title peer-focus:text-sm"
+              class="input-label"
               >Descrição</label
             >
             </div>
@@ -228,18 +195,7 @@
             <select
               v-model="taskData.projId"
               required
-              class="
-                text-gray-600
-                peer
-                h-10
-                w-full
-                border
-                rounded
-                pl-2
-                bg-input
-                placeholder-transparent
-                focus:outline-none
-              "
+              class="peer select"
               id="task-project"
             >
               <option
@@ -252,20 +208,7 @@
             </select>
             <label
               for="task-project"
-              class="
-                absolute
-                left-2
-                -top-5
-                text-input-text text-sm
-                transition-all
-                peer-invalid:text-base
-                peer-invalid:text-gray-400
-                peer-invalid:top-2
-                peer-focus:-top-5
-                peer-focus:left-0
-                peer-focus:text-title
-                peer-focus:text-sm
-              "
+              class="select-label"
               >Projetos</label
             >
           </div>
@@ -274,38 +217,13 @@
             <textarea
               type="text"
               v-model="this.taskData.description"
-              class="
-                text-gray-600
-                peer
-                h-10
-                w-full
-                border
-                rounded
-                h-32
-                pl-2
-                bg-input
-                placeholder-transparent
-                focus:outline-none
-              "
+              class="peer textarea"
               id="task-description"
               placeholder="Nome da organização"
             />
             <label
               for="task-description"
-              class="
-                absolute
-                left-2
-                -top-5
-                text-input-text text-sm
-                transition-all
-                peer-placeholder-shown:text-base
-                peer-placeholder-shown:text-gray-400
-                peer-placeholder-shown:top-2
-                peer-focus:-top-5
-                peer-focus:left-0
-                peer-focus:text-title
-                peer-focus:text-sm
-              "
+              class="input-label"
               >Descrição</label
             >
             <div class="flex gap-2">

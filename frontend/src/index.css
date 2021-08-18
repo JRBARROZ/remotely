@@ -12,6 +12,28 @@
         @apply text-gray-600 h-10 w-full border rounded
         pl-2 bg-input placeholder-transparent focus:outline-none;
     }
+    .input-label {
+        @apply absolute left-2 -top-5
+        text-input-text text-sm transition-all
+        peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400
+        peer-placeholder-shown:top-2 peer-focus:-top-5
+        peer-focus:left-0 peer-focus:text-title
+        peer-focus:text-sm;
+    }
+    .select {
+        @apply text-gray-600 h-10 w-full border rounded pl-2 bg-input
+        placeholder-transparent focus:outline-none;
+    }
+    .select-label {
+        @apply absolute left-2 -top-5 text-input-text text-sm transition-all
+        peer-invalid:text-base peer-invalid:text-gray-400 peer-invalid:top-2
+        peer-focus:-top-5 peer-focus:left-0 peer-focus:text-title
+        peer-focus:text-sm;
+    }
+    .textarea {
+        @apply text-gray-600 h-10 w-full border rounded h-32 pl-2 bg-input
+        placeholder-transparent focus:outline-none;
+    }
     .wrapper {
         width: calc(100vw);
         height: calc(100vh - (68px + 64px));
