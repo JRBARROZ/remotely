@@ -1,6 +1,6 @@
 <template>
   <div class="h-screen w-screen flex items-center justify-center">
-    Please wait...
+    <span class="text-title text-xl">Por favor, aguarde...</span>
   </div>
 </template>
 <script>

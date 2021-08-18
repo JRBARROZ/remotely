@@ -45,7 +45,7 @@
           <form
             class="flex flex-col gap-1 px-6"
             autocomplete="off"
-            @submit="handleSubmit"
+            @submit.prevent="handleSubmit"
           >
           <Input id="org-name" labelText="Nome" @getValue="(e) => this.orgData.name = e" />
             <div class="flex gap-2">
