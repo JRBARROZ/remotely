@@ -105,11 +105,11 @@
         class="mt-6 rounded border pt-4 pb-3 mx-8 px-6 text-center relative"
         :class="
           status[0] === 'success'
-            ? 'bg-green-300 text-green-700 border-green-700'
+            ? 'bg-green-100 text-green-700 border-green-700'
             : status[0] === 'error'
-            ? 'bg-red-300 text-red-700 border-red-700'
+            ? 'bg-red-100 text-red-700 border-red-700'
             : status[0] === 'warning'
-            ? 'bg-yellow-300 text-yellow-700 border-yellow-700'
+            ? 'bg-yellow-100 text-yellow-700 border-yellow-700'
             : ''
         "
         v-if="status.length > 0 && status[1] !== 'loading'"

@@ -11,12 +11,6 @@ use Validator;
 class ResetPasswordController extends Controller
 {
 	function resetPassword (Request $request) {
-		// $request->validate([
-		// 	'token' => 'required',
-		// 	'email' => 'required|email',
-		// 	'password' => 'required|min:6|confirmed',
-		// ]);
-
 		$validator = Validator::make($request->all(), [
 			'token' => 'required',
 			'email' => 'required|string|email',
