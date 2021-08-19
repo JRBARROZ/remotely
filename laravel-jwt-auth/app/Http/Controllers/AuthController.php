@@ -99,7 +99,7 @@ class AuthController extends Controller
 		event(new Registered($user));
 
 		return response()->json([
-			'message' => 'Usuário registrado com sucesso',
+			'message' => 'Usuário registrado com sucesso! Por favor, verifique sua caixa de entrada para validar seu e-mail.',
 			'user' => $user
 		], 201);
 	}

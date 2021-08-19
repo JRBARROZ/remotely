@@ -169,16 +169,20 @@ const auth = {
         commit("resetStatus", null, { root: true });
         return;
       }
-      try {
-        const options = {
-          headers: {
-            "Authorization": `Bearer ${rootState.token}`,
-          },
-        };
-        const response = await axios.post(`${server}/auth/email/verify/resend`, null, options);
-      } catch (error) {
-        console.log(error);
-      }
+
+      const options = {
+        headers: {
+          "Authorization": `Bearer ${rootState.token}`,
+        },
+      };
+      await axios.post(`${server}/auth/email/verify/resend`, null, options)
+        .then((response) => {
+          commit("success", response.data[1], { root: true });
+        })
+        .catch((error) => {
+          console.log(error);
+          commit("error", error.response.data.message, { root: true });
+        })
     },
   },
 };

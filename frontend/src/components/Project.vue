@@ -266,14 +266,14 @@ export default {
       projData: {
         id: null,
         name: null,
-        status: "Ongoing",
+        status: "Iniciado",
         orgId: null,
       },
       taskData: {
         id: null,
         title: "",
         description: "",
-        status: "Ongoing",
+        status: "Iniciado",
         projId: null,
         deadline: null,
       },
@@ -312,7 +312,7 @@ export default {
     toggleEditBox(proj) {
       this.showModal = !this.showModal;
       this.projData.name = proj.name;
-      this.projData.status = proj.status ?? "Ongoing";
+      this.projData.status = proj.status ?? "Iniciado";
       this.projData.id = proj.id;
     },
     handleEditSubmit(data) {
@@ -322,7 +322,7 @@ export default {
           this.projData.name = "";
           this.projData.id = null;
           this.showModal = false;
-          this.projData.status = "Ongoing";
+          this.projData.status = "Iniciado";
           this.$router.push("projects");
         })
         .catch(() => console.log("Não foi possível editar o projeto"));
@@ -366,7 +366,7 @@ export default {
           this.taskData.id = null;
           this.taskData.title = "";
           this.taskData.description = ""
-          this.taskData.status = "Ongoing";
+          this.taskData.status = "Iniciado";
           this.taskData.deadline = null;
           this.taskData.projId = null;
           this.showTaskModal = false;
@@ -379,7 +379,7 @@ export default {
         this.taskData.id = null;
         this.taskData.title = "";
         this.taskData.description = ""
-        this.taskData.status = "Ongoing";
+        this.taskData.status = "Iniciado";
         this.taskData.deadline = null;
         this.taskData.projId = null;
         this.showTaskModal = false;

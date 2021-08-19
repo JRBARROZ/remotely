@@ -57,6 +57,14 @@
           <a href="#" @click.prevent="sendMailVerification()" class="text-blue-400 font-semibold hover:text-blue-300">
             Clique aqui</a> para enviarmos novamente
         </p>
+        <div class="flex items-center justify-center" v-if="this.status.length !== 0 && this.status[1] === 'loading'">
+          <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="#8988fd" stroke-width="4"></circle>
+            <path class="opacity-75" fill="#8988fd" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <span class="text-lg text-title">Por favor, aguarde...</span>
+        </div>
+        <StatusMessage :status="this.status" />
       </div>
     </PageWrapper>
   </div>
@@ -65,11 +73,16 @@
 import { mapState } from "vuex";
 import NavBar from "./NavBar";
 import PageWrapper from "./PageWrapper";
+import StatusMessage from "./StatusMessage";
+
 export default {
-  mounted: function (){
+  mounted(){
     this.timeout();
   },
-  components: { NavBar, PageWrapper },
+  created() {
+    this.$store.commit("resetStatus");
+  },
+  components: { NavBar, PageWrapper, StatusMessage },
   name: "VerifyEmail",
   computed: {
     ...mapState(["status"]),
@@ -81,6 +94,7 @@ export default {
   },
   methods: {
     sendMailVerification() {
+      this.$store.commit('request', null);
       this.$store.dispatch("auth/resendVerificationEmail");
     },
     timeout(){
