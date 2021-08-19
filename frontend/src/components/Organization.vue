@@ -7,7 +7,7 @@
       <div class="mt-6" v-if="orgList.length === 0 && addOrganization === false">
         <h1 class="font-lexend mx-4">Você não tem nenhuma organização, crie uma agora.</h1>
       </div>
-      <div v-if="addOrganization === false">
+      <div class="h-108 border-b-4 mt-5 border-opacity-50 pb-4 border-primary mx-4 overflow-y-scroll" v-if="addOrganization === false">
         <Box
           v-for="(org, index) in orgList"
           :key="index"
@@ -19,7 +19,7 @@
             <div class="flex items-center gap-2 mr-2">
               <img
                 src="../assets/edit.svg"
-                class="inline h-6 w-7 hover:cursor-pointer"
+                class="inline h-7 w-7 hover:cursor-pointer"
                 @click="toggleEditBox(org)"
                 alt="Edit-Button"
               />

@@ -6,7 +6,7 @@
         <h1 class="font-lexend mx-4">Você não tem nenhum projeto,<br>
            crie um agora.</h1>
       </div>
-      <div v-if="addProject === false">
+      <div class="h-108 max-h-108 mt-5 border-b-4 border-opacity-50 pb-4 border-primary mx-4 overflow-y-scroll" v-if="addProject === false && projList.length !== 0">
         <Box
           v-for="(proj, index) in projList"
           :key="index"
@@ -46,7 +46,7 @@
           />
         </Box>
       </div>
-      <div v-else>
+      <div v-if="addProject">
         <form
           class="flex flex-col gap-1 px-6"
           autocomplete="off"
@@ -294,19 +294,19 @@ export default {
   methods: {
     handleCancel(e) {
       e.preventDefault;
-      if (confirm("Você realmente deseja cancelar a criação ? "))
+      if (confirm("Você realmente deseja cancelar a criação? "))
         this.$store.commit("project/setAddProject", false);
     },
     handleSubmit() {
       if (this.projData.name.trim() === "" || this.projData.orgId === null)
-        return alert("all fields must be filled in");
+        return alert("Todos os campos devem ser preenchidos");
       this.$store.dispatch("project/add", this.projData);
       this.projData.name = "";
       this.projData.orgId = null;
       this.$store.commit("project/setAddProject", false);
     },
     remove(name, index) {
-      if (confirm(`Deseja Realmente Deletar o Projeto: " ${name} " ?`))
+      if (confirm(`Deseja Realmente Deletar o Projeto: "${name}"?`))
         this.$store.dispatch("project/remove", index);
     },
     toggleEditBox(proj) {
@@ -337,7 +337,7 @@ export default {
         this.taskData.description.trim() === "" ||
         this.deadline === null
       )
-        return alert("all fields must be filled in");
+        return alert("Todos os campos devem ser preenchidos");
       this.$store.dispatch("task/add", this.taskData);
       this.taskData.title = "";
       this.taskData.description = "";
@@ -346,7 +346,7 @@ export default {
       this.$store.commit("task/setAddTask", false);
     },
     removeTask(title, index) {
-      if (confirm(`Deseja realmente deletar a tarefa: " ${title} " ?`))
+      if (confirm(`Deseja realmente deletar a tarefa: "${title}"?`))
         this.$store.dispatch("task/remove", index).then(() => 
         this.showTaskModal = false);
     },
@@ -375,7 +375,7 @@ export default {
         .catch(() => console.log("Não foi possível editar a tarefa"));
     },
     handleTaskCancel() {
-      if (confirm("Você realmente deseja cancelar a criação ? ")){
+      if (confirm("Você realmente deseja cancelar a criação? ")){
         this.taskData.id = null;
         this.taskData.title = "";
         this.taskData.description = ""

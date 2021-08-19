@@ -87,12 +87,15 @@ export default {
       this.$store.commit("resetStatus");
     },
     sendToLogin() {
+      this.closeMessage();
       this.$router.push("/login");
     },
     sendToRegister() {
+      this.closeMessage();
       this.$router.push("/register");
     },
     sendToHome() {
+      this.closeMessage();
       this.$router.push("/");
     },
   },

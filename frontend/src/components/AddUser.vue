@@ -17,15 +17,7 @@
     </div>
     <div class="flex flex-col items-center h-full relative">
       <div
-        class="
-          flex
-          items-center
-          gap-2
-          absolute
-          top-4
-          left-auto
-          hover:cursor-pointer
-        "
+        class="flex items-center gap-2 absolute top-4 left-auto hover:cursor-pointer"
         @click="sendToHome"
       >
         <svg

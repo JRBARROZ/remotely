@@ -4,6 +4,25 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400&family=Lexend+Deca&display=swap');
 @layer base{
+    /* width */
+    ::-webkit-scrollbar {
+        width: 4px;
+    }
+    
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+    
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        @apply bg-primary bg-opacity-30;
+    }
+    
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        @apply bg-primary bg-opacity-60;
+    }
     body {
         @apply font-comfoorta;
         @apply bg-remotely-pattern bg-repeat -mt-3;
