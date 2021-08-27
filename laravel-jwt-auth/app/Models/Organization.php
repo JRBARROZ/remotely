@@ -16,6 +16,10 @@ class Organization extends Model
 		return $this->belongsToMany(User::class);
 	}
 
+	public function invitations()
+	{
+		return $this->hasMany(Invitation::class);
+	}
 	/**
 	 * The attributes that are mass assignable.
 	 *

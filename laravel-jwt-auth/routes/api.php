@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\VerifyEmailController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\ResetPasswordController;
@@ -88,4 +89,12 @@ Route::group([
 	Route::get('/list', [TaskController::class, 'getList']);
 	Route::delete('/{id}', [TaskController::class, 'destroy']);
 	Route::put('/update', [TaskController::class, 'update']);
+});
+
+Route::group([
+	'middleware' => 'verified:api',
+	'prefix' => 'invite'
+], function(){
+	Route::post('/user', [InvitationController::class, 'store']);
+	Route::post('/accept', [InvitationController::class, 'accept']);
 });

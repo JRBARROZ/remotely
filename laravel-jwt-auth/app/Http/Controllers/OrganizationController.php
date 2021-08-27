@@ -81,8 +81,8 @@ class OrganizationController extends Controller
     public function update(Request $request)
     {
         $user_id = auth()->user()->id;
-        if (Organization::where('creator_id', '=', $user_id)->where('id', '=', $request->id)->count() == 1) {
-            Organization::where('creator_id', '=', $user_id)->where('id', '=', $request->id)->update(["name" => $request->name]);
+        if (Organization::where('creator_id', $user_id)->where('id', $request->id)->count() == 1) {
+            Organization::where('creator_id', $user_id)->where('id', $request->id)->update(["name" => $request->name]);
             return response("Updated", 200);
         } else {
             return response("Forbidden", 403);
@@ -98,8 +98,8 @@ class OrganizationController extends Controller
     public function destroy($id)
     {
         $user_id = auth()->user()->id;
-        if (Organization::where('creator_id', '=', $user_id)->where('id', '=', $id)->count() == 1) {
-            Organization::where('creator_id', '=', $user_id)->where('id', '=', $id)->delete();
+        if (Organization::where('creator_id', $user_id)->where('id', $id)->count() == 1) {
+            Organization::where('creator_id', $user_id)->where('id', $id)->delete();
             return response("Deleted", 200);
         } else {
             return response("Forbidden", 403);

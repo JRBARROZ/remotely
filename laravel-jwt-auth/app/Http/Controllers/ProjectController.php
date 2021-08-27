@@ -47,7 +47,7 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         $user_id = auth()->user()->id;
-        if (Organization::where('creator_id', '=', $user_id)->where('id', '=', $request->orgId)->count() == 1) {
+        if (Organization::where('creator_id', $user_id)->where('id', $request->orgId)->count() == 1) {
             $proj = Project::create(["name" => $request->name, "status" => $request->status, "creator_id" => $user_id, "org_id" => $request->orgId]);
             Project::find($proj->id)->users()->attach($user_id);
             return response("Success", 200);
@@ -101,8 +101,8 @@ class ProjectController extends Controller
     public function update(Request $request)
     {
         $user_id = auth()->user()->id;
-        if (Project::where('creator_id', '=', $user_id)->where('id', '=', $request->id)->count() == 1) {
-            Project::where('creator_id', '=', $user_id)->where('id', '=', $request->id)->update(["name" => $request->name, "status" => $request->status]);
+        if (Project::where('creator_id', $user_id)->where('id', $request->id)->count() == 1) {
+            Project::where('creator_id', $user_id)->where('id', $request->id)->update(["name" => $request->name, "status" => $request->status]);
             return response("Updated", 200);
         } else {
             return response("Forbidden", 403);
@@ -118,8 +118,8 @@ class ProjectController extends Controller
     public function destroy($id)
     {
         $user_id = auth()->user()->id;
-        if (Project::where('creator_id', '=', $user_id)->where('id', '=', $id)->count() == 1) {
-            Project::where('creator_id', '=', $user_id)->where('id', '=', $id)->delete();
+        if (Project::where('creator_id', $user_id)->where('id', $id)->count() == 1) {
+            Project::where('creator_id', $user_id)->where('id', $id)->delete();
             return response("Deleted", 200);
         } else {
             return response("Forbidden", 403);
