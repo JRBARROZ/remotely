@@ -32,10 +32,12 @@ module.exports = {
         'input': '#E2E2FF',
         'primary': '#8988FD',
         'input-text': '#A8A8D3',
+        'input-disabled': '#9797C2',
         'title': '#58588B',
         'light-purple': '#E7E7FF',
         'medium-purple': '#AEAEFF',
-        'medium-dark-purple': '#8C8BFF'
+        'medium-dark-purple': '#6262A2',
+        'ice': '#FAFAFF'
       },
       animation: {
         'spin-once': 'spino 0.5s linear forwards',

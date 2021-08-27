@@ -3,10 +3,12 @@
     <input
       :type="type"
       class="peer input"
+      :class="disabled ? 'disabled:bg-input-disabled disabled:bg-opacity-50' : ''"
       :id="id"
       placeholder="{{labelText}}"
       v-model="input"
       @input="() => $emit('getValue', this.input)"
+      :disabled="disabled"
     />
     <label
       :for="id"
@@ -30,7 +32,11 @@ export default {
       default: "text"
     },
     labelText: String,
-    initialText: String
+    initialText: String,
+    disabled: {
+      type: Boolean,
+      default: false
+    }
   },
 };
 </script>

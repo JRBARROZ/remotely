@@ -13,7 +13,7 @@
           :key="index"
           :ref="org + index"
           :title="org.name"
-          subtitle="Novo Projeto"
+          :link="'/organizations/' + org.id"
         >
           <template v-slot:header>
             <div class="flex items-center gap-2 mr-2">
@@ -85,12 +85,12 @@
               action="#/organizations"
               class="flex flex-col gap-1 px-4 w-full"
               autocomplete="off"
+              @submit.prevent="handleEditSubmit(this.orgData)"
             >
               <Input id="org-name-edit" labelText="Nome" :initialText="this.orgData.name" @getValue="(e) => this.orgData.name = e" />
               <button
                 class="bg-primary h-10 text-white rounded mt-2 py-2"
                 type="submit"
-                @click="handleEditSubmit(this.orgData)"
               >
                 Salvar
               </button>

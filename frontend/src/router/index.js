@@ -31,6 +31,29 @@ const routes = [
     }
   },
   {
+    path: '/organizations/:id',
+    name: 'organization',
+    component: () => import(/* webpackChunkName: "Organization" */ '../components/EntityDetail.vue'),
+    meta: {
+      isLogged: true,
+      hasEmailVerified: true
+    }
+  },
+  {
+    path: '/404',
+    name: 'notFound',
+    component: () => import(/* webpackChunkName: "Organization" */ '@/views/NotFound.vue'),
+  },
+  {
+    path: '/invite/:entity/:id/',
+    name: 'invite',
+    component: () => import(/* webpackChunkName: "Organization" */ '@/views/Invite.vue'),
+    meta: {
+      isLogged: true,
+      hasEmailVerified: true
+    }
+  },
+  {
     path: '/profile',
     name: 'Profile',
     // route level code-splitting

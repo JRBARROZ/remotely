@@ -460,6 +460,15 @@ const task = {
   }
 };
 
+const invitation = {
+  namespaced: true,
+  actions: {
+    invite: async ({rootState}, payload) => {
+      const response = await axios.post(`${server}/invite/user`, payload, {headers: { Authorization: `Bearer ${rootState.token}`}});
+    }
+  }
+}
+
 export default createStore({
   state: {
     token: localStorage.getItem("user-token") ?? "",
@@ -503,6 +512,7 @@ export default createStore({
     auth: auth,
     organization: organization,
     project: project,
-    task: task
+    task: task,
+    invitation: invitation
   },
 });
