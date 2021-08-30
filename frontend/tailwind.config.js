@@ -41,6 +41,7 @@ module.exports = {
       },
       animation: {
         'spin-once': 'spino 0.5s linear forwards',
+        'slide-left': 'slideLeft 0.3s forwards ease',
         'shake': 'shake 1s linear forwards',
         'fill': 'fill 1s ease forwards'
       },
@@ -48,6 +49,10 @@ module.exports = {
         spino: {
           from: { transform: 'rotate(0deg)' },
           to: { transform: 'rotate(360deg)' },
+        },
+        slideLeft: {
+          from: { opacity: 0, transform: 'translate3d(-100%, 0, 0)' },
+          to: { opacity: 1, transform: 'none' },
         },
         shake: {
           "0%": { transform: "translate(1px, 1px) rotate(0deg)" },

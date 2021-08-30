@@ -1,13 +1,15 @@
 <template>
   <div class="wrapper">
     <div class=" text-center mt-4 text-title">
-      <div class="flex gap-2 justify-center relative">
+      <div class="flex flex-wrap gap-2 justify-center relative">
         <div v-for="(word, index) in titleProcessed" :key="index">
           <h1 class="font-lexend text-2xl">{{word}}</h1>
           <span class="w-max" v-if="titleProcessed.length == 1 && titleProcessed[0] != ''">
-            <img src="../assets/dash.svg" alt="dash">
+            <img src="../assets/dash.svg" alt="dash" class="animate-slide-left">
           </span>
-          <span class="w-max" v-if="index == 1"><img src="../assets/dash.svg" alt="dash"></span>
+          <span class="w-max" v-if="index == 1">
+            <img src="../assets/dash.svg" alt="dash" class="animate-slide-left">
+          </span>
         </div>
         <div v-if="invite" @click="inviteUser">
           <span class="w-max absolute right-10">

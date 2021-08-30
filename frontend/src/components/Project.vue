@@ -14,15 +14,11 @@
 <script>
 import { mapState } from "vuex";
 import NavBar from "./NavBar";
-import Box from "./Box";
-import BoxItem from "./BoxItem";
-import MainButton from "./MainButton.vue";
 import PageWrapper from "./PageWrapper";
-import Input from "./Input";
 import ProjectComp from './ProjectComp.vue';
 
 export default {
-  components: { NavBar, PageWrapper, Box, BoxItem, MainButton, Input, ProjectComp },
+  components: { NavBar, PageWrapper, ProjectComp },
   data() {
     return {
       showModal: false,

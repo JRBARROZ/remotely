@@ -392,7 +392,7 @@ const task = {
       const data = {
         title: rawData.title,
         deadline: new Date(date[0], date[1]-1, date[2]).toISOString().slice(0, 19).replace('T', ' '),
-        status: "Ongoing",
+        status: "Iniciado",
         description: rawData.description,
         project_id: rawData.projId,
       }

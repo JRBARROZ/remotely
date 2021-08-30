@@ -4,8 +4,8 @@
     <PageWrapper :title="entity.name" v-if="entity != null">
       <div class="mt-6 h-full">
         <h1 class="">Convide pessoas para {{this.$route.params.entity === 'org' ? 'a organização:' : 'o projeto:'}}</h1>
-          <form action="#" @submit.prevent="handleSubmit" class="flex mx-6 gap-1 relative mt-4 h-12">
-            <input type="email" id="invite-user" class="peer input min-h-full focus:border-none invalid:border invalid:border-red-300 " placeholder="E-mail" v-model="inviteData.email">
+          <form action="#" @submit.prevent="handleSubmit" class="flex mx-6 gap-1 relative mt-4 h-10">
+            <input type="email" id="invite-user" class="peer input focus:border-none invalid:border invalid:border-red-300 " placeholder="E-mail" v-model="inviteData.email">
             <label 
               for="invite-user"
               class="absolute left-2 -top-5
@@ -69,10 +69,12 @@ export default {
       if(this.entity === null) this.$router.push('/404');
     },
     handleSubmit(){
-      if (this.inviteData.email.trim() === "")
-        return alert("all fields must be filled in");
-        this.inviteData.entityId = this.entity.id;
-        this.$store.dispatch('invitation/invite', this.inviteData);
+      if (this.inviteData.email.trim() === "") {
+        return alert("Todos os campos devem ser preenchidos");
+      }
+      
+      this.inviteData.entityId = this.entity.id;
+      this.$store.dispatch('invitation/invite', this.inviteData);
     }
   },
   created(){
