@@ -43,11 +43,11 @@
       
       <div class="w-full" v-if="addProject">
         <form
-          class="flex flex-col gap-1 px-6"
+          class="flex flex-col gap-1 px-6 sm:w-3/4 md:w-1/2 sm:mx-auto"
           autocomplete="off"
           @submit.prevent="handleSubmit"
         >
-          <Input id="nome" labelText="Nome"  @getValue="(e) => this.projData.name = e"/>
+          <Input id="nome" labelText="Nome"  v-model:value="this.projData.name"/>
           <div class="relative mt-5" v-if="this.ownerOrg == null">
             <select
               v-model="projData.orgId"
@@ -106,11 +106,11 @@
             </h1>
             <form
               action="#/projects"
-              class="flex flex-col gap-1 px-4 w-full"
+              class="flex flex-col gap-1 px-4 w-full sm:w-3/4 md:w-1/2 sm:mx-auto"
               autocomplete="off"
             >
-              <Input id="nome-edit" labelText="Nome" :initialText="this.projData.name"  @getValue="(e) => this.projData.name = e"/>
-              <Input id="status-edit" labelText="Status" :initialText="this.projData.status"  @getValue="(e) => this.projData.status = e"/>
+              <Input id="nome-edit" labelText="Nome" :initialText="this.projData.name"  v-model:value="this.projData.name"/>
+              <Input id="status-edit" labelText="Status" :initialText="this.projData.status"  v-model:value="this.projData.status"/>
               <button
                 class="bg-primary h-10 text-white rounded mt-2 py-2"
                 type="submit"
@@ -147,12 +147,12 @@
             </div>
             <form
               action="#/projects"
-              class="flex flex-col gap-1 px-4 w-full"
+              class="flex flex-col gap-1 px-4 w-full sm:w-3/4 md:w-1/2 sm:mx-auto"
               autocomplete="off"
               @submit.prevent
             >
-            <Input id="task-edit-title" labelText="Título"  :initialText="this.taskData.title" @getValue="(e) => this.taskData.title = e"/>
-            <Input id="task-edit-status" labelText="Status" :initialText="this.taskData.status"  @getValue="(e) => this.taskData.status = e"/>
+            <Input id="task-edit-title" labelText="Título"  :initialText="this.taskData.title" v-model:value="this.taskData.title"/>
+            <Input id="task-edit-status" labelText="Status" :initialText="this.taskData.status"  v-model:value="this.taskData.status"/>
             <div class="relative mt-5">
             <textarea
               type="text"
@@ -182,13 +182,13 @@
 
       <div class="w-full" v-if="addTask">
         <form
-          class="flex flex-col gap-1 px-6"
+          class="flex flex-col gap-1 px-6 sm:w-3/4 md:w-1/2 sm:mx-auto"
           autocomplete="off"
           @submit.prevent="handleTaskSubmit"
         >
-          <Input id="task-title" labelText="Título"  @getValue="(e) => this.taskData.title = e"/>
+          <Input id="task-title" labelText="Título"  v-model:value="this.taskData.title"/>
           <Input id="task-project" labelText="Projeto" :initialText="choosenProj.name" :disabled="true"/> 
-          <Input type="date" id="task-deadline" labelText="Data de entrega" @getValue="(e) => this.taskData.deadline = e"/>
+          <Input type="date" id="task-deadline" labelText="Data de entrega" v-model:value="this.taskData.deadline"/>
           <div class="relative mt-5">
             <textarea
               type="text"

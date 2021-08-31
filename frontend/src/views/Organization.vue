@@ -43,11 +43,11 @@
       <div v-else-if="addOrganization">
         <div>
           <form
-            class="flex flex-col gap-1 px-6"
+            class="flex flex-col gap-1 px-6 sm:w-3/4 md:w-1/2 sm:mx-auto"
             autocomplete="off"
             @submit.prevent="handleSubmit"
           >
-          <Input id="org-name" labelText="Nome" @getValue="(e) => this.orgData.name = e" />
+          <Input id="org-name" labelText="Nome" v-model:value="this.orgData.name" />
             <div class="flex gap-2">
               <button
                 class="bg-red-200 rounded-md p-2 mt-2 hover:bg-red-300"
@@ -83,11 +83,11 @@
             </h1>
             <form
               action="#/organizations"
-              class="flex flex-col gap-1 px-4 w-full"
+              class="flex flex-col gap-1 px-4 w-full sm:w-3/4 md:w-1/2 sm:mx-auto"
               autocomplete="off"
               @submit.prevent="handleEditSubmit(this.orgData)"
             >
-              <Input id="org-name-edit" labelText="Nome" :initialText="this.orgData.name" @getValue="(e) => this.orgData.name = e" />
+              <Input id="org-name-edit" labelText="Nome" :initialText="this.orgData.name" v-model:value="this.orgData.name" />
               <button
                 class="bg-primary h-10 text-white rounded mt-2 py-2"
                 type="submit"

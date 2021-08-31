@@ -6,8 +6,8 @@
       :class="disabled ? 'disabled:bg-input-disabled disabled:bg-opacity-50' : ''"
       :id="id"
       placeholder="{{labelText}}"
-      v-model="input"
-      @input="() => $emit('getValue', this.input)"
+      :value="this.value"
+      @input="$emit('update:value', $event.target.value)"
       :disabled="disabled"
     />
     <label
@@ -20,13 +20,9 @@
 
 <script>
 export default {
-  data() {
-    return {
-      input: this.initialText ?? "",
-    };
-  },
   props: {
     id: String,
+    value: String,
     type: {
       type: String,
       default: "text"
@@ -38,5 +34,6 @@ export default {
       default: false
     }
   },
+  emits: ['update:value']
 };
 </script>

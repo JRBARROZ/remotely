@@ -28,6 +28,11 @@ module.exports = {
         '106': '26.5rem',
         '108': '27rem',
       },
+      width: {
+        '104': '26rem',
+        '106': '26.5rem',
+        '108': '27rem',
+      },
       colors: {
         'input': '#E2E2FF',
         'primary': '#8988FD',

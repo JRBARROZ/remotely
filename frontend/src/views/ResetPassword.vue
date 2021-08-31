@@ -15,12 +15,12 @@
       </svg>
       <h1 class="text-2xl text-title">Remotely</h1>
     </div>
-    <h1 class="text-3xl text-title mt-24 mb-10">Redefinir Senha</h1>
+    <h1 class="text-3xl text-title mt-16 mb-10">Redefinir Senha</h1>
     <form action="#"
       class="flex flex-col gap-1 w-11/12 sm:w-3/4 md:w-1/2 sm:mx-auto px-6"
       autocomplete="off">
-      <Input id="password" type="password" labelText="Senha" @getValue="(e) => this.resetPasswordData.password = e" />
-      <Input id="password_confirmation" type="password" labelText="Confirmar Senha" @getValue="(e) => this.resetPasswordData.password_confirmation = e" />
+      <Input id="password" type="password" labelText="Senha" v-model:value="this.resetPasswordData.password" />
+      <Input id="password_confirmation" type="password" labelText="Confirmar Senha" v-model:value="this.resetPasswordData.password_confirmation" />
       <div class="flex items-center justify-center mt-3">
         <button v-if="status.length === 0 || status[1] !== 'loading'"
           class="mt-3 py-2 bg-primary text-white focus:outline-none rounded

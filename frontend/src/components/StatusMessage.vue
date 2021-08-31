@@ -1,6 +1,6 @@
 <template>
   <div
-    class="mt-6 rounded border pt-4 pb-3 mx-8 px-6 text-center relative"
+    class="mt-6 rounded border pt-4 pb-3 mx-8 text-center relative w-9/12 sm:w-8/12 md:w-5/12 sm:mx-auto"
     :class="
       status[0] === 'success'
         ? 'bg-green-100 text-green-700 border-green-700'
