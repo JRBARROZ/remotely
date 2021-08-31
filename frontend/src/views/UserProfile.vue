@@ -25,7 +25,7 @@
 
 <script>
 import { mapState } from "vuex";
-import NavBar from './NavBar.vue';
+import NavBar from '@/components/NavBar.vue';
 export default {
   components: { NavBar },
   name: "UserProfile",

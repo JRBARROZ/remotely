@@ -18,14 +18,14 @@
           <template v-slot:header>
             <div class="flex items-center gap-2 mr-2">
               <img
-                src="../assets/edit.svg"
+                src="@/assets/edit.svg"
                 class="inline h-7 w-7 hover:cursor-pointer"
                 @click="toggleEditBox(org)"
                 alt="Edit-Button"
               />
 
               <img
-                src="../assets/delete.svg"
+                src="@/assets/delete.svg"
                 class="inline h-8 w-9 hover:cursor-pointer"
                 @click="remove(org.name, org.id)"
                 alt="Delete-Button"
@@ -105,12 +105,12 @@
 
 <script>
 import { mapState } from "vuex";
-import Box from "./Box";
-import BoxItem from "./BoxItem";
-import NavBar from "./NavBar";
-import PageWrapper from "./PageWrapper";
-import MainButton from "./MainButton";
-import Input from './Input';
+import Box from "@/components/Box";
+import BoxItem from "@/components/BoxItem";
+import NavBar from "@/components/NavBar";
+import PageWrapper from "@/components/PageWrapper";
+import MainButton from "@/components/MainButton";
+import Input from '@/components/Input';
 
 export default {
   components: { NavBar, PageWrapper, Box, BoxItem, MainButton, Input },

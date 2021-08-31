@@ -13,9 +13,9 @@
 
 <script>
 import { mapState } from "vuex";
-import NavBar from "./NavBar";
-import PageWrapper from "./PageWrapper";
-import ProjectComp from './ProjectComp.vue';
+import NavBar from "@/components/NavBar";
+import PageWrapper from "@/components/PageWrapper";
+import ProjectComp from '@/components/ProjectComp.vue';
 
 export default {
   components: { NavBar, PageWrapper, ProjectComp },

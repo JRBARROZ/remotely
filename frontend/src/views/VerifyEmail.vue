@@ -71,9 +71,9 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import NavBar from "./NavBar";
-import PageWrapper from "./PageWrapper";
-import StatusMessage from "./StatusMessage";
+import NavBar from "@/components/NavBar";
+import PageWrapper from "@/components/PageWrapper";
+import StatusMessage from "@/components/StatusMessage";
 
 export default {
   mounted(){

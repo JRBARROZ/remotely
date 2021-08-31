@@ -48,7 +48,7 @@
       </div>
       <h1 class="text-3xl text-title mt-24 mb-4">Cadastro</h1>
       <div class="w-11/12 sm:w-8/12 lg:w-6/12 px-6 sm:px-16">
-        <form action="#" class="flex flex-col gap-1" autocomplete="off">
+        <form action="#" class="flex flex-col gap-1 sm:w-3/4 md:w-1/2 sm:mx-auto" autocomplete="off">
           <Input
             id="nameRegister"
             labelText="Nome"
@@ -100,9 +100,9 @@
 
 <script>
 import { mapState } from "vuex";
-import Input from "./Input";
-import LoadingButton from "./LoadingButton";
-import StatusMessage from "./StatusMessage";
+import Input from "@/components/Input";
+import LoadingButton from "@/components/LoadingButton";
+import StatusMessage from "@/components/StatusMessage";
 
 export default {
   components: { Input, LoadingButton, StatusMessage },

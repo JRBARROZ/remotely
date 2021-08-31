@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import Home from '../views/Home.vue';
+import Home from '@/views/Home.vue';
 import store from '../store';
 
 const routes = [
@@ -14,7 +14,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "register" */ '../components/AddUser.vue'),
+    component: () => import(/* webpackChunkName: "register" */ '@/views/AddUser.vue'),
     meta: {
       isNotLogged: true,
     }
@@ -25,7 +25,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "login" */ '../components/Login.vue'),
+    component: () => import(/* webpackChunkName: "login" */ '@/views/Login.vue'),
     meta: {
       isNotLogged: true,
     }
@@ -59,7 +59,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "profile" */ '../components/UserProfile.vue'),
+    component: () => import(/* webpackChunkName: "profile" */ '@/views/UserProfile.vue'),
     meta: {
       isLogged: true,
       hasEmailVerified: true
@@ -71,7 +71,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "organizations" */ '../components/Organization.vue'),
+    component: () => import(/* webpackChunkName: "organizations" */ '@/views/Organization.vue'),
     meta: {
       isLogged: true,
       hasEmailVerified: true
@@ -83,7 +83,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "projects" */ '../components/Project.vue'),
+    component: () => import(/* webpackChunkName: "projects" */ '@/views/Project.vue'),
     meta: {
       isLogged: true,
       hasEmailVerified: true
@@ -95,7 +95,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "forgotPassword" */ '../components/ForgotPassword.vue'),
+    component: () => import(/* webpackChunkName: "forgotPassword" */ '@/views/ForgotPassword.vue'),
     meta: {
       isNotLogged: true,
     }
@@ -106,7 +106,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "verify" */ '../components/VerifyEmail.vue'),
+    component: () => import(/* webpackChunkName: "verify" */ '@/views/VerifyEmail.vue'),
     meta: {
       isLogged: true,
       hasEmailUnverified: true
@@ -118,7 +118,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "verify-successfull" */ '../components/EmailVerified.vue'),
+    component: () => import(/* webpackChunkName: "verify-successfull" */ '@/views/EmailVerified.vue'),
     meta: {
       hasEmailVerified: true
     }
@@ -129,7 +129,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "middleware" */ '../components/EmailVerifiedMiddleware.vue'),
+    component: () => import(/* webpackChunkName: "middleware" */ '@/views/EmailVerifiedMiddleware.vue'),
     meta: {
       hasEmailUnverified: true
     }
@@ -140,7 +140,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "reset-password" */ '../components/ResetPassword.vue'),
+    component: () => import(/* webpackChunkName: "reset-password" */ '@/views/ResetPassword.vue'),
   }
 ]
 
