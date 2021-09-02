@@ -72,7 +72,7 @@
             >
           </div>
 
-          <Input id="proj-defined-org" labelText="Organização" :initialText="this.ownerOrg.name" :disabled="true" v-else/>
+          <Input id="proj-defined-org" :labelText="this.ownerOrg.name" :initialText="this.ownerOrg.name" :disabled="true" v-else/>
           
           <div class="flex gap-2">
             <button
@@ -351,6 +351,7 @@ export default {
       this.taskData.projId = task.project_id;
     },
     handleTaskEditSubmit(data) {
+      console.log('task edit',data);
       this.$store
         .dispatch("task/update", data)
         .then(() => {

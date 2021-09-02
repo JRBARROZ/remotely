@@ -11,7 +11,7 @@
             <img src="../assets/dash.svg" alt="dash" class="animate-slide-left">
           </span>
         </div>
-        <div v-if="invite" @click="inviteUser">
+        <div v-if="invite" @click="inviteUser" class="cursor-pointer">
           <span class="w-max absolute right-10">
             <img src="../assets/invite.svg" alt="invite">
           </span>
