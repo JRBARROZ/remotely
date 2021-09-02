@@ -72,7 +72,7 @@
             >
           </div>
 
-          <Input id="proj-defined-org" :labelText="this.ownerOrg.name" :initialText="this.ownerOrg.name" :disabled="true" v-else/>
+          <Input id="proj-defined-org" labelText="Organização" :value="this.ownerOrg.name" :disabled="true" v-else/>
           
           <div class="flex gap-2">
             <button
@@ -111,8 +111,8 @@
               class="flex flex-col gap-1 px-4 w-full sm:mx-auto"
               autocomplete="off"
             >
-              <Input id="nome-edit" labelText="Nome" :initialText="this.projData.name"  v-model:value="this.projData.name"/>
-              <Input id="status-edit" labelText="Status" :initialText="this.projData.status"  v-model:value="this.projData.status"/>
+              <Input id="nome-edit" labelText="Nome" v-model:value="this.projData.name"/>
+              <Input id="status-edit" labelText="Status" v-model:value="this.projData.status"/>
               <button
                 class="bg-primary h-10 text-white rounded mt-2 py-2"
                 type="submit"
@@ -153,8 +153,8 @@
               autocomplete="off"
               @submit.prevent
             >
-            <Input id="task-edit-title" labelText="Título"  :initialText="this.taskData.title" v-model:value="this.taskData.title"/>
-            <Input id="task-edit-status" labelText="Status" :initialText="this.taskData.status"  v-model:value="this.taskData.status"/>
+            <Input id="task-edit-title" labelText="Título" v-model:value="this.taskData.title"/>
+            <Input id="task-edit-status" labelText="Status" v-model:value="this.taskData.status"/>
             <div class="relative mt-5">
             <textarea
               type="text"

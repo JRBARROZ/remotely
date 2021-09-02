@@ -28,7 +28,6 @@ export default {
       default: "text"
     },
     labelText: String,
-    initialText: String,
     disabled: {
       type: Boolean,
       default: false
