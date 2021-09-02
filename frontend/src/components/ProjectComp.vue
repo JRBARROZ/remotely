@@ -9,6 +9,7 @@
           :title="proj.name"
           subtitle="Novo Projeto"
           link="projects"
+          class="flex-grow"
         >
           <template v-slot:header>
             <div class="flex items-center gap-2 mr-2">
@@ -187,7 +188,7 @@
           @submit.prevent="handleTaskSubmit"
         >
           <Input id="task-title" labelText="Título"  v-model:value="this.taskData.title"/>
-          <Input id="task-project" labelText="Projeto" :initialText="choosenProj.name" :disabled="true"/> 
+          <Input id="task-project" :labelText="choosenProj.name" :initialText="choosenProj.name" :disabled="true"/> 
           <Input type="date" id="task-deadline" labelText="Data de entrega" v-model:value="this.taskData.deadline"/>
           <div class="relative mt-5">
             <textarea
