@@ -5,18 +5,19 @@
       class="text-xl text-gray-700 mt-4"
       v-if="Object.keys(loggedUser).length === 0"
     >
-      Loading... Please, wait
+      Carregando... Por favor, aguarde
     </h2>
-    <div class="flex flex-col items-center gap-2 mr-2 mt-8" v-else>
+    <div class="flex flex-col items-center gap-2 mr-2 mt-4" v-else>
       <img src="../assets/profile_pic.svg" alt="generic-profile-pic">
       <h2 class="text-xl text-gray-700 mt-4">Seja bem-vindo(a), {{ loggedUser.name }}</h2>
-      <div class="flex flex-col shadow-lg">
-        <div class="bg-primary w-72 h-7 rounded-tl-md rounded-tr-md pl-4 pt-1">
-          <h1 class="font-comfoorta text-white">Organizações</h1>
+      <div class="flex flex-col w-screen px-6 sm:px-8 md:px-14 lg:px-32">
+        <div class="bg-primary h-10 rounded-tl-md rounded-tr-md px-4 py-2">
+          <h1 class="text-white text-center md:text-lg">Suas Organizações</h1>
         </div>
-        <div class="flex flex-wrap gap-1 bg-ice w-72 h-20 pl-4 pt-1">
-          <p class="font-comfoorta text-medium-dark-purple font-light" v-for="(org, index) in orgList" :key="index" >{{org.name}}</p>
-
+        <div class="flex flex-col gap-1 sm:grid sm:grid-cols-2 sm:gap-3 lg:grid-cols-3 bg-ice px-4 py-3 max-h-80 md:max-h-108 overflow-y-auto shadow-lg">
+          <div class="bg-light-purple px-3 py-1 rounded hover:bg-primary cursor-pointer group hover:bg-opacity-70" v-for="(org, index) in orgList" :key="index" @click="this.$router.push('/organizations/' + org.id)">
+            <span class="font-comfoorta text-medium-dark-purple font-light group-hover:text-white" >{{org.name}}</span>
+          </div>
         </div>
       </div>
     </div>
