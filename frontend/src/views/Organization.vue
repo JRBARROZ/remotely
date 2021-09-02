@@ -5,9 +5,9 @@
       :title="addOrganization ? 'Adicionar Organização' : 'Minhas Organizações'"
     >
       <div class="mt-6" v-if="orgList.length === 0 && addOrganization === false">
-        <h1 class="font-lexend mx-4">Você não tem nenhuma organização,<br /> crie uma agora.</h1>
+        <h1 class="font-lexend mx-4 md:text-lg">Você não tem nenhuma organização,<br /> crie uma agora.</h1>
       </div>
-      <div class="h-108 border-b-4 mt-5 border-opacity-50 pb-4 border-primary mx-4 overflow-y-scroll" v-if="addOrganization === false && orgList.length !== 0">
+      <div class="h-108 border-b-4 mt-5 border-opacity-50 pb-4 border-primary mx-4 sm:mx-8 md:mx-14 lg:mx-32 overflow-y-scroll sm:grid sm:grid-cols-2 sm:gap-3 lg:grid-cols-3" v-if="addOrganization === false && orgList.length !== 0">
         <Box
           v-for="(org, index) in orgList"
           :key="index"
@@ -83,7 +83,7 @@
             </h1>
             <form
               action="#/organizations"
-              class="flex flex-col gap-1 px-4 w-full sm:w-3/4 md:w-1/2 sm:mx-auto"
+              class="flex flex-col gap-1 px-4 w-full sm:mx-auto"
               autocomplete="off"
               @submit.prevent="handleEditSubmit(this.orgData)"
             >
@@ -98,8 +98,8 @@
           </div>
         </div>
       </div>
-      <MainButton storeRoute="organization/setAddOrganization" />
     </PageWrapper>
+    <MainButton entity="Organização" storeRoute="organization/setAddOrganization" v-if="!addOrganization" />
   </div>
 </template>
 

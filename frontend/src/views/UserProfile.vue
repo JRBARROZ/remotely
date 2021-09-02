@@ -7,7 +7,7 @@
     >
       Loading... Please, wait
     </h2>
-    <div class="flex flex-col items-center gap-2 mr-2" v-else>
+    <div class="flex flex-col items-center gap-2 mr-2 mt-8" v-else>
       <img src="../assets/profile_pic.svg" alt="generic-profile-pic">
       <h2 class="text-xl text-gray-700 mt-4">Seja bem-vindo(a), {{ loggedUser.name }}</h2>
       <div class="flex flex-col shadow-lg">

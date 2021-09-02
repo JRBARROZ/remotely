@@ -179,7 +179,7 @@
         >
           Começar
         </button>
-        <p v-else>Olá, <span class="font-medium text-lg text-primary">{{ loggedUser.name }}</span></p>
+        <p class="md:text-xl" v-else>Olá, <span class="font-medium text-lg md:text-2xl text-primary">{{ loggedUser.name }}</span></p>
       </div>
     </PageWrapper>
   </div>

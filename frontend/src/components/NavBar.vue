@@ -1,5 +1,13 @@
 <template>
 	<div class="w-full font-comfoorta pt-3">
+		<div class="flex items-center justify-center gap-2 md:hidden mt-4 md:mt-0">
+			<router-link to="/" class="flex items-center gap-2">
+				<svg class="w-8 h-8"  viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M21.0787 0C32.5618 0 42 9.4382 42 21.0787C42 32.5618 32.5618 42 21.0787 42C9.4382 42 0 32.5618 0 21.0787C0 9.4382 9.4382 0 21.0787 0ZM18.8764 9.59551C18.8764 7.55056 22.0225 7.55056 22.0225 9.59551V20.764L29.2584 22.809C31.1461 23.4382 30.3596 26.427 28.3146 25.9551L20.1348 23.4382C19.3483 23.2809 18.8764 22.6517 18.8764 21.8652V9.59551ZM21.0787 3.14607C11.1685 3.14607 3.14607 11.1685 3.14607 21.0787C3.14607 30.8315 11.1685 38.8539 21.0787 38.8539C30.8315 38.8539 38.8539 30.8315 38.8539 21.0787C38.8539 11.1685 30.8315 3.14607 21.0787 3.14607Z" fill="#58588B"/>
+				</svg>
+				<h1 class="text-2xl text-title">Remotely</h1>
+			</router-link> 
+		</div>
 		<div class="md:flex items-center justify-between px-8 h-16 bg-primary w-full hidden">
 			<div class="flex items-center gap-2">
 				<router-link to="/" class="flex items-center gap-2">
@@ -44,27 +52,27 @@
 				<h1 :class="isActive ? 'text-opacity-100' : 'text-opacity-60'" class="lg:text-lg text-white">Sair</h1>
 			</a>
 			<div v-else class="flex items-center gap-2">
-				<a href="#" @click.prevent="sendToRegister" class="flex items-center gap-2">
+				<router-link to="/register" class="flex items-center gap-2" v-slot="{isActive}">
 					<svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path d="M15 12C17.21 12 19 10.21 19 8C19 5.79 17.21 4 15 4C12.79 4 11 5.79 11 8C11 10.21 12.79 12 15 12ZM15 6C16.1 6 17 6.9 17 8C17 9.1 16.1 10 15 10C13.9 10 13 9.1 13 8C13 6.9 13.9 6 15 6ZM15 14C12.33 14 7 15.34 7 18V20H23V18C23 15.34 17.67 14 15 14ZM9 18C9.22 17.28 12.31 16 15 16C17.7 16 20.8 17.29 21 18H9ZM6 15V12H9V10H6V7H4V10H1V12H4V15H6Z" fill="#EFEEFD" fill-opacity="0.6"/>
 					</svg>
 					<h1 :class="isActive ? 'text-opacity-100' : 'text-opacity-60'" class="lg:text-lg text-white">Cadastro</h1>
-				</a>
-				<a href="#" @click.prevent="sendToLogin" class="flex items-center gap-2">
+				</router-link>
+				<router-link to="/login" class="flex items-center gap-2" v-slot="{isActive}">
 					<svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path d="M11 7L9.6 8.4L12.2 11H2V13H12.2L9.6 15.6L11 17L16 12L11 7ZM20 19H12V21H20C21.1 21 22 20.1 22 19V5C22 3.9 21.1 3 20 3H12V5H20V19Z" fill="#EFEEFD" fill-opacity="0.6"/>
 					</svg>
 					<h1 :class="isActive ? 'text-opacity-100' : 'text-opacity-60'" class="lg:text-lg text-white">Entrar</h1>
-				</a>
+				</router-link>
 			</div>
+			<router-link to="/" class="flex items-center gap-2 md:hidden">
+				<svg class="w-8 h-8"  viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M21.0787 0C32.5618 0 42 9.4382 42 21.0787C42 32.5618 32.5618 42 21.0787 42C9.4382 42 0 32.5618 0 21.0787C0 9.4382 9.4382 0 21.0787 0ZM18.8764 9.59551C18.8764 7.55056 22.0225 7.55056 22.0225 9.59551V20.764L29.2584 22.809C31.1461 23.4382 30.3596 26.427 28.3146 25.9551L20.1348 23.4382C19.3483 23.2809 18.8764 22.6517 18.8764 21.8652V9.59551ZM21.0787 3.14607C11.1685 3.14607 3.14607 11.1685 3.14607 21.0787C3.14607 30.8315 11.1685 38.8539 21.0787 38.8539C30.8315 38.8539 38.8539 30.8315 38.8539 21.0787C38.8539 11.1685 30.8315 3.14607 21.0787 3.14607Z" fill="#58588B"/>
+				</svg>
+				<h1 class="text-2xl text-title">Remotely</h1>
+			</router-link>  
 			<router-view />
 		</div>
-		<div class="flex items-center justify-center mt-4 gap-2 cursor-pointer md:hidden" @click="sendToHome">
-			<svg class="w-8 h-8"  viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-				<path d="M21.0787 0C32.5618 0 42 9.4382 42 21.0787C42 32.5618 32.5618 42 21.0787 42C9.4382 42 0 32.5618 0 21.0787C0 9.4382 9.4382 0 21.0787 0ZM18.8764 9.59551C18.8764 7.55056 22.0225 7.55056 22.0225 9.59551V20.764L29.2584 22.809C31.1461 23.4382 30.3596 26.427 28.3146 25.9551L20.1348 23.4382C19.3483 23.2809 18.8764 22.6517 18.8764 21.8652V9.59551ZM21.0787 3.14607C11.1685 3.14607 3.14607 11.1685 3.14607 21.0787C3.14607 30.8315 11.1685 38.8539 21.0787 38.8539C30.8315 38.8539 38.8539 30.8315 38.8539 21.0787C38.8539 11.1685 30.8315 3.14607 21.0787 3.14607Z" fill="#58588B"/>
-			</svg>
-			<h1 class="text-2xl text-title">Remotely</h1>
-		</div>  
 	</div>
 </template>
 <script>
@@ -79,15 +87,6 @@ export default {
 	...mapState("auth", { loggedUser: (state) => state.loggedUser }),
 	},
 	methods: {
-		sendToHome() {
-			this.$router.push('/');
-		},
-		sendToLogin() {
-			this.$router.push('/login');
-		},
-		sendToRegister() {
-			this.$router.push('/register');
-		},
 		logout() {
 			this.$store.dispatch('auth/logout')
 			.then(() => {

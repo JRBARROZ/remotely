@@ -3,7 +3,7 @@
     <NavBar />
     <PageWrapper :title="addProject ? 'Adicionar Projeto' : 'Meus Projetos'">
       <div class="mt-6" v-if="projList.length === 0 && addProject === false">
-        <h1 class="font-lexend mx-4">Você não tem nenhum projeto,<br>
+        <h1 class="font-lexend mx-4 md:text-lg">Você não tem nenhum projeto,<br>
            crie um agora.</h1>
       </div>
       <ProjectComp :projList="projList" />

@@ -1,6 +1,7 @@
 <template>
-  <div class="flex flex-col items-center px-4" v-if="projList != null">
-      <div class="h-108 max-h-108 mt-5 border-b-4 w-full border-opacity-50 pb-4 border-primary mx-4 overflow-y-scroll" v-if="!addTask && !addProject && projList.length !== 0">
+  <div class="flex flex-col items-center px-4 sm:px-8 md:px-14 lg:px-32" v-if="projList != null">
+      <div class="h-108 max-h-108 mt-5 border-b-4 w-full border-opacity-50 pb-4 border-primary
+      overflow-y-auto mx-4 sm:grid sm:grid-cols-2 sm:gap-3 lg:grid-cols-3" v-if="!addTask && !addProject && projList.length !== 0">
         <Box
           v-for="(proj, index) in projList"
           :key="index"
@@ -47,7 +48,7 @@
           autocomplete="off"
           @submit.prevent="handleSubmit"
         >
-          <Input id="nome" labelText="Nome"  v-model:value="this.projData.name"/>
+          <Input id="nome" labelText="Nome" v-model:value="this.projData.name"/>
           <div class="relative mt-5" v-if="this.ownerOrg == null">
             <select
               v-model="projData.orgId"
@@ -106,7 +107,7 @@
             </h1>
             <form
               action="#/projects"
-              class="flex flex-col gap-1 px-4 w-full sm:w-3/4 md:w-1/2 sm:mx-auto"
+              class="flex flex-col gap-1 px-4 w-full sm:mx-auto"
               autocomplete="off"
             >
               <Input id="nome-edit" labelText="Nome" :initialText="this.projData.name"  v-model:value="this.projData.name"/>
@@ -147,7 +148,7 @@
             </div>
             <form
               action="#/projects"
-              class="flex flex-col gap-1 px-4 w-full sm:w-3/4 md:w-1/2 sm:mx-auto"
+              class="flex flex-col gap-1 px-4 w-full sm:mx-auto"
               autocomplete="off"
               @submit.prevent
             >
@@ -178,7 +179,6 @@
           </div>
         </div>
       </div>
-      <MainButton storeRoute="project/setAddProject" v-if="!addTask && !addProject" />
 
       <div class="w-full" v-if="addTask">
         <form
@@ -220,6 +220,7 @@
           </div>
         </form>
       </div>
+      <MainButton entity="Projeto" storeRoute="project/setAddProject" v-if="!addTask && !addProject" />
   </div>
 </template>
 

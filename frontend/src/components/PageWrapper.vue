@@ -3,7 +3,7 @@
     <div class=" text-center mt-4 text-title">
       <div class="flex flex-wrap gap-2 justify-center relative">
         <div v-for="(word, index) in titleProcessed" :key="index">
-          <h1 class="font-lexend text-2xl">{{word}}</h1>
+          <h1 class="font-lexend text-2xl md:mt-3">{{word}}</h1>
           <span class="w-max" v-if="titleProcessed.length == 1 && titleProcessed[0] != ''">
             <img src="../assets/dash.svg" alt="dash" class="animate-slide-left">
           </span>
