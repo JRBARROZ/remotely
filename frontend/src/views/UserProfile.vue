@@ -10,7 +10,7 @@
     <div class="flex flex-col items-center gap-2 mr-2 mt-4" v-else>
       <img src="../assets/profile_pic.svg" alt="generic-profile-pic">
       <h2 class="text-xl text-gray-700 mt-4">Seja bem-vindo(a), {{ loggedUser.name }}</h2>
-      <div class="flex flex-col w-screen px-6 sm:px-8 md:px-14 lg:px-32">
+      <div class="flex flex-col w-screen px-6 sm:px-8 md:px-28 lg:px-48 xl:px-80">
         <div class="bg-primary h-10 rounded-tl-md rounded-tr-md px-4 py-2">
           <h1 class="text-white text-center md:text-lg">Suas Organizações</h1>
         </div>

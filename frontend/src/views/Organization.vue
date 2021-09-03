@@ -7,40 +7,41 @@
       <div class="mt-6" v-if="orgList.length === 0 && addOrganization === false">
         <h1 class="font-lexend mx-4 md:text-lg">Você não tem nenhuma organização,<br /> crie uma agora.</h1>
       </div>
-      <div class="h-108 max-h-108 border-b-4 mt-5 border-opacity-50 pb-4 border-primary mx-4 sm:mx-8 md:mx-14 lg:mx-32 overflow-y-auto sm:grid sm:gap-3 sm:justify-center"
-      :class="customGridClasses" 
-      v-if="addOrganization === false && orgList.length !== 0">
-        <Box
-          v-for="(org, index) in orgList"
-          :key="index"
-          :ref="org + index"
-          :title="org.name"
-          :link="'/organizations/' + org.id"
-        >
-          <template v-slot:header>
-            <div class="flex items-center gap-2 mr-2">
-              <img
-                src="@/assets/edit.svg"
-                class="inline h-7 w-7 hover:cursor-pointer"
-                @click="toggleEditBox(org)"
-                alt="Edit-Button"
-              />
-
-              <img
-                src="@/assets/delete.svg"
-                class="inline h-8 w-9 hover:cursor-pointer"
-                @click="remove(org.name, org.id)"
-                alt="Delete-Button"
-              />
-            </div>
-          </template>
-          <BoxItem
-            v-for="(proj, index) in org.projects"
+      <div class="flex justify-center" v-if="addOrganization === false && orgList.length !== 0">
+        <div class="h-108 max-h-108 border-b-4 mt-5 border-opacity-50 pb-4 border-primary mx-4 sm:mx-8 md:mx-14 lg:mx-32 overflow-y-auto sm:grid sm:gap-3 sm:justify-center"
+        :class="customGridClasses">
+          <Box
+            v-for="(org, index) in orgList"
             :key="index"
-            :title="proj.name"
-            :status="proj.status"
-          />
-        </Box>
+            :ref="org + index"
+            :title="org.name"
+            :link="'/organizations/' + org.id"
+          >
+            <template v-slot:header>
+              <div class="flex items-center gap-2 mr-2">
+                <img
+                  src="@/assets/edit.svg"
+                  class="inline h-7 w-7 hover:cursor-pointer"
+                  @click="toggleEditBox(org)"
+                  alt="Edit-Button"
+                />
+
+                <img
+                  src="@/assets/delete.svg"
+                  class="inline h-8 w-9 hover:cursor-pointer"
+                  @click="remove(org.name, org.id)"
+                  alt="Delete-Button"
+                />
+              </div>
+            </template>
+            <BoxItem
+              v-for="(proj, index) in org.projects"
+              :key="index"
+              :title="proj.name"
+              :status="proj.status"
+            />
+          </Box>
+        </div>
       </div>
       <div v-else-if="addOrganization">
         <div>
@@ -135,7 +136,7 @@ export default {
     }),
     ...mapState("project", { projList: (state) => state.projList }),
     customGridClasses: function() {
-      return this.orgList.length === 2 ? 'sm:grid-cols-2' : this.orgList.length > 2 ? 'sm:grid-cols-2 lg:grid-cols-3' : 'sm:grid-cols-1';
+      return this.orgList.length === 2 ? 'sm:grid-cols-2 w-full' : this.orgList.length > 2 ? 'sm:grid-cols-2 lg:grid-cols-3 w-full' : 'sm:grid-cols-1 w-full sm:w-1/2';
     },
   },
   methods: {

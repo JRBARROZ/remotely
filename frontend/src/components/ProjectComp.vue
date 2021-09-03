@@ -351,7 +351,6 @@ export default {
       this.taskData.projId = task.project_id;
     },
     handleTaskEditSubmit(data) {
-      console.log('task edit',data);
       this.$store
         .dispatch("task/update", data)
         .then(() => {
