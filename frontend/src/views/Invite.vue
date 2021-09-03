@@ -3,7 +3,7 @@
     <NavBar />
     <PageWrapper :title="entity.name" v-if="entity != null">
       <div class="mt-6 h-full">
-        <h1 class="">Convide pessoas para {{this.$route.params.entity === 'org' ? 'a organização:' : 'o projeto:'}}</h1>
+        <h1 class="md:text-lg">Convide pessoas para {{this.$route.params.entity === 'org' ? 'a organização:' : 'o projeto:'}}</h1>
           <form action="#" @submit.prevent="handleSubmit" class="flex mx-6 gap-1 relative mt-4 h-10 sm:w-3/4 md:w-1/2 sm:mx-auto">
             <input type="email" id="invite-user" class="peer input focus:border-none invalid:border invalid:border-red-300 " placeholder="E-mail" v-model="inviteData.email">
             <label 
