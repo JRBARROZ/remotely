@@ -5,7 +5,7 @@
       class="text-xl text-gray-700 mt-4"
       v-if="Object.keys(loggedUser).length === 0"
     >
-      Carregando... Por favor, aguarde
+      Carregando... Por favor, aguarde.
     </h2>
     <div class="flex flex-col items-center gap-2 mr-2 mt-4" v-else>
       <img src="../assets/profile_pic.svg" alt="generic-profile-pic">
@@ -15,7 +15,7 @@
           <h1 class="text-white text-center md:text-lg">Suas Organizações</h1>
         </div>
         <div class="flex flex-col gap-1 sm:grid sm:grid-cols-2 sm:gap-3 lg:grid-cols-3 bg-ice px-4 py-3 max-h-80 md:max-h-108 overflow-y-auto shadow-lg">
-          <div class="bg-light-purple px-3 py-1 rounded hover:bg-primary cursor-pointer group hover:bg-opacity-70" v-for="(org, index) in orgList" :key="index" @click="this.$router.push('/organizations/' + org.id)">
+          <div class="bg-light-purple px-3 py-1 rounded hover:bg-primary cursor-pointer group hover:bg-opacity-70" v-for="(org, index) in orgList" :key="index" @click="this.$router.push('/organization/' + org.id)">
             <span class="font-comfoorta text-medium-dark-purple font-light group-hover:text-white" >{{org.name}}</span>
           </div>
         </div>

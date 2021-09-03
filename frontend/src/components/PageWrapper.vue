@@ -26,9 +26,9 @@
 <script>
 
 export default {
-  data(){
-    return{
-      titleProcessed: this.title.split(' ')
+  computed:{
+    titleProcessed: function(){
+      return this.title.split(' ')
     }
   },
   props: {

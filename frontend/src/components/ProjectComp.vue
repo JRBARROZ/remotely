@@ -8,8 +8,8 @@
           :ref="proj + index"
           :title="proj.name"
           subtitle="Novo Projeto"
-          link="projects"
           class="flex-grow"
+          :link="'/project/' + proj.id"
         >
           <template v-slot:header>
             <div class="flex items-center gap-2 mr-2">
@@ -43,7 +43,7 @@
         </Box>
       </div>
       
-      <div class="w-full" v-if="addProject">
+      <div class="w-full" v-if="addProject && !addTask">
         <form
           class="flex flex-col gap-1 px-6 sm:w-3/4 md:w-1/2 sm:mx-auto"
           autocomplete="off"
@@ -107,7 +107,6 @@
               Editar Projeto
             </h1>
             <form
-              action="#/projects"
               class="flex flex-col gap-1 px-4 w-full sm:mx-auto"
               autocomplete="off"
             >
@@ -148,7 +147,6 @@
               />
             </div>
             <form
-              action="#/projects"
               class="flex flex-col gap-1 px-4 w-full sm:mx-auto"
               autocomplete="off"
               @submit.prevent
@@ -188,7 +186,7 @@
           @submit.prevent="handleTaskSubmit"
         >
           <Input id="task-title" labelText="Título"  v-model:value="this.taskData.title"/>
-          <Input id="task-project" :labelText="choosenProj.name" :initialText="choosenProj.name" :disabled="true"/> 
+          <Input id="task-project" labelText="Projeto" v-model:value="choosenProj.name" :disabled="true"/> 
           <Input type="date" id="task-deadline" labelText="Data de entrega" v-model:value="this.taskData.deadline"/>
           <div class="relative mt-5">
             <textarea
@@ -221,7 +219,7 @@
           </div>
         </form>
       </div>
-      <MainButton entity="Projeto" storeRoute="project/setAddProject" v-if="!addTask && !addProject" />
+      <MainButton entity="Projeto" storeRoute="project/setAddProject" v-if="!addTask && !addProject && showAddProjectButton" />
   </div>
 </template>
 
@@ -268,6 +266,10 @@ export default {
     };
   },
   props: {
+    showAddProjectButton: {
+      type: Boolean,
+      default: true
+    },
     projList: {
       type: Object,
       default: null
@@ -312,7 +314,6 @@ export default {
           this.projData.id = null;
           this.showModal = false;
           this.projData.status = "Iniciado";
-          this.$router.push("projects");
         })
         .catch(() => console.log("Não foi possível editar o projeto"));
     },
@@ -351,7 +352,6 @@ export default {
       this.taskData.projId = task.project_id;
     },
     handleTaskEditSubmit(data) {
-      console.log('task edit',data);
       this.$store
         .dispatch("task/update", data)
         .then(() => {
@@ -362,7 +362,6 @@ export default {
           this.taskData.deadline = null;
           this.taskData.projId = null;
           this.showTaskModal = false;
-          this.$router.push("projects");
         })
         .catch(() => console.log("Não foi possível editar a tarefa"));
     },

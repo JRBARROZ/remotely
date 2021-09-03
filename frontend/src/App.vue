@@ -18,12 +18,6 @@ export default {
     ...mapState('auth', {loggedUser: state => state.loggedUser}),
     ...mapState(['emailValidated'])
   },
-  mounted() {
-    if (Object.keys(this.loggedUser).length === 0) {
-      return;
-    }
-    this.$store.dispatch('auth/userRequest');
-  },
   methods: {
     logout() {
       this.$store.dispatch('auth/logout')

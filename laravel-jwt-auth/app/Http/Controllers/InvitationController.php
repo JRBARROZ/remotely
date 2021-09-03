@@ -20,22 +20,29 @@ class InvitationController extends Controller
     public function store(Request $request)
     {
         $creator_id = auth()->user()->id;
-        $invited_user_id = User::where('email', $request->email)->first()->id;
+        $invited_user = User::where('email', $request->email)->first();
+        
+        if($invited_user == null){
+            return response("Usuário não encontrado.", 404);
+        }
+        $invited_user_id = $invited_user->id;
         
         if($invited_user_id == $creator_id){
-            return response("Bad request", 400);
+            return response("Você não pode convidar a si mesmo.", 400);
         }
+
         if($request->entityType == "org"){
             if(Organization::where('creator_id', $creator_id)->where('id', $request->entityId)->count() == 1){
                 if(Invitation::where("org_id", $request->entityId)->where("user_id", $invited_user_id)->where('is_valid', 1)->count() == 0){
                     Invitation::create(["org_id" => $request->entityId, "user_id" => $invited_user_id]);
-                    return response("Ok", 200);
+                    return response("Convite enviado com sucesso.", 200);
                 }
             }
             return response("Forbidden", 403);
-        } else {
-            echo "Proj";
         }
+        //TODO Fazer com que essa função consiga lidar com convites para projetos específicos.
+
+        return response("Ocorreu um erro, tente novamente mais tarde.", 400);
     }
 
     public function accept(Request $request){

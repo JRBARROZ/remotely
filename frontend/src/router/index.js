@@ -31,8 +31,8 @@ const routes = [
     }
   },
   {
-    path: '/organizations/:id',
-    name: 'organization',
+    path: '/:entity/:id',
+    name: 'entity',
     component: () => import(/* webpackChunkName: "Organization" */ '../components/EntityDetail.vue'),
     meta: {
       isLogged: true,

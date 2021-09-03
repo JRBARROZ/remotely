@@ -15,7 +15,7 @@
           :key="index"
           :ref="org + index"
           :title="org.name"
-          :link="'/organizations/' + org.id"
+          :link="'/organization/' + org.id"
         >
           <template v-slot:header>
             <div class="flex items-center gap-2 mr-2">

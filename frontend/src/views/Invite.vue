@@ -17,13 +17,20 @@
             >E-mail
             </label>
             <button
-              class="py-2 bg-primary text-white focus:outline-none rounded hover:opacity-70 w-28 border-none"
+              class="py-2 bg-primary text-white focus:outline-none rounded hover:opacity-70 w-28 border-none flex items-center justify-center"
+              :class="this.disabledButton ? 'disabled:bg-input-disabled disabled:bg-opacity-50' : ''"
               type="submit"
+              :disabled="this.disabledButton"
             >
-              Enviar
+              <span v-if="status.length === 0 || status[1] !== 'loading'">Enviar</span>
+              <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" v-else>
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
             </button>
           </form>
       </div>
+      <StatusMessage :status="this.status" />
     </PageWrapper>
   </div>
 </template>
@@ -32,15 +39,23 @@
 import { mapState } from 'vuex';
 import PageWrapper from '@/components/PageWrapper.vue';
 import NavBar from '@/components/NavBar.vue';
+import StatusMessage from '../components/StatusMessage.vue';
 
 export default {
-  components: { PageWrapper, NavBar },
+  components: { PageWrapper, NavBar, StatusMessage},
   computed:{
+    ...mapState(["status"]),
     ...mapState("organization", { orgList: (state) => state.orgList }),
     ...mapState("project", { projList: (state) => state.projList }),
   },
+  watch: {
+    $route: function(to, from){
+      this.$store.commit('resetStatus');
+    }
+  },
   data(){
     return {
+      disabledButton: false,
       entity: null,
       inviteData: {
         email: "",
@@ -69,16 +84,19 @@ export default {
       if(this.entity === null) this.$router.push('/404');
     },
     handleSubmit(){
-      if (this.inviteData.email.trim() === "") {
-        return alert("Todos os campos devem ser preenchidos");
-      }
-      
-      this.inviteData.entityId = this.entity.id;
-      this.$store.dispatch('invitation/invite', this.inviteData);
+      if (this.inviteData.email.trim() === "")
+        return alert("all fields must be filled in");
+        this.inviteData.entityId = this.entity.id;
+        this.$store
+          .dispatch('invitation/invite', this.inviteData)
+          .finally(() => this.disabledButton = false);
+        this.$store.commit('request');
+        this.disabledButton = true;
     }
   },
   created(){
     this.getEntity();
   },
+
 }
 </script>

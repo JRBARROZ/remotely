@@ -26,6 +26,7 @@ const auth = {
             dispatch("userRequest").then(() => {
               resolve(response);
             });
+            commit('resetStatus', null, { root: true });
           })
           .catch((error) => {
             if (error.response.status < 500)
@@ -33,7 +34,7 @@ const auth = {
             else {
               commit(
                 "error",
-                "We could not validate your credentials. Try again later",
+                "Não conseguimos validar suas credenciais. Tente novamente mais tarde.",
                 { root: true }
               );
               localStorage.removeItem("user-token");
@@ -463,8 +464,14 @@ const task = {
 const invitation = {
   namespaced: true,
   actions: {
-    invite: async ({rootState}, payload) => {
-      const response = await axios.post(`${server}/invite/user`, payload, {headers: { Authorization: `Bearer ${rootState.token}`}});
+    invite: async ({rootState, commit}, payload) => {
+      await axios.post(`${server}/invite/user`, payload, {headers: { Authorization: `Bearer ${rootState.token}`}})
+      .then( (response) => {
+        commit("success", response.data, { root: true });
+       }
+      ).catch((error) => {
+        commit("error", error.response.data, { root: true });
+       });
     }
   }
 }
