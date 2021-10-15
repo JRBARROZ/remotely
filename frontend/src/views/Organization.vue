@@ -36,9 +36,11 @@
             </template>
             <BoxItem
               v-for="(proj, index) in org.projects"
+              entity="project"
               :key="index"
               :title="proj.name"
               :status="proj.status"
+              :id="proj.id"
             />
           </Box>
         </div>

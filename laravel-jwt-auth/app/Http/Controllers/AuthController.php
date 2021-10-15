@@ -105,7 +105,7 @@ class AuthController extends Controller
 	}
 	
 	public function sendMail() {
-		return response()->json("Please, verify your mail's inbox", 200);
+		return response()->json("Por favor, verifique a caixa de entrada do seu e-mail", 200);
 	}
 
 	/**

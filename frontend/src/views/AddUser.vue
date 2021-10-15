@@ -105,7 +105,7 @@ export default {
         .then((res) => {
           if (res.status === 201) this.$router.push("/login");
         })
-        .catch((error) => console.log(error));
+        .catch((error) => console.log('err:',error.response));
     },
     closeMessage() {
       this.$store.commit("resetStatus");
