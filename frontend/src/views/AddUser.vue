@@ -64,6 +64,7 @@
       </div>
       <StatusMessage :status="this.status" />
     </div>
+    <Alert v-if="this.showCustomAlert" @result="getResponseAlert" type="alert" :title="this.alertTitle" />
   </div>
 </template>
 
@@ -73,11 +74,14 @@ import Input from "@/components/Input";
 import LoadingButton from "@/components/LoadingButton";
 import StatusMessage from "@/components/StatusMessage";
 import NavBar from "@/components/NavBar";
+import Alert from "@/components/Alert";
 
 export default {
-  components: { Input, LoadingButton, StatusMessage, NavBar },
+  components: { Input, LoadingButton, StatusMessage, NavBar, Alert },
   data() {
     return {
+      showCustomAlert: false,
+      alertTitle: '',
       currentUser: {
         name: "",
         email: "",
@@ -96,10 +100,18 @@ export default {
         this.currentUser.name.trim() === "" ||
         this.currentUser.email.trim() === "" ||
         this.currentUser.password.trim() === ""
-      )
-        return alert("Todos os campos devem ser preenchidos");
-      if (this.currentUser.password !== this.currentUser.password_confirmation)
-        return alert("As senhas informadas são diferentes");
+      ) {
+        this.alertTitle = "Todos os campos devem ser preenchidos";
+        this.showAlert();
+        return;
+      }
+        
+      if (this.currentUser.password !== this.currentUser.password_confirmation) {
+        this.alertTitle = "As senhas informadas são diferentes";
+        this.showAlert();
+        return;
+      }
+
       this.$store.commit("request", null);
       this.$store.dispatch("auth/signUp", this.currentUser)
         .then((res) => {
@@ -118,6 +130,12 @@ export default {
       this.closeMessage();
       this.$router.push("/");
     },
+    showAlert() {
+      this.showCustomAlert = true;
+    },
+    getResponseAlert(value) {
+      this.showCustomAlert = false;
+    }
   },
 };
 </script>

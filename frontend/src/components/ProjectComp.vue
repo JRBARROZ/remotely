@@ -58,6 +58,11 @@
       </div>
       <!-- add project start -->
       <div class="w-full mt-6" v-if="addProject && !addTask">
+        <Alert
+          v-if="this.showCustomAlert"
+          @result="(value) => getResponseAlert(value, 'alert')"
+          title="Todos os campos devem ser preenchidos"
+          type="alert" />
         <form
           class="flex flex-col gap-1 px-6 sm:w-3/4 md:w-1/2 sm:mx-auto"
           autocomplete="off"
@@ -102,7 +107,7 @@
             >
               Cancelar
             </button>
-            <Alert @result="(value) => getResponseAlert(value, 'cancel')" v-if="this.cancelAction" title="Você realmente deseja cancelar a criação" />
+            <Alert @result="(value) => getResponseAlert(value, 'cancel')" v-if="this.cancelAction" title="Você realmente deseja cancelar a criação?" />
           </div>
         </form>
       </div>
@@ -199,6 +204,11 @@
       <!-- edit task end -->
       <!-- add task start -->
       <div class="w-full mt-6" v-if="addTask">
+        <Alert
+          v-if="this.showCustomAlert"
+          @result="(value) => getResponseAlert(value, 'alert')"
+          title="Todos os campos devem ser preenchidos"
+          type="alert" />
         <form
           class="flex flex-col gap-1 px-6 sm:w-3/4 md:w-1/2 sm:mx-auto"
           autocomplete="off"
@@ -234,7 +244,7 @@
               >
                 Cancelar
               </button>
-              <Alert v-if="this.cancelTaskAction" @result="(value) => getResponseAlert(value, 'cancelTask')" title="Você realmente deseja cancelar a criação" />
+              <Alert v-if="this.cancelTaskAction" @result="(value) => getResponseAlert(value, 'cancelTask')" title="Você realmente deseja cancelar a criação?" />
             </div>
           </div>
         </form>
@@ -272,6 +282,7 @@ export default {
   data() {
     return {
       showModal: false,
+      showCustomAlert: false,
       responseAlert: false,
       projName: '',
       projId: -1,
@@ -283,7 +294,7 @@ export default {
       choosenProj: null,
       projData: {
         id: null,
-        name: null,
+        name: '',
         status: "Iniciado",
         orgId: null,
       },
@@ -324,8 +335,10 @@ export default {
       if(this.ownerOrg){
         this.projData.orgId = this.ownerOrg.id;
       }
-      if (this.projData.name.trim() === "" || this.projData.orgId === null)
-        return alert("Todos os campos devem ser preenchidos");
+      if (this.projData.name.trim() === "" || this.projData.orgId === null) {
+        this.showAlert();
+        return;
+      }
       this.$store.dispatch("project/add", this.projData);
       this.projData.name = "";
       this.projData.orgId = null;
@@ -367,9 +380,11 @@ export default {
         this.taskData.title.trim() === "" ||
         this.taskData.projId === null ||
         this.taskData.description.trim() === "" ||
-        this.deadline === null
-      )
-        return alert("Todos os campos devem ser preenchidos");
+        this.taskData.deadline === null
+      ) {
+        this.showAlert();
+        return;
+      }
       this.$store.dispatch("task/add", this.taskData);
       this.taskData.title = "";
       this.taskData.description = "";
@@ -428,6 +443,9 @@ export default {
       this.projName = name;
       this.deleteProjAction = true;
     },
+    showAlert() {
+      this.showCustomAlert = true;
+    },
     getResponseAlert(value, text, data = null) {
       this.responseAlert = value;
       switch(text) {
@@ -442,6 +460,9 @@ export default {
           break;
         case 'deleteProj':
           this.remove(this.projId);
+          break;
+        default:
+          this.showCustomAlert = false;
           break;
       }
     }

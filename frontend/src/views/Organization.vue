@@ -48,6 +48,11 @@
       </div>
       <div v-else-if="addOrganization">
         <div>
+          <Alert
+            v-if="this.showCustomAlert"
+            @result="(value) => getResponseAlert(value, 'alert')"
+            title="O campo Nome é obrigatório"
+            type="alert" />
           <form
             class="flex flex-col gap-1 px-6 sm:w-3/4 md:w-1/2 sm:mx-auto"
             autocomplete="off"
@@ -68,7 +73,7 @@
               >
                 Cancelar
               </button>
-              <Alert @result="(value) => getResponseAlert(value, 'cancel')" v-if="this.cancelAction" title="Você realmente deseja cancelar a criação" />
+              <Alert @result="(value) => getResponseAlert(value, 'cancel')" v-if="this.cancelAction" title="Você realmente deseja cancelar a criação?" />
             </div>
           </form>
         </div>
@@ -125,13 +130,14 @@ export default {
   data() {
     return {
       showModal: false,
+      showCustomAlert: false,
       cancelAction: false,
       orgName: '',
       orgId: -1,
       deleteOrgAction: false,
       responseAlert: false,
       orgData: {
-        name: null,
+        name: "",
         id: null,
       },
     };
@@ -160,8 +166,10 @@ export default {
       this.cancelAction = false;
     },
     handleSubmit() {
-      if (this.orgData.name.trim() === "")
-        return alert("all fields must be filled in");
+      if (this.orgData.name.trim() === "") {
+        this.showAlert();
+        return;
+      }
       this.$store.dispatch("organization/add", this.orgData.name);
       this.$store.commit("organization/setAddOrganization", false);
       this.orgData.name = "";
@@ -195,6 +203,9 @@ export default {
       this.orgName = name;
       this.deleteOrgAction = true;
     },
+    showAlert() {
+      this.showCustomAlert = true;
+    },
     getResponseAlert(value, text) {
       this.responseAlert = value;
       switch(text) {
@@ -203,6 +214,9 @@ export default {
           break;
         case 'deleteOrg':
           this.remove(this.orgId);
+          break;
+        default:
+          this.showCustomAlert = false;
           break;
       } 
     }

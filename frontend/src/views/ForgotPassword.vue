@@ -41,6 +41,11 @@
       </form>
       <StatusMessage :status="this.status" />
     </div>
+    <Alert
+      v-if="this.showCustomAlert"
+      @result="getResponseAlert"
+      type="alert"
+      title="O campo e-mail é obrigatório" />
   </div>
 </template>
 
@@ -50,14 +55,16 @@ import Input from "@/components/Input";
 import LoadingButton from "@/components/LoadingButton";
 import StatusMessage from "@/components/StatusMessage";
 import NavBar from "@/components/NavBar";
+import Alert from "@/components/Alert";
 
 export default {
-  components: { Input, LoadingButton, StatusMessage, NavBar },
+  components: { Input, LoadingButton, StatusMessage, NavBar, Alert },
   created() {
     this.$store.commit('resetStatus');
   },
   data() {
     return {
+      showCustomAlert: false,
       loginData: {
         email: "",
       },
@@ -69,8 +76,10 @@ export default {
   },
   methods: {
     handleSubmit() {
-      if (this.loginData.email.trim() === "")
-        return alert("O campo e-mail deve ser preenchido!");
+      if (this.loginData.email.trim() === "") {
+        this.showAlert();
+        return;
+      }
       this.$store.commit('request');
       this.$store.dispatch("auth/forgotPassword", this.loginData.email).then((a) => {
         this.loginData.email = '';
@@ -91,6 +100,12 @@ export default {
       this.closeMessage();
       this.$router.push("/");
     },
+    showAlert() {
+      this.showCustomAlert = true;
+    },
+    getResponseAlert(value) {
+      this.showCustomAlert = false;
+    }
   },
 };
 </script>

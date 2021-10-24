@@ -49,6 +49,7 @@
       </p>
       <StatusMessage :status="this.status" />
     </div>
+    <Alert v-if="this.showCustomAlert" @result="getResponseAlert" type="alert" title="Todos os campos devem ser preenchidos" />
   </div>
 </template>
 
@@ -58,11 +59,13 @@ import Input from '@/components/Input';
 import LoadingButton from "@/components/LoadingButton";
 import StatusMessage from "@/components/StatusMessage";
 import NavBar from "@/components/NavBar";
+import Alert from "@/components/Alert";
 
 export default {
-  components: { Input, LoadingButton, StatusMessage, NavBar },
+  components: { Input, LoadingButton, StatusMessage, NavBar, Alert },
   data() {
     return {
+      showCustomAlert: false,
       loginData: {
         email: "",
         password: "",
@@ -78,11 +81,14 @@ export default {
       if (
         this.loginData.email.trim() === "" ||
         this.loginData.password.trim() === ""
-      )
-        return alert("Todos os campos devem ser preenchidos!");
+      ) {
+        this.showAlert();
+        return;
+      }
       this.$store.dispatch("auth/signIn", this.loginData).then((a) => {
         this.$router.push("/profile");
       });
+      this.showCustomAlert = false;
     },
     closeMessage() {
       this.$store.commit("resetStatus");
@@ -98,6 +104,12 @@ export default {
     sendToHome() {
       this.closeMessage();
       this.$router.push("/");
+    },
+    showAlert() {
+      this.showCustomAlert = true;
+    },
+    getResponseAlert(value) {
+      this.showCustomAlert = false;
     }
   },
 };

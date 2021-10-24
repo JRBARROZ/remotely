@@ -9,9 +9,9 @@
       @click.stop="eventPropagation"
     >
       <div class="flex flex-col items-center gap-3 m-auto">
-        <h1 class="text-2xl text-center text-gray-700">{{ this.title }} <span class="font-semibold text-medium-dark-purple">{{ this.data }}</span>?</h1>
+        <h1 class="text-2xl text-center text-gray-700">{{ this.title }} <span v-if="this.data !== ''" class="font-semibold text-medium-dark-purple">{{ this.data }}?</span></h1>
         <p v-if="this.content !== 'null'">{{ this.content }}</p>
-        <div class="flex items-end justify-center relative gap-3 w-full min-h-14">
+        <div v-if="this.type !== 'alert'" class="flex items-end justify-center relative gap-3 w-full min-h-14">
           <button
             class="bg-success rounded-md min-w-28 p-2 mt-2
             hover:bg-green-200 transition-all"
@@ -22,6 +22,13 @@
             hover:bg-red-200 transition-all"
             @click="$emit('result', 'false')"
           >Cancelar</button>
+        </div>
+        <div v-else class="flex items-end justify-center relative gap-3 w-full min-h-14">
+          <button
+            class="bg-error rounded-md min-w-28 p-2 mt-2
+            hover:bg-red-200 transition-all"
+            @click="$emit('result', 'true')"
+          >Fechar</button>
         </div>
       </div>
     </div>
@@ -38,6 +45,10 @@ export default {
     data: {
       type: String,
       default: ''
+    },
+    type: {
+      type: String,
+      default: 'null'
     }
   },
   emits: ['result']
