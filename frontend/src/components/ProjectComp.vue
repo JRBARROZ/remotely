@@ -29,10 +29,10 @@
               <img
                 src="../assets/delete.svg"
                 class="inline h-8 w-9 hover:cursor-pointer"
-                @click="this.deleteProjAction = true"
+                @click="showDeleteProjAlert(proj.id, proj.name)"
                 alt="Delete-Button"
               />
-              <Alert v-if="this.deleteProjAction" @result="(value) => getResponseAlert(value, 'deleteProj', proj.id)" title="Você deseja remover o projeto" :data="proj.name" />
+              <Alert v-if="this.deleteProjAction" @result="(value) => getResponseAlert(value, 'deleteProj')" title="Você deseja remover o projeto" :data="this.projName" />
             </div>
           </template>
           <BoxItem
@@ -42,12 +42,15 @@
             :status="task.status"
             @click="toggleTaskEditBox(task)"
           />
-          <div class="flex flex-col mt-3 hover:cursor-pointer self-end mr-3">
+          <div
+            class="flex mt-3 hover:cursor-pointer gap-2 items-center self-end mr-3"
+            @click="createTask(proj)"
+          >
+            <p class="text-lg text-skin font-semibold" >Adicionar Tarefa</p>
             <img
               :class="proj.tasks.length === 0 ? 'h-10 w-10' : 'h-8 w-8'"
               src="../assets/add_task.svg"
               title="Adicionar Tarefa"
-              @click="createTask(proj)"
               alt="Add-Task-Button"
             />
           </div>
@@ -88,14 +91,14 @@
           <div class="flex gap-2">
             <button
               type="submit"
-              class="bg-green-200 rounded-md p-2 mt-2 hover:bg-green-300"
+              class="bg-success rounded-md p-2 mt-2 hover:bg-green-200"
             >
               Confirmar
             </button>
             <button
-              class="bg-red-200 rounded-md p-2 mt-2 hover:bg-red-300"
+              class="bg-error rounded-md p-2 mt-2 hover:bg-red-200"
               type="button"
-              @click.prevent="this.cancelAction = true"
+              @click="this.cancelAction = true"
             >
               Cancelar
             </button>
@@ -126,7 +129,7 @@
               <Input id="nome-edit" labelText="Nome" v-model:value="this.projData.name"/>
               <Input id="status-edit" labelText="Status" v-model:value="this.projData.status"/>
               <button
-                class="bg-success h-10 text-title rounded mt-2 py-2"
+                class="bg-success h-10 text-title rounded-md mt-2 py-2 hover:bg-green-200"
                 type="submit"
                 @click.prevent="handleEditSubmit(this.projData)"
               >
@@ -183,7 +186,7 @@
             >
             </div>
               <button
-                class="bg-success h-10 text-title rounded-md mt-2 py-2"
+                class="bg-success h-10 text-title rounded-md mt-2 py-2 hover:bg-green-200"
                 type="submit"
                 @click.prevent="handleTaskEditSubmit(this.taskData)"
               >
@@ -220,12 +223,12 @@
             <div class="flex gap-2">
               <button
                 type="submit"
-                class="bg-green-200 rounded-md p-2 mt-2 hover:bg-green-300"
+                class="bg-success rounded-md p-2 mt-2 hover:bg-green-200"
               >
                 Confirmar
               </button>
               <button
-                class="bg-red-200 rounded-md p-2 mt-2 hover:bg-red-300"
+                class="bg-error rounded-md p-2 mt-2 hover:bg-red-200"
                 type="button"
                 @click="this.cancelTaskAction = true"
               >
@@ -270,6 +273,8 @@ export default {
     return {
       showModal: false,
       responseAlert: false,
+      projName: '',
+      projId: -1,
       deleteTaskAction: false,
       deleteProjAction: false,
       cancelTaskAction: false,
@@ -418,6 +423,11 @@ export default {
       }
       this.cancelTaskAction = false;
     },
+    showDeleteProjAlert(id, name) {
+      this.projId = id;
+      this.projName = name;
+      this.deleteProjAction = true;
+    },
     getResponseAlert(value, text, data = null) {
       this.responseAlert = value;
       switch(text) {
@@ -431,10 +441,9 @@ export default {
           this.handleCancel();
           break;
         case 'deleteProj':
-          this.remove(data);
+          this.remove(this.projId);
           break;
       }
-      
     }
   },
 };

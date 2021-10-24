@@ -9,9 +9,9 @@
       @click.stop="eventPropagation"
     >
       <div class="flex flex-col items-center gap-3 m-auto">
-        <h1 class="text-2xl text-center text-gray-700 mt-4">{{ this.title }} <span class="font-semibold text-medium-dark-purple">{{ this.data }}</span>?</h1>
+        <h1 class="text-2xl text-center text-gray-700">{{ this.title }} <span class="font-semibold text-medium-dark-purple">{{ this.data }}</span>?</h1>
         <p v-if="this.content !== 'null'">{{ this.content }}</p>
-        <div class="flex items-center justify-center relative gap-3 w-full h-28">
+        <div class="flex items-end justify-center relative gap-3 w-full min-h-14">
           <button
             class="bg-success rounded-md min-w-28 p-2 mt-2
             hover:bg-green-200 transition-all"

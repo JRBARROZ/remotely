@@ -29,10 +29,10 @@
                 <img
                   src="@/assets/delete.svg"
                   class="inline h-8 w-9 hover:cursor-pointer"
-                  @click="this.deleteOrgAction = true"
+                  @click="showDeleteOrgAlert(org.id, org.name)"
                   alt="Delete-Button"
                 />
-                <Alert v-if="this.deleteOrgAction" @result="(value) => getResponseAlert(value, 'deleteOrg', org.id)" title="Você deseja remover a organização" :data="org.name" />
+                <Alert v-if="this.deleteOrgAction" @result="(value) => getResponseAlert(value, 'deleteOrg')" title="Você deseja remover a organização" :data="this.orgName" />
               </div>
             </template>
             <BoxItem
@@ -57,12 +57,12 @@
             <div class="flex gap-2">
               <button
                 type="submit"
-                class="bg-green-200 rounded-md p-2 mt-2 hover:bg-green-300"
+                class="bg-success rounded-md p-2 mt-2 hover:bg-green-200"
               >
                 Confirmar
               </button>
               <button
-                class="bg-red-200 rounded-md p-2 mt-2 hover:bg-red-300"
+                class="bg-error rounded-md p-2 mt-2 hover:bg-red-200"
                 type="button"
                 @click="this.cancelAction = true"
               >
@@ -96,7 +96,7 @@
             >
               <Input id="org-name-edit" labelText="Nome" :initialText="this.orgData.name" v-model:value="this.orgData.name" />
               <button
-                class="bg-success h-10 text-title rounded mt-2 py-2"
+                class="bg-success h-10 text-title rounded mt-2 py-2 hover:bg-green-200"
                 type="submit"
               >
                 Salvar
@@ -126,6 +126,8 @@ export default {
     return {
       showModal: false,
       cancelAction: false,
+      orgName: '',
+      orgId: -1,
       deleteOrgAction: false,
       responseAlert: false,
       orgData: {
@@ -188,14 +190,19 @@ export default {
         })
         .catch(() => console.log("Não foi possível editar a organização"));
     },
-    getResponseAlert(value, text, data = null) {
+    showDeleteOrgAlert(id, name) {
+      this.orgId = id;
+      this.orgName = name;
+      this.deleteOrgAction = true;
+    },
+    getResponseAlert(value, text) {
       this.responseAlert = value;
       switch(text) {
         case 'cancel':
           this.handleCancel();
           break;
         case 'deleteOrg':
-          this.remove(data);
+          this.remove(this.orgId);
           break;
       } 
     }
