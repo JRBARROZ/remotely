@@ -21,8 +21,19 @@ module.exports = {
       fontSize: {
         'xsm': '.5625rem',
       },
+      zIndex: {
+        '60': 60,
+        '70': 70,
+        '80': 80,
+        '90': 90,
+        '100': 100,
+      },
       maxHeight: {
+        '84': '21rem',
+        '88': '22rem',
+        '92': '23rem',
         '100': '25rem',
+        '102': '25.5rem',
         '104': '26rem',
         '106': '26.5rem',
         '108': '27rem',
@@ -30,7 +41,12 @@ module.exports = {
         '110': '28rem',
       },
       minHeight: {
-        '14': '3.5rem'
+        '12': '3rem',
+        '14': '3.5rem',
+        '28': '7rem',
+        '32': '8rem',
+        '36': '9rem',
+        '40': '10rem',
       },
       minWidth: {
         '14': '3.5rem',
@@ -39,8 +55,14 @@ module.exports = {
         '24': '6rem',
         '28': '7rem',
         '32': '8rem',
+        'screen': '100vw'
       },
       height: {
+        '84': '21rem',
+        '88': '22rem',
+        '92': '23rem',
+        '100': '25rem',
+        '102': '25.5rem',
         '104': '26rem',
         '106': '26.5rem',
         '108': '27rem',
@@ -57,15 +79,18 @@ module.exports = {
       colors: {
         'input': '#E2E2FF',
         'primary': '#8988FD',
+        // 'primary': '#4F4DB0',
         'input-text': '#A8A8D3',
         'input-disabled': '#9797C2',
         'title': '#58588B',
         'light-purple': '#E7E7FF',
+        // 'medium-purple': '#AEAEFF',
         'medium-purple': '#AEAEFF',
         'medium-dark-purple': '#6262A2',
         'ice': '#FAFAFF',
         'success': '#7CFCAF',
         'error': '#FCA7A2',
+        'skin': '#4F4DB0',
       },
       animation: {
         'spin-once': 'spino 0.5s linear forwards',

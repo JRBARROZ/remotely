@@ -9,17 +9,17 @@
           :ref="proj + index"
           :title="proj.name"
           subtitle="Novo Projeto"
-          class="flex-grow"
+          class="flex-grow relative"
           :link="'/project/' + proj.id"
         >
           <template v-slot:header>
             <div class="flex items-center gap-2 mr-2">
-              <img
+              <!-- <img
                 src="../assets/add_task.svg"
                 class="inline h-6 w-7 hover:cursor-pointer"
                 @click="createTask(proj)"
                 alt="Add-Task-Button"
-              />
+              /> -->
               <img
                 src="../assets/edit.svg"
                 class="inline h-6 w-7 hover:cursor-pointer"
@@ -29,9 +29,10 @@
               <img
                 src="../assets/delete.svg"
                 class="inline h-8 w-9 hover:cursor-pointer"
-                @click="remove(proj.name, proj.id)"
+                @click="this.deleteProjAction = true"
                 alt="Delete-Button"
               />
+              <Alert v-if="this.deleteProjAction" @result="(value) => getResponseAlert(value, 'deleteProj', proj.id)" title="Você deseja remover o projeto" :data="proj.name" />
             </div>
           </template>
           <BoxItem
@@ -41,6 +42,15 @@
             :status="task.status"
             @click="toggleTaskEditBox(task)"
           />
+          <div class="flex flex-col mt-3 hover:cursor-pointer self-end mr-3">
+            <img
+              :class="proj.tasks.length === 0 ? 'h-10 w-10' : 'h-8 w-8'"
+              src="../assets/add_task.svg"
+              title="Adicionar Tarefa"
+              @click="createTask(proj)"
+              alt="Add-Task-Button"
+            />
+          </div>
         </Box>
       </div>
       <!-- add project start -->
@@ -77,18 +87,19 @@
           
           <div class="flex gap-2">
             <button
-              class="bg-red-200 rounded-md p-2 mt-2 hover:bg-red-300"
-              type="button"
-              @click="handleCancel"
-            >
-              Cancelar
-            </button>
-            <button
               type="submit"
               class="bg-green-200 rounded-md p-2 mt-2 hover:bg-green-300"
             >
               Confirmar
             </button>
+            <button
+              class="bg-red-200 rounded-md p-2 mt-2 hover:bg-red-300"
+              type="button"
+              @click.prevent="this.cancelAction = true"
+            >
+              Cancelar
+            </button>
+            <Alert @result="(value) => getResponseAlert(value, 'cancel')" v-if="this.cancelAction" title="Você realmente deseja cancelar a criação" />
           </div>
         </form>
       </div>
@@ -115,7 +126,7 @@
               <Input id="nome-edit" labelText="Nome" v-model:value="this.projData.name"/>
               <Input id="status-edit" labelText="Status" v-model:value="this.projData.status"/>
               <button
-                class="bg-primary h-10 text-white rounded mt-2 py-2"
+                class="bg-success h-10 text-title rounded mt-2 py-2"
                 type="submit"
                 @click.prevent="handleEditSubmit(this.projData)"
               >
@@ -145,9 +156,10 @@
               <img
                 src="../assets/trash_can.svg"
                 class="inline hover:cursor-pointer right-2 top-1 absolute"
-                @click="removeTask(this.taskData.title, this.taskData.id)"
+                @click="this.deleteTaskAction = true"
                 alt="Add-Task-Button"
               />
+              <Alert v-if="this.deleteTaskAction" @result="(value) => getResponseAlert(value, 'deleteTask', this.taskData.id)" title="Deseja realmente deletar a tarefa " :data="this.taskData.title" />
             </div>
             <form
               class="flex flex-col gap-1 px-4 w-full sm:mx-auto"
@@ -171,7 +183,7 @@
             >
             </div>
               <button
-                class="bg-primary h-10 text-white rounded-md mt-2 py-2"
+                class="bg-success h-10 text-title rounded-md mt-2 py-2"
                 type="submit"
                 @click.prevent="handleTaskEditSubmit(this.taskData)"
               >
@@ -207,18 +219,19 @@
             >
             <div class="flex gap-2">
               <button
-                class="bg-red-200 rounded-md p-2 mt-2 hover:bg-red-300"
-                type="button"
-                @click="handleTaskCancel"
-              >
-                Cancelar
-              </button>
-              <button
                 type="submit"
                 class="bg-green-200 rounded-md p-2 mt-2 hover:bg-green-300"
               >
                 Confirmar
               </button>
+              <button
+                class="bg-red-200 rounded-md p-2 mt-2 hover:bg-red-300"
+                type="button"
+                @click="this.cancelTaskAction = true"
+              >
+                Cancelar
+              </button>
+              <Alert v-if="this.cancelTaskAction" @result="(value) => getResponseAlert(value, 'cancelTask')" title="Você realmente deseja cancelar a criação" />
             </div>
           </div>
         </form>
@@ -235,9 +248,10 @@ import BoxItem from "./BoxItem";
 import MainButton from "./MainButton.vue";
 
 import Input from "./Input";
+import Alert from "./Alert";
 
 export default {
-  components: { Box, BoxItem, MainButton, Input },
+  components: { Box, BoxItem, MainButton, Input, Alert },
   computed: {
     ...mapState("task", {
       taskList: (state) => state.taskList,
@@ -255,6 +269,11 @@ export default {
   data() {
     return {
       showModal: false,
+      responseAlert: false,
+      deleteTaskAction: false,
+      deleteProjAction: false,
+      cancelTaskAction: false,
+      cancelAction: false,
       showTaskModal: false,
       choosenProj: null,
       projData: {
@@ -288,10 +307,13 @@ export default {
     }
   },
   methods: {
-    handleCancel(e) {
-      e.preventDefault;
-      if (confirm("Você realmente deseja cancelar a criação? "))
-        this.$store.commit("project/setAddProject", false);
+    handleCancel() {
+      if (this.responseAlert === "true") this.responseAlert = true;
+      else this.responseAlert = false;
+
+      if (this.responseAlert) this.$store.commit("project/setAddProject", false);
+      this.responseAlert = false;
+      this.cancelAction = false;
     },
     handleSubmit() {
       if(this.ownerOrg){
@@ -304,9 +326,14 @@ export default {
       this.projData.orgId = null;
       this.$store.commit("project/setAddProject", false);
     },
-    remove(name, index) {
-      if (confirm(`Deseja Realmente Deletar o Projeto: "${name}"?`))
+    remove(index) {
+      if (this.responseAlert === "true") this.responseAlert = true;
+      else this.responseAlert = false;
+      if (this.responseAlert)  {
+        console.log('entrou no remove project')
         this.$store.dispatch("project/remove", index);
+      }
+      this.deleteProjAction = false;
     },
     toggleEditBox(proj) {
       this.showModal = !this.showModal;
@@ -345,10 +372,13 @@ export default {
       this.taskData.deadline = null;
       this.$store.commit("task/setAddTask", false);
     },
-    removeTask(title, index) {
-      if (confirm(`Deseja realmente deletar a tarefa: "${title}"?`))
+    removeTask(index) {
+      if (this.responseAlert === "true") this.responseAlert = true;
+      else this.responseAlert = false;
+      if (this.responseAlert)
         this.$store.dispatch("task/remove", index).then(() => 
         this.showTaskModal = false);
+      this.deleteTaskAction = false;
     },
     toggleTaskEditBox(task) {
       this.showTaskModal = !this.showTaskModal;
@@ -374,7 +404,9 @@ export default {
         .catch(() => console.log("Não foi possível editar a tarefa"));
     },
     handleTaskCancel() {
-      if (confirm("Você realmente deseja cancelar a criação? ")){
+      if (this.responseAlert === "true") this.responseAlert = true;
+      else this.responseAlert = false;
+      if (this.responseAlert){
         this.taskData.id = null;
         this.taskData.title = "";
         this.taskData.description = ""
@@ -384,7 +416,26 @@ export default {
         this.showTaskModal = false;
         this.$store.commit("task/setAddTask", false);
       }
+      this.cancelTaskAction = false;
     },
+    getResponseAlert(value, text, data = null) {
+      this.responseAlert = value;
+      switch(text) {
+        case 'cancelTask':
+          this.handleTaskCancel();
+          break;
+        case 'deleteTask':
+          this.removeTask(data);
+          break;
+        case 'cancel':
+          this.handleCancel();
+          break;
+        case 'deleteProj':
+          this.remove(data);
+          break;
+      }
+      
+    }
   },
 };
 </script>

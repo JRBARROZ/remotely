@@ -277,6 +277,7 @@ const organization = {
             break;
           }
         }
+        router.push('/organizations');
       }
     },
   },
@@ -305,6 +306,7 @@ const project = {
     },
     setAddProject: (state, payload) => {
       state.addProject = payload;
+      router.push('/projects');
     }
   },
   actions: {
@@ -364,6 +366,7 @@ const project = {
             state.projList.splice(key, 1);
             commit("changeProjList", state.projList);
             commit("organization/changeOrgList", null, { root: true });
+            router.push('/projects');
             break;
           }
         }

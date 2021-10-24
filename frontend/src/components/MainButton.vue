@@ -8,8 +8,8 @@
       </svg>
     </div>
     <button @click="showComponentList" class="hidden md:block fixed bottom-24 -ml-24 left-auto
-     mt-3 py-2 bg-primary text-white focus:outline-none rounded hover:opacity-70 w-48
-     md:w-56 border-none">Criar {{ entity }}</button>
+     mt-3 py-2 bg-skin text-white focus:outline-none rounded hover:opacity-80 w-48
+     md:w-56 border-none transition-all">Criar {{ entity }}</button>
   </div>
 </template>
 

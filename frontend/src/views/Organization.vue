@@ -29,9 +29,10 @@
                 <img
                   src="@/assets/delete.svg"
                   class="inline h-8 w-9 hover:cursor-pointer"
-                  @click="remove(org.name, org.id)"
+                  @click="this.deleteOrgAction = true"
                   alt="Delete-Button"
                 />
+                <Alert v-if="this.deleteOrgAction" @result="(value) => getResponseAlert(value, 'deleteOrg', org.id)" title="Você deseja remover a organização" :data="org.name" />
               </div>
             </template>
             <BoxItem
@@ -55,18 +56,19 @@
           <Input id="org-name" labelText="Nome" v-model:value="this.orgData.name" />
             <div class="flex gap-2">
               <button
-                class="bg-red-200 rounded-md p-2 mt-2 hover:bg-red-300"
-                type="button"
-                @click="handleCancel"
-              >
-                Cancelar
-              </button>
-              <button
                 type="submit"
                 class="bg-green-200 rounded-md p-2 mt-2 hover:bg-green-300"
               >
                 Confirmar
               </button>
+              <button
+                class="bg-red-200 rounded-md p-2 mt-2 hover:bg-red-300"
+                type="button"
+                @click="this.cancelAction = true"
+              >
+                Cancelar
+              </button>
+              <Alert @result="(value) => getResponseAlert(value, 'cancel')" v-if="this.cancelAction" title="Você realmente deseja cancelar a criação" />
             </div>
           </form>
         </div>
@@ -94,7 +96,7 @@
             >
               <Input id="org-name-edit" labelText="Nome" :initialText="this.orgData.name" v-model:value="this.orgData.name" />
               <button
-                class="bg-primary h-10 text-white rounded mt-2 py-2"
+                class="bg-success h-10 text-title rounded mt-2 py-2"
                 type="submit"
               >
                 Salvar
@@ -116,12 +118,16 @@ import NavBar from "@/components/NavBar";
 import PageWrapper from "@/components/PageWrapper";
 import MainButton from "@/components/MainButton";
 import Input from '@/components/Input';
+import Alert from '@/components/Alert';
 
 export default {
-  components: { NavBar, PageWrapper, Box, BoxItem, MainButton, Input },
+  components: { NavBar, PageWrapper, Box, BoxItem, MainButton, Input, Alert },
   data() {
     return {
       showModal: false,
+      cancelAction: false,
+      deleteOrgAction: false,
+      responseAlert: false,
       orgData: {
         name: null,
         id: null,
@@ -142,10 +148,14 @@ export default {
     },
   },
   methods: {
-    handleCancel(e) {
-      e.preventDefault;
-      if (confirm("Você realmente deseja cancelar a criação ? "))
-        this.$store.commit("organization/setAddOrganization", false);
+    handleCancel() {
+      if (this.responseAlert === "true") this.responseAlert = true;
+      else this.responseAlert = false;
+      // Você realmente deseja cancelar a criação
+      if (this.responseAlert) this.$store.commit("organization/setAddOrganization", false);
+
+      this.responseAlert = false;
+      this.cancelAction = false;
     },
     handleSubmit() {
       if (this.orgData.name.trim() === "")
@@ -154,9 +164,13 @@ export default {
       this.$store.commit("organization/setAddOrganization", false);
       this.orgData.name = "";
     },
-    remove(name, index) {
-      if (confirm(`Deseja Realmente Deletar a Organização: " ${name} " ?`))
+    remove(index) {
+      if (this.responseAlert === "true") this.responseAlert = true;
+      else this.responseAlert = false;
+      if (this.responseAlert)
         this.$store.dispatch("organization/remove", index);
+      
+      this.deleteOrgAction = false;
     },
     toggleEditBox(org) {
       this.showModal = !this.showModal;
@@ -174,6 +188,17 @@ export default {
         })
         .catch(() => console.log("Não foi possível editar a organização"));
     },
+    getResponseAlert(value, text, data = null) {
+      this.responseAlert = value;
+      switch(text) {
+        case 'cancel':
+          this.handleCancel();
+          break;
+        case 'deleteOrg':
+          this.remove(data);
+          break;
+      } 
+    }
   },
 };
 </script>

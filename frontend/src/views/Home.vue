@@ -179,12 +179,7 @@
         >
           Começar
         </button>
-        <p class="md:text-xl" v-else>Olá, <span @click="openAlert" class="font-medium text-lg md:text-2xl text-primary">{{ loggedUser.name }}</span></p>
-        <Alert
-          title="Tem certeza disso?"
-          content="Isso não pode ser desfeito"
-          @result="resultAlert"
-          v-if="this.showAlert" />
+        <p class="md:text-xl" v-else>Olá, <span class="font-medium text-lg md:text-2xl text-primary">{{ loggedUser.name }}</span></p>
       </div>
     </PageWrapper>
   </div>
@@ -196,17 +191,9 @@ import PageWrapper from "@/components/PageWrapper";
 import NavBar from "@/components/NavBar";
 // @ is an alias to /src
 
-import Alert from "@/components/Alert";
-
 export default {
-  components: { PageWrapper, NavBar, Alert },
+  components: { PageWrapper, NavBar },
   name: "Home",
-  data() {
-    return {
-      showAlert: false,
-      stateAlert: false
-    }
-  },
   computed: {
     ...mapState("auth", { loggedUser: (state) => state.loggedUser }),
     ...mapState(["emailValidated"]),
@@ -215,20 +202,6 @@ export default {
     sendToLogin() {
       this.$router.push('/login');
     },
-    openAlert() {
-      this.showAlert = true
-    },
-    resultAlert(value) {
-      this.showAlert = false;
-      switch(value) {
-        case "true":
-          console.log('confirmed');
-          break;
-        case "false":
-          console.log('cancelled');
-          break;
-      }
-    }
   },
 };
 </script>

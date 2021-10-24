@@ -1,16 +1,16 @@
 <template>
   <div
-    class="bg-gray-900 bg-opacity-50 min-h-screen min-w-full z-30 fixed
-      top-0 flex flex-col justify-center items-center px-6"
+    class="bg-gray-900 bg-opacity-50 min-h-screen min-w-screen z-60 fixed
+      top-0 flex flex-col pt-16 items-center left-0 px-6"
     @click="$emit('result', 'false')"
   >
     <div
-      class="bg-white w-full h-full z-40 md:w-96 p-5 rounded"
+      class="bg-white w-full h-full z-70 md:w-96 p-5 rounded"
       @click.stop="eventPropagation"
     >
       <div class="flex flex-col items-center gap-3 m-auto">
-        <h1 class="text-2xl text-center text-gray-700 mt-4">{{ title }}</h1>
-        <p>{{ content }}</p>
+        <h1 class="text-2xl text-center text-gray-700 mt-4">{{ this.title }} <span class="font-semibold text-medium-dark-purple">{{ this.data }}</span>?</h1>
+        <p v-if="this.content !== 'null'">{{ this.content }}</p>
         <div class="flex items-center justify-center relative gap-3 w-full h-28">
           <button
             class="bg-success rounded-md min-w-28 p-2 mt-2
@@ -31,7 +31,14 @@
 export default {
   props: {
     title: String,
-    content: String,
+    content: {
+      type: String,
+      default: "null"
+    },
+    data: {
+      type: String,
+      default: ''
+    }
   },
   emits: ['result']
 }
