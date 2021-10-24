@@ -1,7 +1,8 @@
 <template>
   <div class="flex flex-col items-center px-4 sm:px-8 md:px-14 lg:px-32" v-if="projList != null">
-      <div class="h-108 max-h-108 mt-5 border-b-4 w-full border-opacity-50 pb-4 border-primary
-      overflow-y-auto mx-4 sm:grid sm:grid-cols-2 sm:gap-3 lg:grid-cols-3" v-if="!addTask && !addProject && projList.length !== 0">
+      <div class="h-108 max-h-108 border-b-4 mt-5 border-opacity-50 pb-4 border-primary gap-2 sm:mx-8 md:mx-14 lg:mx-32 overflow-y-auto mx-4 sm:grid sm:gap-3 sm:justify-center"
+      :class="customGridClasses"
+      v-if="!addTask && !addProject && projList.length !== 0">
         <Box
           v-for="(proj, index) in projList"
           :key="index"
@@ -42,8 +43,8 @@
           />
         </Box>
       </div>
-      
-      <div class="w-full" v-if="addProject && !addTask">
+      <!-- add project start -->
+      <div class="w-full mt-6" v-if="addProject && !addTask">
         <form
           class="flex flex-col gap-1 px-6 sm:w-3/4 md:w-1/2 sm:mx-auto"
           autocomplete="off"
@@ -91,7 +92,8 @@
           </div>
         </form>
       </div>
-      
+      <!-- add project end -->
+      <!-- edit project start -->
       <div
         class="bg-gray-900 bg-opacity-50 min-h-screen min-w-full z-30
           fixed top-0 flex flex-col justify-center items-center px-6"
@@ -123,7 +125,8 @@
           </div>
         </div>
       </div>
-
+      <!-- edit project end -->
+      <!-- edit task start -->
       <div
         class="bg-gray-900 bg-opacity-50 min-h-screen min-w-full z-30
           fixed top-0 flex flex-col justify-center items-center px-6"
@@ -178,17 +181,18 @@
           </div>
         </div>
       </div>
-
-      <div class="w-full" v-if="addTask">
+      <!-- edit task end -->
+      <!-- add task start -->
+      <div class="w-full mt-6" v-if="addTask">
         <form
           class="flex flex-col gap-1 px-6 sm:w-3/4 md:w-1/2 sm:mx-auto"
           autocomplete="off"
           @submit.prevent="handleTaskSubmit"
         >
-          <Input id="task-title" labelText="Título"  v-model:value="this.taskData.title"/>
           <Input id="task-project" labelText="Projeto" v-model:value="choosenProj.name" :disabled="true"/> 
+          <Input id="task-title" labelText="Título"  v-model:value="this.taskData.title"/>
           <Input type="date" id="task-deadline" labelText="Data de entrega" v-model:value="this.taskData.deadline"/>
-          <div class="relative mt-5">
+          <div class="relative mt-6">
             <textarea
               type="text"
               v-model="this.taskData.description"
@@ -219,6 +223,7 @@
           </div>
         </form>
       </div>
+      <!-- add task end -->
       <MainButton entity="Projeto" storeRoute="project/setAddProject" v-if="!addTask && !addProject && showAddProjectButton" />
   </div>
 </template>
@@ -232,7 +237,7 @@ import MainButton from "./MainButton.vue";
 import Input from "./Input";
 
 export default {
-  components: { Box, BoxItem, MainButton, Input},
+  components: { Box, BoxItem, MainButton, Input },
   computed: {
     ...mapState("task", {
       taskList: (state) => state.taskList,
@@ -243,6 +248,9 @@ export default {
     ...mapState("project", {
       addProject: (state) => state.addProject,
     }),
+    customGridClasses: function() {
+      return this.projList.length === 2 ? 'sm:grid-cols-2 w-full' : this.projList.length > 2 ? 'sm:grid-cols-2 lg:grid-cols-3 w-full' : 'sm:grid-cols-1 w-full sm:w-1/2';
+    },
   },
   data() {
     return {

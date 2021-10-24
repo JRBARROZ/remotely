@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NavBar />
+    <NavBar :isProject="this.isProject" :isOrganization="this.isOrganization" />
     <PageWrapper :title="title" :invite="true" :link="'/invite/' + inviteLink">
       <ProjectComp :projList="updatedProjList" :ownerOrg="ownerOrg" :showAddProjectButton="showAddButton"/>
     </PageWrapper>
@@ -10,9 +10,9 @@
 <script>
 
 import { mapState } from "vuex";
-import PageWrapper from './PageWrapper.vue';
-import NavBar from './NavBar.vue';
-import ProjectComp from './ProjectComp.vue';
+import PageWrapper from './PageWrapper';
+import NavBar from './NavBar';
+import ProjectComp from './ProjectComp';
 
 export default {
   components: { PageWrapper, ProjectComp, NavBar },
@@ -93,6 +93,8 @@ export default {
     return {
       organization: null,
       project: null,
+      isProject: false,
+      isOrganization: false,
       projData: {
         id: null,
         name: null,
@@ -112,9 +114,35 @@ export default {
   created(){
     this.getEntityInfo
   },
+  mounted() {
+    const path = this.$router.currentRoute._value.fullPath;
+		const val = path.slice(1);
+
+    if (val.indexOf('organization') !== -1) this.handleChange('organization')
+    if (val.indexOf('project') !== -1) this.handleChange('project')
+  },
+  updated() {
+    const path = this.$router.currentRoute._value.fullPath;
+		const val = path.slice(1);
+
+    if (val.indexOf('organization') !== -1) this.handleChange('organization')
+    if (val.indexOf('project') !== -1) this.handleChange('project')
+  },
   beforeUpdate(){
     this.organization = null;
     this.getEntityInfo;
+  },
+  methods: {
+    handleChange(value) {
+      if (value === "organization") {
+        this.isOrganization = true;
+        this.isProject = false;
+      }
+      if (value === "project") {
+        this.isProject = true;
+        this.isOrganization = false;
+      }
+    }
   }
 }
 </script>

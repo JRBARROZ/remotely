@@ -28,15 +28,15 @@
 			</router-link>
 			<router-link to="/organizations" class="flex items-center gap-2" v-slot="{isActive}" v-if="Object.keys(this.loggedUser).length > 0">
 				<svg width="24" height="25" viewBox="0 0 24 25" xmlns="http://www.w3.org/2000/svg">
-					<path d="M12 5.55556V0H0V25H24V5.55556H12ZM4.8 22.2222H2.4V19.4444H4.8V22.2222ZM4.8 16.6667H2.4V13.8889H4.8V16.6667ZM4.8 11.1111H2.4V8.33333H4.8V11.1111ZM4.8 5.55556H2.4V2.77778H4.8V5.55556ZM9.6 22.2222H7.2V19.4444H9.6V22.2222ZM9.6 16.6667H7.2V13.8889H9.6V16.6667ZM9.6 11.1111H7.2V8.33333H9.6V11.1111ZM9.6 5.55556H7.2V2.77778H9.6V5.55556ZM21.6 22.2222H12V19.4444H14.4V16.6667H12V13.8889H14.4V11.1111H12V8.33333H21.6V22.2222ZM19.2 11.1111H16.8V13.8889H19.2V11.1111ZM19.2 16.6667H16.8V19.4444H19.2V16.6667Z" fill="white" fill-opacity="0.6"/>
+					<path d="M12 5.55556V0H0V25H24V5.55556H12ZM4.8 22.2222H2.4V19.4444H4.8V22.2222ZM4.8 16.6667H2.4V13.8889H4.8V16.6667ZM4.8 11.1111H2.4V8.33333H4.8V11.1111ZM4.8 5.55556H2.4V2.77778H4.8V5.55556ZM9.6 22.2222H7.2V19.4444H9.6V22.2222ZM9.6 16.6667H7.2V13.8889H9.6V16.6667ZM9.6 11.1111H7.2V8.33333H9.6V11.1111ZM9.6 5.55556H7.2V2.77778H9.6V5.55556ZM21.6 22.2222H12V19.4444H14.4V16.6667H12V13.8889H14.4V11.1111H12V8.33333H21.6V22.2222ZM19.2 11.1111H16.8V13.8889H19.2V11.1111ZM19.2 16.6667H16.8V19.4444H19.2V16.6667Z" fill="white" :fill-opacity="this.isOrganization ? '1' : '0.6'"/>
 				</svg>
-				<h1 :class="isActive ? 'text-opacity-100' : 'text-opacity-60'" class="lg:text-lg text-white">Organizações</h1>
+				<h1 :class="isActive || this.isOrganization ? 'text-opacity-100' : 'text-opacity-60'" class="lg:text-lg text-white">Organizações</h1>
 			</router-link>
 			<router-link to="/projects" class="flex items-center gap-2" v-slot="{isActive}" v-if="Object.keys(this.loggedUser).length > 0">
 				<svg width="24" height="25" viewBox="0 0 24 25" xmlns="http://www.w3.org/2000/svg">
-					<path d="M6 17.5H18V20H6V17.5ZM6 12.5H18V15H6V12.5ZM15 0H3C1.35 0 0 1.125 0 2.5V22.5C0 23.875 1.335 25 2.985 25H21C22.65 25 24 23.875 24 22.5V7.5L15 0ZM21 22.5H3V2.5H13.5V8.75H21V22.5Z" fill="#EFEEFD" fill-opacity="0.6"/>
+					<path d="M6 17.5H18V20H6V17.5ZM6 12.5H18V15H6V12.5ZM15 0H3C1.35 0 0 1.125 0 2.5V22.5C0 23.875 1.335 25 2.985 25H21C22.65 25 24 23.875 24 22.5V7.5L15 0ZM21 22.5H3V2.5H13.5V8.75H21V22.5Z" fill="#EFEEFD" :fill-opacity="this.isProject ? '1' : '0.6'"/>
 				</svg>
-				<h1 :class="isActive ? 'text-opacity-100' : 'text-opacity-60'" class="lg:text-lg text-white">Projetos</h1>
+				<h1 :class="isActive || this.isProject ? 'text-opacity-100' : 'text-opacity-60'" class="lg:text-lg text-white">Projetos</h1>
 			</router-link>
 			<router-link to="/profile" class="flex items-center gap-2" v-slot="{isActive}" v-if="Object.keys(this.loggedUser).length > 0">
 				<svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -80,11 +80,21 @@ import { mapState } from 'vuex';
 export default {
 	data() {
 		return {
-			isActive: this.$router.isActive
+			isActive: this.$router.isActive,
+		}
+	},
+	props: {
+		isProject: {
+			type: Boolean,
+			default: false
+		},
+		isOrganization: {
+			type: Boolean,
+			default: false
 		}
 	},
 	computed: {
-	...mapState("auth", { loggedUser: (state) => state.loggedUser }),
+		...mapState("auth", { loggedUser: (state) => state.loggedUser }),
 	},
 	methods: {
 		logout() {
@@ -92,6 +102,12 @@ export default {
 			.then(() => {
 				this.$router.push('/login');
 			});
+		},
+		setOrgActive() {
+			this.orgIsActive = true;
+		},
+		setProjActive() {
+			this.projIsActive = true;
 		}
 	}
 }

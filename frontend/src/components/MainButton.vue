@@ -7,7 +7,7 @@
         <path  d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
       </svg>
     </div>
-    <button @click="showComponentList" class="hidden md:block fixed bottom-16 -ml-24 left-auto
+    <button @click="showComponentList" class="hidden md:block fixed bottom-24 -ml-24 left-auto
      mt-3 py-2 bg-primary text-white focus:outline-none rounded hover:opacity-70 w-48
      md:w-56 border-none">Criar {{ entity }}</button>
   </div>

@@ -7,6 +7,13 @@ module.exports = {
       backgroundImage: theme => ({
         'remotely-pattern': "url('./assets/img/Texture.png')",
       }),
+      inset: {
+        '18': '4.5rem',
+        '20': '5rem',
+        '22': '5.5rem',
+        '24': '6rem',
+        '26': '6.5rem',
+      },
       fontFamily: {
         'comfoorta': 'Comfortaa, cursive',
         'lexend': 'Lexend Deca, sans-serif',
@@ -19,6 +26,8 @@ module.exports = {
         '104': '26rem',
         '106': '26.5rem',
         '108': '27rem',
+        '109': '27.5rem',
+        '110': '28rem',
       },
       minHeight: {
         '14': '3.5rem'
@@ -35,11 +44,15 @@ module.exports = {
         '104': '26rem',
         '106': '26.5rem',
         '108': '27rem',
+        '109': '27.5rem',
+        '110': '28rem',
       },
       width: {
         '104': '26rem',
         '106': '26.5rem',
         '108': '27rem',
+        '109': '27.5rem',
+        '110': '28rem',
       },
       colors: {
         'input': '#E2E2FF',
@@ -50,7 +63,9 @@ module.exports = {
         'light-purple': '#E7E7FF',
         'medium-purple': '#AEAEFF',
         'medium-dark-purple': '#6262A2',
-        'ice': '#FAFAFF'
+        'ice': '#FAFAFF',
+        'success': '#7CFCAF',
+        'error': '#FCA7A2',
       },
       animation: {
         'spin-once': 'spino 0.5s linear forwards',
