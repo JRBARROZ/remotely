@@ -23,4 +23,11 @@ class Invitation extends Model
 		'org_id',
 		'user_id'
 	];
+
+	protected $hidden = [
+		'created_at',
+		'accepted_at',
+		'updated_at',
+		'is_valid'
+	];
 }

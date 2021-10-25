@@ -97,4 +97,5 @@ Route::group([
 ], function(){
 	Route::post('/user', [InvitationController::class, 'store']);
 	Route::post('/accept', [InvitationController::class, 'accept']);
+	Route::get('/', [InvitationController::class, 'getInvitations']);
 });

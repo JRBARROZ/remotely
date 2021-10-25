@@ -466,6 +466,9 @@ const task = {
 
 const invitation = {
   namespaced: true,
+  state: {
+    invitations: JSON.parse(localStorage.getItem("invitations")) ?? [],
+  },
   actions: {
     invite: async ({rootState, commit}, payload) => {
       await axios.post(`${server}/invite/user`, payload, {headers: { Authorization: `Bearer ${rootState.token}`}})
@@ -475,6 +478,16 @@ const invitation = {
       ).catch((error) => {
         commit("error", error.response.data, { root: true });
        });
+    },
+    getList: async ({rootState}) => {
+      axios.get(`${server}/invite/`, {headers: { Authorization: `Bearer ${rootState.token}`}}).then((res) => {
+        localStorage.setItem("invitations", JSON.stringify(res.data))
+      }).catch((error) => console.log(error))
+    }
+  },
+  getters: {
+    invitations: state => {
+      return state.invitations
     }
   }
 }
