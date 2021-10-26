@@ -32,7 +32,11 @@
                   @click="showDeleteOrgAlert(org.id, org.name)"
                   alt="Delete-Button"
                 />
-                <Alert v-if="this.deleteOrgAction" @result="(value) => getResponseAlert(value, 'deleteOrg')" title="Você deseja remover a organização" :data="this.orgName" />
+                <Alert
+                  v-if="this.deleteOrgAction"
+                  @result="(value) => getResponseAlert(value, 'deleteOrg')"
+                  title="Você deseja remover a organização"
+                  :data="this.orgName" />
               </div>
             </template>
             <BoxItem
@@ -58,7 +62,10 @@
             autocomplete="off"
             @submit.prevent="handleSubmit"
           >
-          <Input id="org-name" labelText="Nome" v-model:value="this.orgData.name" />
+          <Input
+            id="org-name"
+            labelText="Nome"
+            v-model:value="this.orgData.name" />
             <div class="flex gap-2">
               <button
                 type="submit"
@@ -73,7 +80,10 @@
               >
                 Cancelar
               </button>
-              <Alert @result="(value) => getResponseAlert(value, 'cancel')" v-if="this.cancelAction" title="Você realmente deseja cancelar a criação?" />
+              <Alert
+                v-if="this.cancelAction"
+                @result="(value) => getResponseAlert(value, 'cancel')"
+                title="Você realmente deseja cancelar a criação?" />
             </div>
           </form>
         </div>
@@ -99,7 +109,11 @@
               autocomplete="off"
               @submit.prevent="handleEditSubmit(this.orgData)"
             >
-              <Input id="org-name-edit" labelText="Nome" :initialText="this.orgData.name" v-model:value="this.orgData.name" />
+              <Input
+                id="org-name-edit"
+                labelText="Nome"
+                :initialText="this.orgData.name"
+                v-model:value="this.orgData.name" />
               <button
                 class="bg-success h-10 text-title rounded mt-2 py-2 hover:bg-green-200"
                 type="submit"
@@ -152,7 +166,9 @@ export default {
     }),
     ...mapState("project", { projList: (state) => state.projList }),
     customGridClasses: function() {
-      return this.orgList.length === 2 ? 'sm:grid-cols-2 w-full' : this.orgList.length > 2 ? 'sm:grid-cols-2 lg:grid-cols-3 w-full' : 'sm:grid-cols-1 w-full sm:w-1/2';
+      return this.orgList.length === 2 ? 'sm:grid-cols-2 w-full' : 
+        this.orgList.length > 2 ? 'sm:grid-cols-2 lg:grid-cols-3 w-full' : 
+        'sm:grid-cols-1 w-full sm:w-1/2';
     },
   },
   methods: {

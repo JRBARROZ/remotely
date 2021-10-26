@@ -14,9 +14,16 @@
         <div class="bg-primary h-10 rounded-tl-md rounded-tr-md px-4 py-2">
           <h1 class="text-white text-center md:text-lg">Suas Organizações</h1>
         </div>
-        <div class="flex flex-col gap-1 sm:grid sm:grid-cols-2 sm:gap-3 lg:grid-cols-3 bg-ice px-4 py-3 max-h-80 md:max-h-108 overflow-y-auto shadow-lg">
-          <div class="bg-light-purple px-3 py-1 rounded hover:bg-primary cursor-pointer group hover:bg-opacity-70" v-for="(org, index) in orgList" :key="index" @click="this.$router.push('/organization/' + org.id)">
-            <span class="font-comfoorta text-medium-dark-purple font-light group-hover:text-white" >{{org.name}}</span>
+        <div class="flex flex-col gap-1 sm:grid sm:grid-cols-2 sm:gap-3 lg:grid-cols-3 
+          bg-ice px-4 py-3 max-h-80 md:max-h-108 overflow-y-auto shadow-lg">
+          <div
+            class="bg-light-purple px-3 py-1 transition-all rounded hover:bg-primary cursor-pointer
+              group hover:bg-opacity-70"
+            v-for="(org, index) in orgList"
+            :key="index"
+            @click="this.$router.push('/organization/' + org.id)">
+            <span class="font-comfoorta text-medium-dark-purple font-light
+             group-hover:text-white" >{{org.name}}</span>
           </div>
         </div>
       </div>

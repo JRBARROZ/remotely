@@ -14,6 +14,7 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-unused-vars': 'off',
-    'no-empty': 'off'
+    'no-empty': 'off',
+    'vue/no-v-model-argument': 'off'
   }
 }

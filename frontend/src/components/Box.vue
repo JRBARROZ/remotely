@@ -4,7 +4,7 @@
       <h1 class="font-comfoorta ml-4 text-left text-white flex-1 truncate hover:whitespace-normal focus:whitespace-normal cursor-pointer" @click="handleClick">{{ title }}</h1>
       <slot name="header"></slot>
     </div>
-    <div class="flex flex-col pb-2 mb-6 sm:mb-0 blue min-h-28 max-h-88 overflow-y-auto bg-light-purple w-full">
+    <div class="flex flex-col pb-2 mb-6 sm:mb-0 blue min-h-56 max-h-88 overflow-y-auto bg-light-purple w-full">
       <slot />
     </div>
   </div>

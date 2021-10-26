@@ -1,8 +1,13 @@
 <template>
-  <div class="flex flex-col items-center px-4 sm:px-8 md:px-14 lg:px-32" v-if="projList != null">
-      <div class="h-108 max-h-108 border-b-4 mt-5 border-opacity-50 pb-4 border-primary gap-2 sm:mx-8 md:mx-14 lg:mx-32 overflow-y-auto mx-4 sm:grid sm:gap-3 sm:justify-center"
-      :class="customGridClasses"
-      v-if="!addTask && !addProject && projList.length !== 0">
+  <div
+    class="flex flex-col items-center px-4 sm:px-8 md:px-14 lg:px-32"
+    v-if="projList != null">
+      <div
+        class="h-108 max-h-108 border-b-4 mt-5 border-opacity-50 pb-4 border-primary
+        gap-2 sm:mx-8 md:mx-14 lg:mx-32 overflow-y-auto mx-4 sm:grid sm:gap-3 sm:justify-center"
+        :class="customGridClasses"
+        v-if="!addTask && !addProject && projList.length !== 0"
+      >
         <Box
           v-for="(proj, index) in projList"
           :key="index"
@@ -14,12 +19,6 @@
         >
           <template v-slot:header>
             <div class="flex items-center gap-2 mr-2">
-              <!-- <img
-                src="../assets/add_task.svg"
-                class="inline h-6 w-7 hover:cursor-pointer"
-                @click="createTask(proj)"
-                alt="Add-Task-Button"
-              /> -->
               <img
                 src="../assets/edit.svg"
                 class="inline h-6 w-7 hover:cursor-pointer"
@@ -32,7 +31,10 @@
                 @click="showDeleteProjAlert(proj.id, proj.name)"
                 alt="Delete-Button"
               />
-              <Alert v-if="this.deleteProjAction" @result="(value) => getResponseAlert(value, 'deleteProj')" title="Você deseja remover o projeto" :data="this.projName" />
+              <Alert
+                v-if="this.deleteProjAction"
+                @result="(value) => getResponseAlert(value, 'deleteProj')"
+                title="Você deseja remover o projeto" :data="this.projName" />
             </div>
           </template>
           <BoxItem
@@ -61,14 +63,14 @@
         <Alert
           v-if="this.showCustomAlert"
           @result="(value) => getResponseAlert(value, 'alert')"
-          title="Todos os campos devem ser preenchidos"
+          :title="this.alertTitle"
           type="alert" />
         <form
           class="flex flex-col gap-1 px-6 sm:w-3/4 md:w-1/2 sm:mx-auto"
           autocomplete="off"
           @submit.prevent="handleSubmit"
         >
-          <Input id="nome" labelText="Nome" v-model:value="this.projData.name"/>
+          <Input id="nome" labelText="Nome" v-model="this.projData.name"/>
           <div class="relative mt-5" v-if="this.ownerOrg == null">
             <select
               v-model="projData.orgId"
@@ -91,7 +93,11 @@
             >
           </div>
 
-          <Input id="proj-defined-org" labelText="Organização" :value="this.ownerOrg.name" :disabled="true" v-else/>
+          <Input
+            id="proj-defined-org"
+            labelText="Organização"
+            :value="this.ownerOrg.name"
+            :disabled="true" v-else/>
           
           <div class="flex gap-2">
             <button
@@ -107,7 +113,10 @@
             >
               Cancelar
             </button>
-            <Alert @result="(value) => getResponseAlert(value, 'cancel')" v-if="this.cancelAction" title="Você realmente deseja cancelar a criação?" />
+            <Alert
+              @result="(value) => getResponseAlert(value, 'cancel')"
+              v-if="this.cancelAction"
+              title="Você realmente deseja cancelar a criação?" />
           </div>
         </form>
       </div>
@@ -131,8 +140,14 @@
               class="flex flex-col gap-1 px-4 w-full sm:mx-auto"
               autocomplete="off"
             >
-              <Input id="nome-edit" labelText="Nome" v-model:value="this.projData.name"/>
-              <Input id="status-edit" labelText="Status" v-model:value="this.projData.status"/>
+              <Input
+                id="nome-edit"
+                labelText="Nome"
+                v-model:value="this.projData.name" />
+              <Input
+                id="status-edit"
+                labelText="Status"
+                v-model:value="this.projData.status" />
               <button
                 class="bg-success h-10 text-title rounded-md mt-2 py-2 hover:bg-green-200"
                 type="submit"
@@ -167,15 +182,25 @@
                 @click="this.deleteTaskAction = true"
                 alt="Add-Task-Button"
               />
-              <Alert v-if="this.deleteTaskAction" @result="(value) => getResponseAlert(value, 'deleteTask', this.taskData.id)" title="Deseja realmente deletar a tarefa " :data="this.taskData.title" />
+              <Alert
+                v-if="this.deleteTaskAction"
+                @result="(value) => getResponseAlert(value, 'deleteTask', this.taskData.id)"
+                title="Deseja realmente deletar a tarefa "
+                :data="this.taskData.title" />
             </div>
             <form
               class="flex flex-col gap-1 px-4 w-full sm:mx-auto"
               autocomplete="off"
               @submit.prevent
             >
-            <Input id="task-edit-title" labelText="Título" v-model:value="this.taskData.title"/>
-            <Input id="task-edit-status" labelText="Status" v-model:value="this.taskData.status"/>
+            <Input
+              id="task-edit-title"
+              labelText="Título"
+              v-model:value="this.taskData.title" />
+            <Input
+              id="task-edit-status"
+              labelText="Status"
+              v-model:value="this.taskData.status" />
             <div class="relative mt-5">
             <textarea
               type="text"
@@ -207,16 +232,30 @@
         <Alert
           v-if="this.showCustomAlert"
           @result="(value) => getResponseAlert(value, 'alert')"
-          title="Todos os campos devem ser preenchidos"
+          :title="this.alertTitle"
           type="alert" />
         <form
           class="flex flex-col gap-1 px-6 sm:w-3/4 md:w-1/2 sm:mx-auto"
           autocomplete="off"
           @submit.prevent="handleTaskSubmit"
         >
-          <Input id="task-project" labelText="Projeto" v-model:value="choosenProj.name" :disabled="true"/> 
-          <Input id="task-title" labelText="Título"  v-model:value="this.taskData.title"/>
-          <Input type="date" id="task-deadline" labelText="Data de entrega" v-model:value="this.taskData.deadline"/>
+          <Input
+            id="task-project"
+            labelText="Projeto"
+            v-model:value="choosenProj.name"
+            :disabled="true" /> 
+          <Input
+            id="task-title"
+            labelText="Título"
+            v-model:value="this.taskData.title" />
+          <div class="flex gap-2 items-center justify-start">
+            <Input
+              type="date"
+              id="task-deadline"
+              labelText="Data de entrega"
+              v-model:value="this.taskData.deadline" />
+            <SelectInput :data="this.selectData" @chosen="getSelected" class="flex-grow" />
+          </div>
           <div class="relative mt-6">
             <textarea
               type="text"
@@ -244,13 +283,19 @@
               >
                 Cancelar
               </button>
-              <Alert v-if="this.cancelTaskAction" @result="(value) => getResponseAlert(value, 'cancelTask')" title="Você realmente deseja cancelar a criação?" />
+              <Alert
+                v-if="this.cancelTaskAction"
+                @result="(value) => getResponseAlert(value, 'cancelTask')"
+                title="Você realmente deseja cancelar a criação?" />
             </div>
           </div>
         </form>
       </div>
       <!-- add task end -->
-      <MainButton entity="Projeto" storeRoute="project/setAddProject" v-if="!addTask && !addProject && showAddProjectButton" />
+      <MainButton
+        entity="Projeto"
+        storeRoute="project/setAddProject"
+        v-if="!addTask && !addProject && showAddProjectButton" />
   </div>
 </template>
 
@@ -262,9 +307,10 @@ import MainButton from "./MainButton.vue";
 
 import Input from "./Input";
 import Alert from "./Alert";
+import SelectInput from "./SelectInput";
 
 export default {
-  components: { Box, BoxItem, MainButton, Input, Alert },
+  components: { Box, BoxItem, MainButton, Input, Alert, SelectInput },
   computed: {
     ...mapState("task", {
       taskList: (state) => state.taskList,
@@ -276,12 +322,16 @@ export default {
       addProject: (state) => state.addProject,
     }),
     customGridClasses: function() {
-      return this.projList.length === 2 ? 'sm:grid-cols-2 w-full' : this.projList.length > 2 ? 'sm:grid-cols-2 lg:grid-cols-3 w-full' : 'sm:grid-cols-1 w-full sm:w-1/2';
+      return this.projList.length === 2 ? 'sm:grid-cols-2 w-full' : 
+        this.projList.length > 2 ? 'sm:grid-cols-2 lg:grid-cols-3 w-full' : 
+        'sm:grid-cols-1 w-full sm:w-1/2';
     },
   },
   data() {
     return {
       showModal: false,
+      alertTitle: "",
+      selectData: ['Alta', 'Média', 'Baixa'],
       showCustomAlert: false,
       responseAlert: false,
       projName: '',
@@ -302,6 +352,7 @@ export default {
         id: null,
         title: "",
         description: "",
+        priority: "",
         status: "Iniciado",
         projId: null,
         deadline: null,
@@ -332,11 +383,12 @@ export default {
       this.cancelAction = false;
     },
     handleSubmit() {
+      console.log('projData', this.projData);
       if(this.ownerOrg){
         this.projData.orgId = this.ownerOrg.id;
       }
       if (this.projData.name.trim() === "" || this.projData.orgId === null) {
-        this.showAlert();
+        this.showAlert("Todos os campos deve ser preenchidos!");
         return;
       }
       this.$store.dispatch("project/add", this.projData);
@@ -382,9 +434,15 @@ export default {
         this.taskData.description.trim() === "" ||
         this.taskData.deadline === null
       ) {
-        this.showAlert();
+        this.showAlert("Todos os campos deve ser preenchidos!");
         return;
       }
+
+      if (!this.selectData.includes(this.taskData.priority)) {
+        this.showAlert("Por favor, escolha uma das prioridades existentes");
+        return;
+      }
+
       this.$store.dispatch("task/add", this.taskData);
       this.taskData.title = "";
       this.taskData.description = "";
@@ -443,8 +501,13 @@ export default {
       this.projName = name;
       this.deleteProjAction = true;
     },
-    showAlert() {
+    showAlert(text) {
+      this.alertTitle = text;
       this.showCustomAlert = true;
+    },
+    getSelected(value) {
+      this.taskData.priority = value;
+      console.log('priority', this.taskData.priority);
     },
     getResponseAlert(value, text, data = null) {
       this.responseAlert = value;
