@@ -95,6 +95,7 @@ module.exports = {
         'success': '#7CFCAF',
         'error': '#FCA7A2',
         'skin': '#4F4DB0',
+        'dark': "#2A2A41"
       },
       animation: {
         'spin-once': 'spino 0.5s linear forwards',

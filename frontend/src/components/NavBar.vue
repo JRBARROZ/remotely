@@ -22,8 +22,7 @@
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
-            v-if="this.theme === 'dark'"
-						@click="handleClick"
+            v-if="this.theme === 'light'"
           >
             <path
               stroke-linecap="round"
@@ -39,7 +38,7 @@
 						v-else
             viewBox="0 0 24 24"
             stroke="currentColor"
-						@click="handleClick"
+						@click.prevent="handleClick"
           >
             <path
               stroke-linecap="round"
@@ -259,7 +258,7 @@
           </svg>
           <h1
             :class="isActive ? 'text-opacity-100' : 'text-opacity-60'"
-            class="lg:text-lg text-white"
+            class="lg:text-lg text-white dark:text-white"
           >
             Entrar
           </h1>

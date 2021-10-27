@@ -58,7 +58,7 @@
           <a
             href="#"
             @click.prevent="sendToLogin()"
-            class="font-semibold text-primary"
+            class="font-semibold text-primary "
             >Entrar</a>
         </p>
       </div>

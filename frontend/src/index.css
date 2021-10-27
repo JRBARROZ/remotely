@@ -25,7 +25,7 @@
     }
     body {
         @apply font-comfoorta;
-        @apply bg-remotely-pattern bg-repeat -mt-3;
+        @apply bg-repeat -mt-3;
     }
     .input {
         @apply text-gray-600 h-10 w-full border rounded
