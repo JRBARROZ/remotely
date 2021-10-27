@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="absolute left-2 mt-20 z-0">
+    <div class="absolute left-2 mt-20 z-0 dark:hidden">
       <svg
         width="348"
         height="468"
@@ -17,7 +17,7 @@
     </div>
     <div class="flex flex-col items-center h-full relative">
       <NavBar />
-      <h1 class="text-3xl text-title mt-16 mb-4">Cadastro</h1>
+      <h1 class="text-3xl text-title mt-16 mb-4 dark:text-gray-200">Cadastro</h1>
       <div class="w-11/12 px-6">
         <form action="#" class="flex flex-col gap-1 sm:w-3/4 md:w-1/2 sm:mx-auto" autocomplete="off">
           <Input
@@ -53,7 +53,7 @@
             <LoadingButton class="mt-3" v-else />
           </div>
         </form>
-        <p class="text-title text-center mt-16">
+        <p class="text-title dark:text-gray-200 text-center mt-16">
           Já tem uma conta?
           <a
             href="#"

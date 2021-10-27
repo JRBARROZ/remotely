@@ -498,7 +498,7 @@ export default createStore({
     emailValidated: JSON.parse(localStorage.getItem("logged-user")) ? JSON.parse(localStorage.getItem("logged-user")).email_verified_at : false,
     status: [],
     loading: false,
-    theme: "light",
+    theme: localStorage.getItem('theme') ?? "light",
   },
   getters: {
     hasEmailVerified: (state) => state.emailValidated,
@@ -511,6 +511,7 @@ export default createStore({
     },
     setTheme: (state) =>{
       state.theme = state.theme === "light" ? "dark" : "light";
+      localStorage.setItem('theme', state.theme);
     },
     setLoading: (state, payload) => {
       state.loading = payload;

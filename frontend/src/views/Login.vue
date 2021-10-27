@@ -7,7 +7,7 @@
     </div>
     <div class="flex flex-col items-center h-full relative">
       <NavBar />
-      <h1 class="text-3xl text-title mt-16 mb-10 dark:text-white">Entrar</h1>
+      <h1 class="text-3xl text-title mt-16 mb-10 dark:text-gray-200">Entrar</h1>
       <form
         action="#"
         class="flex flex-col gap-1 w-11/12 sm:w-3/4 md:w-1/2 sm:mx-auto px-6"
@@ -39,7 +39,7 @@
         </div>
         
       </form>
-      <p class="text-title dark:text-white text-center mt-16">
+      <p class="text-title dark:text-gray-200 text-center mt-16">
         Não tem uma conta?
         <a
           href="#"
