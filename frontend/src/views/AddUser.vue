@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="absolute left-2 mt-20 z-0 dark:hidden">
+    <div class="absolute left-2 mt-20 z-0 dark:hidden hidden">
       <svg
         width="348"
         height="468"

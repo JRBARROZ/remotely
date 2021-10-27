@@ -2,6 +2,7 @@
   <div>
     <NavBar :isProject="this.isProject" :isOrganization="this.isOrganization" />
     <PageWrapper :title="title" :invite="true" :link="'/invite/' + inviteLink">
+      <h2 v-if="this.updatedProjList.length === 0" class="mt-10 text-xl text-title dark:text-gray-200">Esta organização ainda não tem nenhum projeto.</h2>
       <ProjectComp :projList="updatedProjList" :ownerOrg="ownerOrg" :showAddProjectButton="showAddButton"/>
     </PageWrapper>
   </div>

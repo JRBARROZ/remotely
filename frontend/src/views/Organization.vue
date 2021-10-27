@@ -5,7 +5,7 @@
       :title="addOrganization ? 'Adicionar Organização' : 'Minhas Organizações'"
     >
       <div class="mt-6" v-if="orgList.length === 0 && addOrganization === false">
-        <h1 class="font-lexend mx-4 md:text-lg">Você não tem nenhuma organização,<br /> crie uma agora.</h1>
+        <h1 class="font-lexend mx-4 md:text-lg dark:text-gray-200">Você não tem nenhuma organização,<br /> crie uma agora.</h1>
       </div>
       <div class="flex justify-center" v-if="addOrganization === false && orgList.length !== 0">
         <div class="h-108 max-h-108 border-b-4 mt-5 border-opacity-50 pb-4 border-primary gap-2 sm:mx-8 md:mx-14 lg:mx-32 overflow-y-auto mx-4 sm:grid sm:gap-3 sm:justify-center"

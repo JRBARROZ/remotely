@@ -3,7 +3,7 @@
     <NavBar />
     <PageWrapper title="E-mail Verificado com sucesso!">
       <div class="px-8 flex flex-col gap-5 justify-center items-center">
-        <p class="mt-5">Agora você pode aproveitar o remotely à vontade =D</p>
+        <p class="mt-5 dark:text-gray-200">Agora você pode aproveitar o remotely à vontade =D</p>
         <svg width="200" height="200" viewBox="0 0 570 512" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g id="undraw_Mail_sent_re_0ofv 1" clip-path="url(#clip0)">
           <path id="Vector" d="M564.999 195.675C564.795 195.675 564.596 195.612 564.429 195.496L287.87 2.89208C287.028 2.30868 286.028 1.9969 285.004 1.99865C283.98 2.0004 282.981 2.31558 282.141 2.90185L7.57454 195.494C7.35737 195.646 7.08859 195.706 6.82732 195.66C6.56604 195.614 6.33367 195.466 6.18135 195.249C6.02903 195.032 5.96921 194.763 6.01506 194.502C6.06091 194.241 6.20868 194.008 6.42586 193.856L280.993 1.26415C282.168 0.443505 283.567 0.00236562 285.001 9.48758e-06C286.435 -0.00234665 287.835 0.434189 289.013 1.25097L565.572 193.854C565.746 193.976 565.878 194.15 565.946 194.352C566.015 194.553 566.018 194.771 565.954 194.974C565.89 195.178 565.763 195.355 565.591 195.481C565.42 195.607 565.212 195.675 564.999 195.675L564.999 195.675Z" fill="#3F3D56"/>
@@ -23,7 +23,14 @@
           </clipPath>
           </defs>
         </svg>
-        <p v-if="Object.keys(loggedUser).length === 0">Clique <a class="font-medium text-primary text-lg" href="" @click.prevent="sendToLogin">aqui</a> para fazer o login.</p>
+        <p class="dark:text-gray-200" v-if="Object.keys(loggedUser).length === 0">
+          Clique 
+          <a
+            class="font-medium text-primary text-lg"
+            href=""
+            @click.prevent="sendToLogin">aqui</a>
+          para fazer o login.
+        </p>
       </div>
     </PageWrapper>
   </div>

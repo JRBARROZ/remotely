@@ -1,10 +1,10 @@
 <template>
-  <div class="bg-remotely-pattern">
-    <div class="flex items-center justify-between w-full min-h-14 bg-primary rounded-t-md">
+  <div class="bg-remotely-pattern rounded-t-md">
+    <div class="flex items-center justify-between w-full min-h-14 bg-primary dark:bg-skin rounded-t-md">
       <h1 class="font-comfoorta ml-4 text-left text-white flex-1 truncate hover:whitespace-normal focus:whitespace-normal cursor-pointer" @click="handleClick">{{ title }}</h1>
       <slot name="header"></slot>
     </div>
-    <div class="flex flex-col pb-2 mb-6 sm:mb-0 blue min-h-56 max-h-88 overflow-y-auto w-full">
+    <div class="flex flex-col bg-light-purple pb-2 mb-6 sm:mb-0 min-h-56 max-h-88 overflow-y-auto w-full">
       <slot />
     </div>
   </div>

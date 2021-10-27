@@ -3,7 +3,7 @@
     <NavBar />
     <PageWrapper>
       <div class="flex flex-col items-center justify-center px-8 mt-16">
-      <h3 class="text-lg lg:text-2xl">Gerencie seu tempo e suas tarefas, em qualquer lugar, a qualquer hora</h3>
+      <h3 class="text-lg dark:text-gray-200 lg:text-2xl">Gerencie seu tempo e suas tarefas, em qualquer lugar, a qualquer hora</h3>
         <svg
           class="w-80 h-80 sm:w-96 sm:h-96 md:w-108 md:h-108"
           viewBox="0 0 849 470"
@@ -179,7 +179,7 @@
         >
           Começar
         </button>
-        <p class="md:text-xl" v-else>Olá, <span class="font-medium text-lg md:text-2xl text-primary">{{ loggedUser.name }}</span></p>
+        <p class="md:text-xl dark:text-gray-200" v-else>Olá, <span class="font-medium text-lg md:text-2xl text-primary">{{ loggedUser.name }}</span></p>
       </div>
     </PageWrapper>
   </div>

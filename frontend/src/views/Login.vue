@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div class="absolute left-2 mt-20 z-0 dark:hidden">
+    <div class="absolute left-2 hidden mt-20 z-0 dark:hidden">
       <svg width="348" height="468" viewBox="0 0 348 468" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M323.737 283.112C69.3155 376.761 154.706 468 54.2903 468C-46.1254 468 24.6094 187.87 24.6094 112.715C41.7687 -23.7028 356.488 -23.824 346.461 46.2548C269.59 118.259 397.012 200.662 323.737 283.112Z" fill="#E7E7FF" fill-opacity="0.3"/>
       </svg>

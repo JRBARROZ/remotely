@@ -48,7 +48,7 @@
             class="flex mt-3 hover:cursor-pointer gap-2 items-center self-end mr-3"
             @click="createTask(proj)"
           >
-            <p class="text-lg text-skin font-semibold" >Adicionar Tarefa</p>
+            <!-- <p class="text-lg text-skin font-semibold" >Adicionar Tarefa</p> -->
             <img
               :class="proj.tasks.length === 0 ? 'h-10 w-10' : 'h-8 w-8'"
               src="../assets/add_task.svg"
@@ -70,7 +70,7 @@
           autocomplete="off"
           @submit.prevent="handleSubmit"
         >
-          <Input id="nome" labelText="Nome" v-model="this.projData.name"/>
+          <Input id="nome" labelText="Nome" v-model:value="this.projData.name"/>
           <div class="relative mt-5" v-if="this.ownerOrg == null">
             <select
               v-model="projData.orgId"
@@ -400,7 +400,6 @@ export default {
       if (this.responseAlert === "true") this.responseAlert = true;
       else this.responseAlert = false;
       if (this.responseAlert)  {
-        console.log('entrou no remove project')
         this.$store.dispatch("project/remove", index);
       }
       this.deleteProjAction = false;
@@ -507,7 +506,6 @@ export default {
     },
     getSelected(value) {
       this.taskData.priority = value;
-      console.log('priority', this.taskData.priority);
     },
     getResponseAlert(value, text, data = null) {
       this.responseAlert = value;

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-evenly h-16 bg-primary w-full fixed bottom-0 md:hidden">
+  <div class="flex items-center justify-evenly h-16 bg-primary dark:bg-dark-light w-full fixed bottom-0 md:hidden">
     <router-link to="/">
       <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
         <path d="M10 25V16.1765H15V25H21.25V13.2353H25L12.5 0L0 13.2353H3.75V25H10Z"

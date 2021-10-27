@@ -3,7 +3,7 @@
     <NavBar />
     <PageWrapper title="Verifique Seu E-mail">
       <div class="flex px-8 flex-col justify-center items-center gap-5">
-        <p class="text-base mt-7">
+        <p class="text-base mt-7 dark:text-gray-200">
           Tudo certo!! Agora você precisa apenas checar sua caixa de entrada =D<br>
         </p>
         <svg width="200" height="200" viewBox="0 0 900 900" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -52,7 +52,7 @@
           </clipPath>
           </defs>
         </svg>
-        <p class="text-base mt-7">
+        <p class="text-base mt-7 dark:text-gray-200">
           Não recebeu o e-mail de validação?
           <a href="#" @click.prevent="sendMailVerification()" class="text-blue-400 font-semibold hover:text-blue-300">
             Clique aqui</a> para enviarmos novamente
@@ -62,7 +62,7 @@
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="#8988fd" stroke-width="4"></circle>
             <path class="opacity-75" fill="#8988fd" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
-          <span class="text-lg text-title">Por favor, aguarde...</span>
+          <span class="text-lg text-title dark:text-gray-200">Por favor, aguarde...</span>
         </div>
         <StatusMessage :status="this.status" />
       </div>
