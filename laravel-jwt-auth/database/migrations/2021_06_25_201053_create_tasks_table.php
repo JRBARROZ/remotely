@@ -18,6 +18,7 @@ class CreateTasksTable extends Migration
             $table->string('title');
             $table->string('description');
             $table->string('status');
+            $table->unsignedTinyInteger('priority');
             $table->foreignId('creator_id')->constrained('users')->references('id')->on('users')->onDelete('cascade'); 
             $table->foreignId('project_id')->constrained()->references('id')->on('projects')->onDelete('cascade');
             $table->date('deadline');

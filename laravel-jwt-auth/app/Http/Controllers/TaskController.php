@@ -48,9 +48,16 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $user_id = auth()->user()->id;
+        $existentPriorities = array(1, 2, 3);
+
+        if(!in_array($request->priority, $existentPriorities)){
+            return response("Prioridade inválida", 400);
+        }
+        
+        if($request->priority )
         if (Project::where('creator_id', '=', $user_id)->where('id', '=', $request->project_id)->count() == 1) {
             $task = Task::create([
-                "title" => $request->title, "description" => $request->description, "status" => $request->status, "creator_id" => $user_id,
+                "title" => $request->title, "description" => $request->description, "status" => $request->status, "priority" => $request->priority, "creator_id" => $user_id,
                 "project_id" => $request->project_id, "deadline" => $request->deadline
             ]);
             Task::find($task->id)->users()->attach($user_id);
@@ -88,9 +95,9 @@ class TaskController extends Controller
         $user_id = auth()->user()->id;
         $taskList = Task::whereHas('users', function ($query) use ($user_id) {
             $query->where('user_id', $user_id);
-        })->select('id', 'title', 'description', 'status', 'project_id', 'deadline', 'created_at', 'updated_at')->get();
+        })->orderBy('priority')->select('id', 'title', 'description', 'status', 'project_id', 'priority', 'deadline', 'created_at', 'updated_at')->get();
         return response()->json($taskList);
-    }
+    }   
 
 
     public function edit(Task $task)

@@ -397,6 +397,7 @@ const task = {
         title: rawData.title,
         deadline: new Date(date[0], date[1]-1, date[2]).toISOString().slice(0, 19).replace('T', ' '),
         status: "Iniciado",
+        priority: rawData.priority,
         description: rawData.description,
         project_id: rawData.projId,
       }
@@ -404,7 +405,7 @@ const task = {
         headers: { Authorization: `Bearer ${rootState.token}` },
       });
       if(response.status === 200){
-        dispatch("setList", data);
+        dispatch("setList");
       }
     },
     setList: async ({commit, rootState }) => {

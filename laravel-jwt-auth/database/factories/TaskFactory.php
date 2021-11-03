@@ -25,6 +25,7 @@ class TaskFactory extends Factory
             'title' => $this->faker->sentence(3),
             'description' =>$this->faker->sentence(10),
             'status' => $this->faker->boolean(),
+            'priority' => $this->faker->numberBetween(1, 3),
             'deadline' => $this->faker->date(),
             'creator_id' => User::whereHas('projects', function($query){
                 $query->where('project_id', 1);

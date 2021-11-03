@@ -352,7 +352,7 @@ export default {
         id: null,
         title: "",
         description: "",
-        priority: "",
+        priority: -1,
         status: "Iniciado",
         projId: null,
         deadline: null,
@@ -437,11 +437,14 @@ export default {
         return;
       }
 
-      if (!this.selectData.includes(this.taskData.priority)) {
+      let existentPriorities = [1, 2, 3]
+
+      if (!existentPriorities.includes(this.taskData.priority)) {
         this.showAlert("Por favor, escolha uma das prioridades existentes");
         return;
       }
 
+      if(this.taskData.priority)
       this.$store.dispatch("task/add", this.taskData);
       this.taskData.title = "";
       this.taskData.description = "";
@@ -505,6 +508,19 @@ export default {
       this.showCustomAlert = true;
     },
     getSelected(value) {
+      switch (value) {
+        case "Alta":
+          value = 1
+          break;
+        case "Média":
+          value = 2
+          break;
+        case "Baixa":
+          value = 3
+          break;
+        default:
+          break;
+      }
       this.taskData.priority = value;
     },
     getResponseAlert(value, text, data = null) {

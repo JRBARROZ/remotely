@@ -20,6 +20,7 @@ class Task extends Model
 		'status',
 		'creator_id',
 		'project_id',
+		'priority',
 		'deadline',
 	];
 }
