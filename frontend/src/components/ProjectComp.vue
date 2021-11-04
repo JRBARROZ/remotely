@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col items-center px-4 sm:px-8 md:px-14 lg:px-32"
+    class="flex flex-col items-center mx-4 sm:mx-0"
     v-if="projList != null">
       <div
         class="h-108 max-h-108 border-b-4 mt-5 border-opacity-50 pb-4 border-primary

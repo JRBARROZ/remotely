@@ -1,6 +1,6 @@
 <template>
   <div class="w-full font-comfoorta">
-    <div class="flex items-center justify-center gap-2 md:hidden mt-6 md:mt-0">
+    <div class="flex items-center justify-center gap-2 md:hidden pt-6 md:mt-0">
       <router-link to="/" class="flex items-center gap-2">
         <svg
           class="w-8 h-8"

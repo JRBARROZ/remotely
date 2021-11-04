@@ -6,7 +6,7 @@
     >
       <p class="font-semibold flex-grow text-left">
         {{ this.title }}
-        <span class="font-normal">
+        <span class="font-normal text-sm">
           ({{ this.getDateDifference(this.deadline) == 0 ? 'O dia de entrega é hoje' :
           this.getDateDifference(this.deadline) == 1 ?
           `${this.getDateDifference(this.deadline)} dia para a entrega` :
