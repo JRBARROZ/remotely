@@ -95,7 +95,9 @@ class TaskController extends Controller
         $user_id = auth()->user()->id;
         $taskList = Task::whereHas('users', function ($query) use ($user_id) {
             $query->where('user_id', $user_id);
-        })->orderBy('priority')->select('id', 'title', 'description', 'status', 'project_id', 'priority', 'deadline', 'created_at', 'updated_at')->get();
+        })->orderBy('deadline', 'asc')
+        ->orderBy('priority', 'asc')
+        ->select('id', 'title', 'description', 'status', 'project_id', 'priority', 'deadline', 'created_at', 'updated_at')->get();
         return response()->json($taskList);
     }   
 

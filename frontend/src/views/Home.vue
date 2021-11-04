@@ -2,9 +2,12 @@
   <div class="flex flex-col items-center justify-center relative">
     <NavBar />
     <PageWrapper>
-      <div class="flex flex-col items-center justify-center px-8 mt-16">
-      <h3 class="text-lg dark:text-gray-200 lg:text-2xl">Gerencie seu tempo e suas tarefas, em qualquer lugar, a qualquer hora</h3>
+      <div class="flex flex-col items-center justify-center px-8 mt-10">
+        <h3 class="text-lg md:text-xl px-4 dark:text-gray-200 lg:text-2xl">
+          Gerencie seu tempo e suas tarefas, em qualquer lugar, a qualquer hora
+        </h3>
         <svg
+          v-if="Object.keys(loggedUser).length === 0"
           class="w-80 h-80 sm:w-96 sm:h-96 md:w-108 md:h-108"
           viewBox="0 0 849 470"
           fill="none"
@@ -171,15 +174,44 @@
           </defs>
         </svg>
         <button
-          class="mt-3 py-2 bg-primary text-white focus:outline-none rounded hover:opacity-70
-            w-48 md:w-56 border-none"
+          class="mt-3 py-2 bg-primary text-white focus:outline-none rounded
+            hover:opacity-70 w-48 md:w-56 border-none"
           type="submit"
           v-if="Object.keys(loggedUser).length === 0"
           @click.prevent="sendToLogin"
         >
           Começar
         </button>
-        <p class="md:text-xl dark:text-gray-200" v-else>Olá, <span class="font-medium text-lg md:text-2xl text-primary">{{ loggedUser.name }}</span></p>
+        <p class="md:text-xl dark:text-gray-200 mt-4" v-else>
+          Olá,
+          <span class="font-medium text-lg md:text-2xl text-primary">
+            {{ loggedUser.name }}
+          </span>
+        </p>
+        <div v-if="this.taskList.length === 0">
+          <p class="dark:text-gray-200">Você ainda não tem nenhuma tarefa</p>
+        </div>
+        <div
+          v-else
+          class="flex flex-col w-full sm:w-5/6 md:w-4/6 mt-2 py-3"
+        >
+          <div class="bg-primary dark:bg-skin py-2 rounded-t-md">
+            <h2 class="text-xl text-white dark:text-gray-200">Suas Tarefas</h2>
+          </div>
+          <div class="bg-light-purple h-64 max-h-64 sm:h-72 sm:max-h-72 md:h-108 md:max-h-108
+            overflow-y-auto flex flex-col gap-2 py-2 items-center px-4">
+            <TaskDetail
+              class="w-full"
+              v-for="(task, index) in this.taskList"
+              :key="index"
+              :title="task.title"
+              :status="task.status"
+              :deadline="task.deadline"
+              :description="task.description"
+              :priority="task.priority"
+            />
+          </div>
+        </div>
       </div>
     </PageWrapper>
   </div>
@@ -189,18 +221,28 @@
 import { mapState } from "vuex";
 import PageWrapper from "@/components/PageWrapper";
 import NavBar from "@/components/NavBar";
+import TaskDetail from "@/components/TaskDetail";
 // @ is an alias to /src
 
 export default {
-  components: { PageWrapper, NavBar },
+  components: { PageWrapper, NavBar, TaskDetail },
   name: "Home",
+  mounted() {
+    if (Object.keys(this.loggedUser).length !== 0) {
+      const tasks = JSON.parse(localStorage.getItem("taskList")) ?? [];
+      if (tasks.length === 0) {
+        this.$store.dispatch("task/setList");
+      }
+    }
+  },
   computed: {
     ...mapState("auth", { loggedUser: (state) => state.loggedUser }),
+    ...mapState("task", { taskList: (state) => state.taskList }),
     ...mapState(["emailValidated"]),
   },
   methods: {
     sendToLogin() {
-      this.$router.push('/login');
+      this.$router.push("/login");
     },
   },
 };

@@ -94,6 +94,7 @@ module.exports = {
         'ice': '#FAFAFF',
         'success': '#7CFCAF',
         'error': '#FCA7A2',
+        'warning': '#FCE46F',
         'skin': '#4F4DB0',
         'dark-light': '#3B3B52',
         'dark': "#2A2A41"
