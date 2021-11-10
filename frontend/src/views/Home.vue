@@ -174,8 +174,18 @@
           </defs>
         </svg>
         <button
-          class="mt-3 py-2 bg-primary text-white focus:outline-none rounded
-            hover:opacity-70 w-48 md:w-56 border-none"
+          class="
+            mt-3
+            py-2
+            bg-primary
+            text-white
+            focus:outline-none
+            rounded
+            hover:opacity-70
+            w-48
+            md:w-56
+            border-none
+          "
           type="submit"
           v-if="Object.keys(loggedUser).length === 0"
           @click.prevent="sendToLogin"
@@ -189,17 +199,32 @@
           </span>
         </p>
         <div v-if="this.taskList.length === 0">
-          <p class="dark:text-gray-200">Você ainda não tem nenhuma tarefa</p>
+          <p
+            v-if="Object.keys(this.loggedUser).length !== 0"
+            class="dark:text-gray-200"
+          >
+            Você ainda não tem nenhuma tarefa
+          </p>
         </div>
-        <div
-          v-else
-          class="flex flex-col w-full sm:w-5/6 md:w-4/6 mt-2 py-3"
-        >
+        <div v-else class="flex flex-col w-full sm:w-5/6 md:w-4/6 mt-2 py-3">
           <div class="bg-primary dark:bg-skin py-2 rounded-t-md">
             <h2 class="text-xl text-white dark:text-gray-200">Suas Tarefas</h2>
           </div>
-          <div class="bg-light-purple h-64 max-h-64 sm:h-72 sm:max-h-72 md:h-108 md:max-h-108
-            overflow-y-auto flex flex-col gap-2 py-2 items-center px-4">
+          <div
+            class="
+              bg-light-purple
+              h-64
+              max-h-64
+              sm:h-72 sm:max-h-72
+              md:h-108 md:max-h-108
+              overflow-y-auto
+              flex flex-col
+              gap-2
+              py-2
+              items-center
+              px-4
+            "
+          >
             <TaskDetail
               class="w-full"
               v-for="(task, index) in this.taskList"
@@ -214,6 +239,21 @@
         </div>
       </div>
     </PageWrapper>
+    <div
+      v-if="Object.keys(this.loggedUser).length !== 0"
+      class="
+        absolute
+        left-20
+        bottom-0
+        dark:text-white
+        hover:opacity-60
+        transition-all
+        cursor-pointer
+      "
+      @click="sendToCalendar"
+    >
+      Your Taks in Calendar ! (Beta)
+    </div>
   </div>
 </template>
 
@@ -243,6 +283,9 @@ export default {
   methods: {
     sendToLogin() {
       this.$router.push("/login");
+    },
+    sendToCalendar() {
+      this.$router.push("/calendar");
     },
   },
 };

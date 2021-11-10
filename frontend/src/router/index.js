@@ -78,6 +78,16 @@ const routes = [
     }
   },
   {
+    path: '/calendar',
+    name: 'calendar',
+
+    component: () => import(/* webpackChunkName: "organizations" */ '@/views/Calendar.vue'),
+    meta: {
+      isLogged: true,
+      hasEmailVerified: true
+    }
+  },
+  {
     path: '/projects',
     name: 'Projects',
     // route level code-splitting
