@@ -30,6 +30,7 @@ Follow the instructions below to execute our project :D .
 ### Execution
 
 To run our project, you need to clone our repository and must have installed the softwares listed on [Requirements](#Requirements) session
+
 Once you have the environment ready, open the project's folder on a terminal and follow the instructions below:
 
 _**Installing dependencies (Frontend)**_
