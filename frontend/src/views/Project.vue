@@ -24,12 +24,10 @@ export default {
       addTask: (state) => state.addTask,
     }),
     title: function () {
-      if(!this.addProject && !this.addTask){
+      if(!this.addProject){
         return "Meus Projetos";
-      } else if(this.addProject){
-        return "Adicionar Projeto";
       } else {
-        return "Adicionar tarefa";
+        return "Adicionar Projeto";
       }
     },
     ...mapState("project", {

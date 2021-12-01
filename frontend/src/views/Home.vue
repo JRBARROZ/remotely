@@ -174,18 +174,8 @@
           </defs>
         </svg>
         <button
-          class="
-            mt-3
-            py-2
-            bg-primary
-            text-white
-            focus:outline-none
-            rounded
-            hover:opacity-70
-            w-48
-            md:w-56
-            border-none
-          "
+          class="mt-3 py-2 bg-primary text-white focus:outline-none rounded
+            hover:opacity-70 w-48 md:w-56 border-none"
           type="submit"
           v-if="Object.keys(loggedUser).length === 0"
           @click.prevent="sendToLogin"
@@ -206,7 +196,7 @@
             Você ainda não tem nenhuma tarefa
           </p>
         </div>
-        <div v-else class="flex flex-col w-full sm:w-5/6 md:w-4/6 mt-2 py-3">
+        <div v-else-if="Object.keys(loggedUser).length !== 0" class="flex flex-col w-full sm:w-5/6 md:w-4/6 mt-2 py-3">
           <div class="bg-primary dark:bg-skin py-2 rounded-t-md">
             <h2 class="text-xl text-white dark:text-gray-200">Suas Tarefas</h2>
           </div>

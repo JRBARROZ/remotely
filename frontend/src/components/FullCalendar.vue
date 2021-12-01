@@ -1,4 +1,9 @@
-
+<template>
+  <div>
+    <FullCalendar :options="calendarOptions" />
+    <!-- {{ this.calendarOptions.events }} -->
+  </div>
+</template>
 <script >
 import { reactive } from "vue";
 import "@fullcalendar/core/vdom";
@@ -7,6 +12,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import interactionPlugin from "@fullcalendar/interaction";
+import { mapState } from "vuex";
 
 export default {
   components: {
@@ -17,17 +23,24 @@ export default {
       calendarOptions: {
         plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
         initialView: "dayGridMonth",
-        events: [
-          { title: "Prova POO", date: "2021-11-18" },
-          { title: "Prova Design", date: "2021-11-20" },
-        ],
+        events: []
       },
     };
   },
+  computed: {
+    ...mapState("auth", { loggedUser: (state) => state.loggedUser }),
+    ...mapState("task", { taskList: (state) => state.taskList }),
+  },
+  methods: {
+    getTasks() {
+      return this.taskList.map((task) => {
+        return {
+          title: task.title,
+          date: task.deadline,
+        }
+      });
+
+    },
+  },
 };
 </script>
-<template>
-  <FullCalendar :options="calendarOptions" />
-</template>
-<style>
-</style>

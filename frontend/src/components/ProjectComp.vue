@@ -228,68 +228,85 @@
       </div>
       <!-- edit task end -->
       <!-- add task start -->
-      <div class="w-full mt-6" v-if="addTask">
-        <Alert
-          v-if="this.showCustomAlert"
-          @result="(value) => getResponseAlert(value, 'alert')"
-          :title="this.alertTitle"
-          type="alert" />
-        <form
-          class="flex flex-col gap-1 px-6 sm:w-3/4 md:w-1/2 sm:mx-auto"
-          autocomplete="off"
-          @submit.prevent="handleTaskSubmit"
+
+
+      <div
+        class="bg-gray-900 bg-opacity-50 min-h-screen min-w-full z-30
+          fixed top-0 flex flex-col justify-center items-center px-6"
+        v-if="addTask"
+        @click="handleTaskCancel"
+      >
+        <div
+          class="bg-white w-full h-full z-40 sm:w-96 md:w-110 p-5 rounded"
+          @click.stop="eventPropagation"
         >
-          <Input
-            id="task-project"
-            labelText="Projeto"
-            v-model:value="choosenProj.name"
-            :disabled="true" /> 
-          <Input
-            id="task-title"
-            labelText="Título"
-            v-model:value="this.taskData.title" />
-          <div class="flex gap-2 items-center justify-start">
-            <Input
-              type="date"
-              id="task-deadline"
-              labelText="Data de entrega"
-              v-model:value="this.taskData.deadline" />
-            <SelectInput :data="this.selectData" @chosen="getSelected" class="flex-grow" />
-          </div>
-          <div class="relative mt-6">
-            <textarea
-              type="text"
-              v-model="this.taskData.description"
-              class="peer textarea"
-              id="task-description"
-              placeholder="Nome da organização"
-            />
-            <label
-              for="task-description"
-              class="input-label"
-              >Descrição</label
+          <!-- <div class="flex flex-col items-center gap-3 m-auto"> -->
+            <h1 class="text-2xl text-center mt-2 text-gray-700">
+              Adicionar Tarefa
+            </h1>
+            <Alert
+              v-if="this.showCustomAlert"
+              @result="(value) => getResponseAlert(value, 'alert')"
+              :title="this.alertTitle"
+              type="alert" />
+            <form
+              class="flex flex-col gap-1 px-6 sm:w-full md:w-full sm:mx-auto"
+              autocomplete="off"
+              @submit.prevent="handleTaskSubmit"
             >
-            <div class="flex gap-2">
-              <button
-                type="submit"
-                class="bg-success rounded-md p-2 mt-2 hover:bg-green-200"
-              >
-                Confirmar
-              </button>
-              <button
-                class="bg-error rounded-md p-2 mt-2 hover:bg-red-200"
-                type="button"
-                @click="this.cancelTaskAction = true"
-              >
-                Cancelar
-              </button>
-              <Alert
-                v-if="this.cancelTaskAction"
-                @result="(value) => getResponseAlert(value, 'cancelTask')"
-                title="Você realmente deseja cancelar a criação?" />
-            </div>
-          </div>
-        </form>
+              <Input
+                id="task-project"
+                labelText="Projeto"
+                v-model:value="choosenProj.name"
+                :disabled="true" /> 
+              <Input
+                id="task-title"
+                labelText="Título"
+                v-model:value="this.taskData.title" />
+              <div class="flex gap-2 items-center justify-start">
+                <Input
+                  type="date"
+                  id="task-deadline"
+                  labelText="Data de entrega"
+                  v-model:value="this.taskData.deadline" />
+                <SelectInput :data="this.selectData" @chosen="getSelected" class="flex-grow" />
+              </div>
+              <div class="relative mt-6">
+                <textarea
+                  type="text"
+                  v-model="this.taskData.description"
+                  class="peer textarea"
+                  id="task-description"
+                  placeholder="Nome da organização"
+                />
+                <label
+                  for="task-description"
+                  class="input-label"
+                  >Descrição</label
+                >
+                <div class="flex gap-2">
+                  <button
+                    type="submit"
+                    class="bg-success rounded-md p-2 mt-2 hover:bg-green-200"
+                  >
+                    Confirmar
+                  </button>
+                  <button
+                    class="bg-error rounded-md p-2 mt-2 hover:bg-red-200"
+                    type="button"
+                    @click="handleTaskCancel"
+                  >
+                    Cancelar
+                  </button>
+                  <!-- <Alert
+                    v-if="this.cancelTaskAction"
+                    @result="(value) => getResponseAlert(value, 'cancelTask')"
+                    title="Você realmente deseja cancelar a criação?" /> -->
+                </div>
+              </div>
+            </form>
+          <!-- </div> -->
+        </div>
       </div>
       <!-- add task end -->
       <MainButton
@@ -444,8 +461,9 @@ export default {
         return;
       }
 
-      if(this.taskData.priority)
-      this.$store.dispatch("task/add", this.taskData);
+      if(this.taskData.priority) {
+        this.$store.dispatch("task/add", this.taskData);
+      }
       this.taskData.title = "";
       this.taskData.description = "";
       this.taskData.projId = null;
@@ -484,19 +502,20 @@ export default {
         .catch(() => console.log("Não foi possível editar a tarefa"));
     },
     handleTaskCancel() {
-      if (this.responseAlert === "true") this.responseAlert = true;
-      else this.responseAlert = false;
-      if (this.responseAlert){
-        this.taskData.id = null;
-        this.taskData.title = "";
-        this.taskData.description = ""
-        this.taskData.status = "Iniciado";
-        this.taskData.deadline = null;
-        this.taskData.projId = null;
-        this.showTaskModal = false;
-        this.$store.commit("task/setAddTask", false);
-      }
-      this.cancelTaskAction = false;
+      this.$store.commit("task/setAddTask", false);
+      // if (this.responseAlert === "true") this.responseAlert = true;
+      // else this.responseAlert = false;
+      // if (this.responseAlert){
+      //   this.taskData.id = null;
+      //   this.taskData.title = "";
+      //   this.taskData.description = ""
+      //   this.taskData.status = "Iniciado";
+      //   this.taskData.deadline = null;
+      //   this.taskData.projId = null;
+      //   this.showTaskModal = false;
+      //   this.$store.commit("task/setAddTask", false);
+      // }
+      // this.cancelTaskAction = false;
     },
     showDeleteProjAlert(id, name) {
       this.projId = id;

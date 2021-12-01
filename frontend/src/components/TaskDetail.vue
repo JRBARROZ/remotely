@@ -12,7 +12,7 @@
           `${this.getDateDifference(this.deadline)} dia para a entrega` :
           this.getDateDifference(this.deadline) > 1 ?
           `${this.getDateDifference(this.deadline)} dias para a entrega` :
-          `A tarefa está atrasada em ${this.getDateDifference(this.deadline)} dias` }})</span>
+          `A tarefa está atrasada em ${this.getDateDifference(this.deadline) * -1} dias` }})</span>
       </p>
       <h1>Prazo: <b>{{ this.getDate(this.deadline) }}</b></h1>
     </div>
