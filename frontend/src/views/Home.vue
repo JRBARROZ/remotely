@@ -252,7 +252,7 @@
       "
       @click="sendToCalendar"
     >
-      Your Taks in Calendar ! (Beta)
+      Suas Atividades em um calendário ! (Beta)
     </div>
   </div>
 </template>
