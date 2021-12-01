@@ -206,7 +206,7 @@
               h-64
               max-h-64
               sm:h-72 sm:max-h-72
-              md:h-108 md:max-h-108
+              md:h-96 md:max-h-108
               overflow-y-auto
               flex flex-col
               gap-2
@@ -233,16 +233,18 @@
       v-if="Object.keys(this.loggedUser).length !== 0"
       class="
         absolute
-        left-20
+        left-1/2
         bottom-0
+        md:-bottom-6
         dark:text-white
         hover:opacity-60
         transition-all
         cursor-pointer
+        -ml-44
       "
       @click="sendToCalendar"
     >
-      Your Taks in Calendar ! (Beta)
+      Suas Atividades em um calendário! (Beta)
     </div>
   </div>
 </template>

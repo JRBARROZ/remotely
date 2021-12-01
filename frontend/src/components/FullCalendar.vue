@@ -18,29 +18,35 @@ export default {
   components: {
     FullCalendar,
   },
+  computed: {
+    ...mapState("task", {
+      taskList: (state) => state.taskList,
+    }),
+  },
+  mounted() {
+    const tasksDays = [];
+    this.taskList.forEach((item) => {
+      tasksDays.push({
+        title: item.title,
+        date: item.deadline,
+      });
+    });
+    this.$data.calendarOptions.events = tasksDays;
+
+    return tasksDays;
+  },
+
   data() {
     return {
       calendarOptions: {
         plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
         initialView: "dayGridMonth",
-        events: []
+        events: [{}],
       },
     };
   },
-  computed: {
-    ...mapState("auth", { loggedUser: (state) => state.loggedUser }),
-    ...mapState("task", { taskList: (state) => state.taskList }),
-  },
   methods: {
-    getTasks() {
-      return this.taskList.map((task) => {
-        return {
-          title: task.title,
-          date: task.deadline,
-        }
-      });
-
-    },
+    getTaskList() {},
   },
 };
 </script>
