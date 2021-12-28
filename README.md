@@ -1,4 +1,4 @@
-# Remotely - Manage Yourself Anywhere ⏱️
+#Remotely - Manage Yourself Anywhere ⏱️
 
 Remotely is an application that aims to help in the transition from the traditional to the remote work model.
 With the pandemic, several employees had to adapt to work in a completely new way, this caused a big mess in their routine. With a focus on that, we thought about Remotely, which is a project where we seek to help improve the control of the activities performed, communication between teams and the control of working hours, which is one of the most affected points during and after the pandemic.
@@ -20,7 +20,7 @@ Follow the instructions below to execute our project :D .
 - PHP 7.4 [Official website](https://www.php.net/downloads.php)
 - VueJs 3 [Official website](https://v3.vuejs.org/guide/installation.html)
 - Mysql Server
-
+- Jira
 ### Features
 
 - Live chat
