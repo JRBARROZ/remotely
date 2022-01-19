@@ -1,4 +1,4 @@
-# Remotely - Manage Yourself Anywhere ⏱️
+#Remotely - Manage Yourself Anywhere ⏱️
 
 Remotely is an application that aims to help in the transition from the traditional to the remote work model.
 With the pandemic, several employees had to adapt to work in a completely new way, this caused a big mess in their routine. With a focus on that, we thought about Remotely, which is a project where we seek to help improve the control of the activities performed, communication between teams and the control of working hours, which is one of the most affected points during and after the pandemic.
@@ -20,7 +20,7 @@ Follow the instructions below to execute our project :D .
 - PHP 7.4 [Official website](https://www.php.net/downloads.php)
 - VueJs 3 [Official website](https://v3.vuejs.org/guide/installation.html)
 - Mysql Server
-
+- Jira
 ### Features
 
 - Live chat
@@ -33,27 +33,49 @@ To run our project, you need to clone our repository and must have installed the
 
 Once you have the environment ready, open the project's folder on a terminal and follow the instructions below:
 
-_**Installing dependencies (Frontend)**_
+### Installing dependencies (Frontend)
 
- _``cd frontend``_
+ ```node
+ cd frontend
+ ```
  
- using yarn: _``yarn``_
+ #### Using yarn:
+ ```node
+ yarn
+ ```
+ or
+ ```node
+ yarn install
+ ```
  
- using npm: _``npm install``_
+ #### Using npm: 
+ ```node
+ npm install
+ ```
  
-**_Running the frontend_**
+ 
+### Running the frontend
 
- using yarn: _``yarn serve``_
+ #### using yarn:
+ ```node
+ yarn serve
+ ```
  
- using npm: _``npm run serve``_
+#### using npm:
+ ```node
+ npm run serve
+ ```
  
- _**Installing dependencies (Backend)**_
+ ### Installing dependencies (Backend)
 
 On root directory, run de following commands:
 
-``cd laravel-jwt-auth``
+```
+cd laravel-jwt-auth
+composer install
+```
 
-``composer install``
+
 
 You must configure your `.env file`. To do this, create a copy of the `.env.example` file and rename it to `.env`
 
@@ -86,15 +108,24 @@ At this point, you already have the dependencies installed and the `.env` file c
 
 Now, let's get the environment ready to run. To do this, run the following commands on `laravel-jwt-auth` directory:
 
-`php artisan key:generate`
+```node
+php artisan key:generate
+```
 
-`php artisan jwt:secret`
+```node
+php artisan jwt:secret
+```
 
 Setting the database:
 
-`php artisan migrate`
+```node
+php artisan migrate
+```
 
-Now your environment is ready. To start the server, run `php artisan serve`
+Now your environment is ready. To start the server, run:
+```node
+php artisan serve
+```
 
 
 ## Tools
