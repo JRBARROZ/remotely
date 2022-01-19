@@ -42,6 +42,7 @@
             :key="index"
             :title="task.title"
             :status="task.status"
+            :deadline="task.deadline"
             @click="toggleTaskEditBox(task)"
           />
           <div
