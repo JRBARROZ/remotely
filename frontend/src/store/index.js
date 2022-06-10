@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-const server = "http://localhost:8000/api";
+const server = "https://remotelyback.herokuapp.com/api";
 const axios = require("axios").default;
 import router from '../router';
 
