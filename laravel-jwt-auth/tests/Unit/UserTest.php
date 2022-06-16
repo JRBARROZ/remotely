@@ -2,12 +2,13 @@
 
 namespace Tests\Unit;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserTest extends TestCase
 {
-    use RefreshDatabase;
+    // use RefreshDatabase;
 
     /** @test */
     public function successfully_register_user()
@@ -17,35 +18,36 @@ class UserTest extends TestCase
             [
                 'name' => 'Márcio da Silva',
                 'email' => 'marcio@mail.com',
-                'password' => '123456a',
-                'password_confirmation' => '123456a'
+                'password' => '123456',
+                'password_confirmation' => '123456',
+                "email_verified_at" => Carbon::now(),
             ]
         )->assertStatus(201);
     }
 
     /**
      * @test
-     * @depends successfully_register_user
      */
     public function successfully_login()
     {
-        $this->post(
-            '/api/auth/register',
-            [
-                'name' => 'Márcio da Silva',
-                'email' => 'marcio@mail.com',
-                'password' => '123456a',
-                'password_confirmation' => '123456a'
-            ]
-            );
+        // $this->post(
+        //     '/api/auth/register',
+        //     [
+        //         'name' => 'Márcio da Silva',
+        //         'email' => 'marcio@mail.com',
+        //         'password' => '123456',
+        //         'password_confirmation' => '123456',
+        //     ]
+        // );
 
-        $this->post(
+        $response =  $this->post(
             '/api/auth/login',
             [
-                'email' => 'marcio@mail.com',
-                'password' => '123456a'
+                'email' => 'maegan.wehner@example.net',
+                'password' => '123456'
             ]
-        )->assertStatus(200);
+        );
+        $response->assertStatus(200);
+        return $response;
     }
-
 }
